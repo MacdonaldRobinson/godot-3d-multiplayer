@@ -21,10 +21,11 @@ func join_server(address, port):
 	
 func connected_to_server():
 	print("connected_to_server")
-	print(GameState.peers)
 	pass
 func server_disconnected():
-	print("server_disconnected")
+	print("server_disconnected")	
+	GameState.peers = {}
+	get_tree().change_scene("res://Lobby.tscn")
 	pass	
 	
 func connection_failed():

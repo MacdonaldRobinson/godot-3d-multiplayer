@@ -25,6 +25,9 @@ func _process(delta):
 	else:
 		reset_buttons()
 		
+	if GameState.peers.size() == 0:
+		reset_buttons()
+		
 	players_connected_list.clear()
 	
 	for peer_id in GameState.peers:

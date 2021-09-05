@@ -4,7 +4,7 @@ sync var peers:Dictionary = {}
 var random_number_generator = RandomNumberGenerator.new()
 
 func _process(delta):
-	if get_tree().network_peer:		
+	if get_tree().network_peer != null and peers.size() > 0:		
 		var id = get_tree().get_network_unique_id()
 		peers[id] = inst2dict(Globals.character_data)		
 		rset("peers", peers)
@@ -49,12 +49,7 @@ func get_player_node(id) -> Node:
 	return get_players_node().get_node(String(id))
 	
 func get_players_node() -> Node:
-	var current_scene = get_tree().current_scene
-	
-	if current_scene != null and current_scene.has_node("Players"):
-		return current_scene.get_node("Players")
-	else:
-		return null
+	return Globals.get_players_node()
 	
 func start_game():
 	get_tree().change_scene("res://Level1.tscn")
@@ -63,5 +58,4 @@ func add_or_update_peer(peer_id, peer_data:CharacterData):
 	peers[peer_id] = inst2dict(peer_data)	
 		
 func remove_peer(id):
-	#print("remove_peer", id)
 	peers.erase(id)

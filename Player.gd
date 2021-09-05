@@ -33,6 +33,15 @@ onready var display_name:Text3D = $Name
 
 func get_class(): return "Player"
 
+func is_network_master():
+	if get_tree().network_peer == null:
+		return true
+
+	if GameState.peers.size() == 0:
+		return true
+		
+	return .is_network_master()
+
 func _ready():
 	if !is_network_master():
 		return

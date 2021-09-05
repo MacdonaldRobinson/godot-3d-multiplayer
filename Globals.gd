@@ -9,6 +9,14 @@ func _ready():
 	add_child(timer)
 	timer.start(2)
 	
+func get_players_node() -> Node:
+	var current_scene = get_tree().current_scene
+	
+	if current_scene != null and current_scene.has_node("Players"):
+		return current_scene.get_node("Players")
+	else:
+		return null
+	
 func timer_timeout():
 	for entry_key in delayed_logs:
 		print(entry_key, " -> ", delayed_logs[entry_key])
