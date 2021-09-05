@@ -1,0 +1,6 @@
+[gd_resource type="DynamicFont" format=2]
+
+[resource]
+size = 100
+extra_spacing_top = -5
+extra_spacing_bottom = -20

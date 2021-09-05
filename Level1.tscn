@@ -1,0 +1,91 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://assets/ui-textures/300PlusRepeatBackgrounds/bg308.png" type="Texture" id=1]
+[ext_resource path="res://default_env.tres" type="Environment" id=3]
+[ext_resource path="res://assets/ui-textures/particlePack_1.1/PNG (Transparent)/light_01.png" type="Texture" id=4]
+[ext_resource path="res://EnergyRegfillStation.tscn" type="PackedScene" id=5]
+[ext_resource path="res://HealthRefillStation.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Ball.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Launcher.tscn" type="PackedScene" id=8]
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_transparent = true
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+params_blend_mode = 1
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+albedo_texture = ExtResource( 4 )
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0, 0.0135135, 0.297297, 0.47973, 0.702703, 0.952703, 1 )
+colors = PoolColorArray( 0.505859, 0, 1, 1, 0, 0.947266, 1, 1, 0.144495, 0.133333, 0.94974, 1, 1, 0, 0, 1, 1, 0.966797, 0, 1, 1, 0, 0.0492792, 1, 1, 0, 0, 1 )
+
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
+
+[sub_resource type="Curve" id=4]
+_data = [ Vector2( 0, 0.0124999 ), 0.0, 0.0, 0, 0, Vector2( 0.187135, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.660819, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=5]
+curve = SubResource( 4 )
+
+[sub_resource type="ParticlesMaterial" id=6]
+emission_shape = 1
+emission_sphere_radius = 0.08
+gravity = Vector3( 0, 0, 0 )
+scale_curve = SubResource( 5 )
+color_ramp = SubResource( 3 )
+
+[sub_resource type="QuadMesh" id=7]
+
+[sub_resource type="BoxShape" id=8]
+
+[sub_resource type="CubeMesh" id=9]
+
+[sub_resource type="SpatialMaterial" id=10]
+albedo_texture = ExtResource( 1 )
+uv1_triplanar = true
+
+[node name="Level1" type="Spatial"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 3 )
+
+[node name="Particles2" type="Particles" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.12424, -1.80681 )
+visible = false
+material_override = SubResource( 1 )
+process_material = SubResource( 6 )
+draw_pass_1 = SubResource( 7 )
+
+[node name="Interactables" type="Spatial" parent="."]
+
+[node name="HealthRefillStation" parent="Interactables" instance=ExtResource( 6 )]
+visible = false
+
+[node name="EnergyRegfillStation" parent="Interactables" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.18314, 0, 0 )
+
+[node name="Ball" parent="Interactables" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.6394, 28.3136, 0 )
+
+[node name="Launcher" parent="Interactables" instance=ExtResource( 8 )]
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0840869, 9.74017, 36.5195 )
+
+[node name="Ground" type="StaticBody" parent="."]
+transform = Transform( 100, 0, 0, 0, 1, 0, 0, 0, 100, 0, -3.49379, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Ground"]
+shape = SubResource( 8 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ground/CollisionShape"]
+mesh = SubResource( 9 )
+material/0 = SubResource( 10 )
+
+[node name="Players" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.23945, 9.25914 )
