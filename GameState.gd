@@ -7,9 +7,9 @@ func _process(delta):
 	if get_tree().network_peer:
 		var names = []
 		for peer_id in peers:
-			names.append(peers[peer_id].display_name)
+			names.append(peers[peer_id].transform)
 		
-		print(names)	
+		#print(names)	
 		var id = get_tree().get_network_unique_id()
 		add_or_update_peer(id, Globals.character_data)		
 
@@ -33,14 +33,13 @@ func create_and_update_players():
 			player.name = String(peer_id)
 			player.disable_cameras()
 			
+			
+			peer_data.transform.origin = Vector3(10 * count, 10 * count, 10 * count)
 			player.connect("ready", self, "update_player_node", [peer_id, peer_data] )
 			
 			player.set_network_master(peer_id)
 			get_players_node().add_child(player)
-#		else:
-#			if !is_network_master():
-#				update_player_node(peer_id, peer_data)
-#
+
 
 func update_player_node(peer_id, peer_data:CharacterData):
 	var player_node:Player = get_player_node(peer_id);
