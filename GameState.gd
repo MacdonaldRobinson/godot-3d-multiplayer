@@ -4,19 +4,13 @@ sync var peers:Dictionary = {}
 var random_number_generator = RandomNumberGenerator.new()
 
 func _process(delta):
-	if get_tree().network_peer:
-		var names = []
-		for peer_id in peers:
-			names.append(peers[peer_id].transform)
-		
-		#print(names)	
+	if get_tree().network_peer:		
 		var id = get_tree().get_network_unique_id()
-		add_or_update_peer(id, Globals.character_data)		
-
-		create_and_update_players()
-				
-		#if get_tree().is_network_server():
+		peers[id] = inst2dict(Globals.character_data)		
 		rset("peers", peers)
+		
+		Globals.log("peers", peers.size())
+		create_and_update_players()
 
 func create_and_update_players():
 	if get_players_node() == null:
@@ -33,20 +27,23 @@ func create_and_update_players():
 			player.name = String(peer_id)
 			player.disable_cameras()
 			
-			
-			peer_data.transform.origin = Vector3(10 * count, 10 * count, 10 * count)
-			player.connect("ready", self, "update_player_node", [peer_id, peer_data] )
+			player.connect("ready", self, "update_player_node", [peer_id, peer_data])
 			
 			player.set_network_master(peer_id)
 			get_players_node().add_child(player)
-
-
+		else:
+			var id = get_tree().network_peer.get_unique_id()
+			Globals.log("update"+String(id), peer_id)
+			if id != peer_id:
+				update_player_node(peer_id, peer_data)
+				
 func update_player_node(peer_id, peer_data:CharacterData):
 	var player_node:Player = get_player_node(peer_id);
 	
 	if player_node and peer_data: 
 		player_node.display_name.set_text(peer_data.display_name)
-		player_node.transform = peer_data.transform
+		player_node.global_transform = peer_data.global_transform
+					
 	
 func get_player_node(id) -> Node:
 	return get_players_node().get_node(String(id))
@@ -62,12 +59,8 @@ func get_players_node() -> Node:
 func start_game():
 	get_tree().change_scene("res://Level1.tscn")
 
-func add_or_update_self():
-	add_or_update_peer(get_tree().network_peer.get_unique_id(), Globals.character_data)
-
 func add_or_update_peer(peer_id, peer_data:CharacterData):
-	peers[peer_id] = inst2dict(peer_data)
-	#print("add_or_update_peer", peers[peer_id])
+	peers[peer_id] = inst2dict(peer_data)	
 		
 func remove_peer(id):
 	#print("remove_peer", id)

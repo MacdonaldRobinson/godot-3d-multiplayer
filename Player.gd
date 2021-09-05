@@ -124,7 +124,7 @@ func _input(event):
 		mouse_delta = event.relative;
 
 func _process(delta):
-	if !is_network_master():
+	if !is_network_master():		
 		return	
 
 	if mouse_delta:
@@ -176,13 +176,10 @@ func _physics_process(delta):
 		stats_panel.set_health(current_health-health_decrease_amount)
 		
 	new_velocity = lerp(velocity, new_velocity, 0.1)
-
-	Globals.character_data.transform = self.transform
 	
-	GameState.add_or_update_self()
-		
 	if is_network_master():
 		velocity = move_and_slide(new_velocity, Vector3.UP)
+		Globals.character_data.global_transform = self.global_transform
 	
 	if !is_network_master():
 		return
