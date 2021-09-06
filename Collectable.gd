@@ -9,7 +9,6 @@ func shoot(body = null):
 	if body == null:
 		body = self
 		
-	print("Called base shoot", body)
 	if body != null:		
 		var rigid_body = body as RigidBody;
 		rigid_body.rotation = Vector3.ZERO

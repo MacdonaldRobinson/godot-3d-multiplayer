@@ -9,7 +9,6 @@ func _process(delta):
 		peers[id] = inst2dict(Globals.character_data)		
 		rset("peers", peers)
 		
-		Globals.log("peers", peers.size())
 		create_and_update_players()
 
 func create_and_update_players():
@@ -33,7 +32,6 @@ func create_and_update_players():
 			get_players_node().add_child(player)
 		else:
 			var id = get_tree().network_peer.get_unique_id()
-			Globals.log("update"+String(id), peer_id)
 			if id != peer_id:
 				update_player_node(peer_id, peer_data)
 				
