@@ -12,7 +12,7 @@
 viewport_path = NodePath("Name/Viewport")
 
 [sub_resource type="CapsuleShape" id=2]
-radius = 0.821961
+radius = 0.785506
 height = 0.71951
 
 [node name="Player" type="KinematicBody"]
@@ -85,7 +85,7 @@ text = "Slot1"
 icon = ExtResource( 5 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.981777, 0 )
+transform = Transform( 0.7, 0, 0, 0, -2.18557e-08, -1, 0, 0.5, -4.37114e-08, 0, 0.981777, 0 )
 shape = SubResource( 2 )
 
 [node name="Character" parent="." instance=ExtResource( 7 )]

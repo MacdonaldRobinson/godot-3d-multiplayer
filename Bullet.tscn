@@ -8,7 +8,6 @@
 
 [node name="Bullet" type="RigidBody"]
 collision_layer = 0
-mode = 1
 script = ExtResource( 1 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]

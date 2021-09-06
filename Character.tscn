@@ -50,7 +50,7 @@ blend_point_7/node = SubResource( 8 )
 blend_point_7/pos = Vector2( 0, -1 )
 
 [sub_resource type="AnimationNodeBlendTree" id=10]
-graph_offset = Vector2( -243, 277 )
+graph_offset = Vector2( -243, 210 )
 nodes/Animation/node = SubResource( 11 )
 nodes/Animation/position = Vector2( -40, 380 )
 nodes/OneShot/node = SubResource( 12 )
@@ -70,6 +70,6 @@ anim_player = NodePath("../asian-girl/AnimationPlayer")
 active = true
 root_motion_track = NodePath("Armature/Skeleton:RootMotion")
 parameters/OneShot/active = false
-parameters/walk_direction/blend_position = Vector2( -0.006, 1.274 )
+parameters/walk_direction/blend_position = Vector2( 0, 0 )
 
 [editable path="asian-girl"]
