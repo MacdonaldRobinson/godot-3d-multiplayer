@@ -66,15 +66,17 @@ draw_pass_1 = SubResource( 7 )
 [node name="Interactables" type="Spatial" parent="."]
 
 [node name="HealthRefillStation" parent="Interactables" instance=ExtResource( 6 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
 visible = false
 
 [node name="EnergyRegfillStation" parent="Interactables" instance=ExtResource( 5 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.18314, 0, 0 )
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 5.18314, -1.90239, 0 )
 
 [node name="Ball" parent="Interactables" instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.6394, 28.3136, 0 )
 
 [node name="Launcher" parent="Interactables" instance=ExtResource( 8 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, -1.92582, 0 )
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0840869, 9.74017, 36.5195 )
@@ -90,4 +92,4 @@ mesh = SubResource( 9 )
 material/0 = SubResource( 10 )
 
 [node name="Players" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.23945, 9.25914 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.9559, 9.25914 )

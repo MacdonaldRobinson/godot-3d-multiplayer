@@ -12,10 +12,11 @@ enum CameraType { FIRST_PERSON, THIRD_PERSON, CUSTOM }
 
 export var gravity = 9.8
 export var mouse_sencitivity = 10
-export var movement_speed = 20
+export var movement_speed = 10
 export var jump_force = 100
 export var energy_decrease_amount:float = 1
 export var health_decrease_amount:float = 1
+export var camera_zoom_ticks:float = 1
 
 export(CameraType) var camera_type
 export(NodePath) var custom_camera
@@ -26,10 +27,11 @@ onready var interact_raycast:RayCast = $Cameras/InteractRaycast
 onready var camera_raycast:RayCast = $Cameras/CameraRayCast
 onready var stats_panel:StatsPanel = $Cameras/UI/StatsPanel
 onready var dialog_panel:DialogPanel = $Cameras/UI/DialogPanel
-onready var equip_holder:Position3D = $Cameras/WeaponPosition
+onready var equip_holder:Position3D = $EquipPosition
 onready var slots:HBoxContainer = $Cameras/UI/Slots
 onready var slot_template:ToolButton = $Cameras/UI/Slots/Template
 onready var display_name:Text3D = $Name
+onready var anim_tree:AnimationTree = $Character/AnimationTree
 
 func get_class(): return "Player"
 
@@ -128,31 +130,52 @@ func _input(event):
 	if !is_network_master():
 		return
 	
-	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED and event is InputEventMouseMotion:
-		var mouseEvent:InputEventMouseMotion = event as InputEventMouseMotion		
+	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED and event is InputEventMouseMotion:		
 		mouse_delta = event.relative;
-
-func _process(delta):
-	if !is_network_master():		
-		return	
-
-	if mouse_delta:
-		self.rotate_y(deg2rad(-mouse_delta.x * mouse_sencitivity * delta))	
-		cameras.rotate_x(deg2rad(-mouse_delta.y * mouse_sencitivity * delta))	
 		
-	cameras.rotation.x = clamp(cameras.rotation.x, -1.5, 1.5);
-	
-	mouse_delta = Vector3.ZERO
+	if event is InputEventMouseButton:
+		var event_mouse_button:InputEventMouseButton = event as InputEventMouseButton
+		var camera_zoom = cameras.transform.origin.z
+		
+		if event_mouse_button.button_index == BUTTON_WHEEL_UP:
+			camera_zoom = camera_zoom - camera_zoom_ticks
+		elif event_mouse_button.button_index == BUTTON_WHEEL_DOWN:
+			camera_zoom = camera_zoom + camera_zoom_ticks
+			
+		camera_zoom = lerp(cameras.transform.origin.z, camera_zoom, 0.1)
+		
+		cameras.transform.origin.z = camera_zoom
+			
 
-func _physics_process(delta):	
+var walk_blend_direction:Vector2 = Vector2.ZERO
+
+func handle_walk_animations():
+	var new_direction = Vector2.ZERO
+	
+	if Input.is_action_pressed("backward"):
+		new_direction = Vector2(-1,0)
+	elif Input.is_action_pressed("forward"):
+		new_direction = Vector2(1,0)
+	if Input.is_action_pressed("left"):
+		new_direction = Vector2(0,1)
+	elif Input.is_action_pressed("right"):
+		new_direction = Vector2(0,-1)
+		
+	walk_blend_direction = lerp(walk_blend_direction, new_direction, 0.1)	
+	
+	anim_tree.set("parameters/walk_direction/blend_position", walk_blend_direction)
+
+
+func _physics_process(delta):
 	var direction = Vector3()
 	var new_velocity = velocity
+	
+	handle_walk_animations()
 	
 	if Input.is_action_pressed("forward"):		
 		direction -= transform.basis.z
 	elif Input.is_action_pressed("backward"):		
 		direction += transform.basis.z
-		
 	if Input.is_action_pressed("left"):		
 		direction -= transform.basis.x
 	elif Input.is_action_pressed("right"):
@@ -192,6 +215,16 @@ func _physics_process(delta):
 	
 	if !is_network_master():
 		return
+		
+	if mouse_delta:
+		self.rotate_y(deg2rad(-mouse_delta.x * mouse_sencitivity * delta))	
+		cameras.rotate_x(deg2rad(-mouse_delta.y * mouse_sencitivity * delta))	
+		
+	cameras.rotation.x = clamp(cameras.rotation.x, -1.5, 1.5);
+	
+	equip_holder.rotation = cameras.rotation
+	
+	mouse_delta = Vector3.ZERO		
 			
 	if dialog_panel != null:
 		if interact_raycast.is_colliding():
