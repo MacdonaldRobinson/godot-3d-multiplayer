@@ -6,3 +6,4 @@ var display_name = "Name"
 var energy:int = 100
 var health:int = 100
 var global_transform:Transform
+var animations:Dictionary = {}

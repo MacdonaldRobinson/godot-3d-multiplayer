@@ -27,6 +27,18 @@ func log(key:String, data):
 	else:
 		delayed_logs[key] = data
 
+func are_the_same(item1, item2) -> bool:
+	if item1 is Object:
+		item1 = inst2dict(item1)
+	if item2 is Object:
+		item2 = inst2dict(item2)
+	
+	item1 = to_json(item1)
+	item2 = to_json(item2)
+	
+	return item1 == item2
+
+
 func get_mapped_keys(action):
 	var mapped_keys = []
 	var keys = InputMap.get_action_list(action)

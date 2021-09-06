@@ -6,8 +6,10 @@ var random_number_generator = RandomNumberGenerator.new()
 func _process(delta):
 	if get_tree().network_peer != null and peers.size() > 0:		
 		var id = get_tree().get_network_unique_id()
-		peers[id] = inst2dict(Globals.character_data)		
+
+		peers[id] = inst2dict(Globals.character_data)
 		rset("peers", peers)
+		print(peers[id].animations)
 		
 		create_and_update_players()
 
@@ -41,6 +43,8 @@ func update_player_node(peer_id, peer_data:CharacterData):
 	if player_node and peer_data: 
 		player_node.display_name.set_text(peer_data.display_name)
 		player_node.global_transform = peer_data.global_transform
+		for animation_key in peer_data.animations:
+			player_node.play_animation(animation_key, peer_data.animations[animation_key])
 					
 	
 func get_player_node(id) -> Node:

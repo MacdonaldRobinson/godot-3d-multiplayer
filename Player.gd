@@ -150,6 +150,9 @@ func _input(event):
 var walk_blend_direction:Vector2 = Vector2.ZERO
 
 func handle_walk_animations():
+	if !is_network_master():
+		return
+		
 	var new_direction = Vector2.ZERO
 	
 	if Input.is_action_pressed("backward"):
@@ -162,9 +165,12 @@ func handle_walk_animations():
 		new_direction = Vector2(0,-1)
 		
 	walk_blend_direction = lerp(walk_blend_direction, new_direction, 0.1)	
-	
-	anim_tree.set("parameters/walk_direction/blend_position", walk_blend_direction)
+	play_animation("parameters/walk_direction/blend_position", walk_blend_direction)
 
+func play_animation(animation_path, animation_value):
+	anim_tree.set(animation_path, animation_value)
+	Globals.character_data.animations[animation_path] = animation_value
+	
 
 func _physics_process(delta):
 	var direction = Vector3()
