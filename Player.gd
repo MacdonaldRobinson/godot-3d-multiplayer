@@ -7,7 +7,7 @@ var mouse_delta
 var current_camera:Camera
 var currently_equipped_item:Interactable = null
 var collected_items:Array
-
+	
 enum CameraType { FIRST_PERSON, THIRD_PERSON, CUSTOM }
 
 export var gravity = 9.8
@@ -39,7 +39,7 @@ func is_network_master():
 	if get_tree().network_peer == null:
 		return true
 
-	if GameState.peers.size() == 0:
+	if GameState.get_peers().size() == 0:
 		return true
 		
 	return .is_network_master()
@@ -78,14 +78,18 @@ func equip_item(item:Interactable):
 	if item == null or item == currently_equipped_item:
 		return
 		
-	var children = equip_holder.get_children()
-	for child in children:
-		equip_holder.remove_child(child)
+	un_equip()
 		
 	currently_equipped_item = item
 	item.transform.origin = Vector3.ZERO
 	equip_holder.add_child(currently_equipped_item)
+
+func un_equip():
+	var children = equip_holder.get_children()
 	
+	for child in children:
+		equip_holder.remove_child(child)
+
 func show_message(message:String):
 	dialog_panel.visible = true
 	dialog_panel.set_text(message)
@@ -125,11 +129,11 @@ func remove_item(item:Interactable):
 
 func get_stats_panel():
 	return stats_panel
-
-func _input(event):
+	
+func _input(event):	
 	if !is_network_master():
 		return
-	
+		
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED and event is InputEventMouseMotion:		
 		mouse_delta = event.relative;
 		
@@ -145,8 +149,8 @@ func _input(event):
 		camera_zoom = lerp(cameras.transform.origin.z, camera_zoom, 0.1)
 		
 		cameras.transform.origin.z = camera_zoom
-			
 
+		
 var walk_blend_direction:Vector2 = Vector2.ZERO
 
 func handle_walk_animations():
@@ -156,8 +160,8 @@ func handle_walk_animations():
 	var new_direction = Vector2.ZERO
 	
 	if Input.is_action_pressed("backward"):
-		new_direction = Vector2(-1,0)
-	elif Input.is_action_pressed("forward"):
+		new_direction = Vector2(-1,0)		
+	elif Input.is_action_pressed("forward"):		
 		new_direction = Vector2(1,0)
 	if Input.is_action_pressed("left"):
 		new_direction = Vector2(0,1)
@@ -169,17 +173,23 @@ func handle_walk_animations():
 
 func play_animation(animation_path, animation_value):
 	anim_tree.set(animation_path, animation_value)
-	Globals.character_data.animations[animation_path] = animation_value
+	Globals.peer_data.animations[animation_path] = animation_value
+	Globals.peer_data.cameras_transform = cameras.transform
 	
-
 func _physics_process(delta):
+	handle_events(delta)
+	pass
+	
+func handle_events(delta):
+	Globals.peer_data.event = null
+	
 	var direction = Vector3()
 	var new_velocity = velocity
 	
 	handle_walk_animations()
 	
 	if Input.is_action_pressed("forward"):		
-		direction -= transform.basis.z
+		direction -= transform.basis.z		
 	elif Input.is_action_pressed("backward"):		
 		direction += transform.basis.z
 	if Input.is_action_pressed("left"):		
@@ -217,11 +227,11 @@ func _physics_process(delta):
 	
 	if is_network_master():
 		velocity = move_and_slide(new_velocity, Vector3.UP)
-		Globals.character_data.global_transform = self.global_transform
-	
-	if !is_network_master():
-		return
+		Globals.peer_data.global_transform = self.global_transform
 		
+		if currently_equipped_item:
+			Globals.peer_data.currently_equipped_item_tscn = currently_equipped_item.filename
+	
 	if mouse_delta:
 		self.rotate_y(deg2rad(-mouse_delta.x * mouse_sencitivity * delta))	
 		cameras.rotate_x(deg2rad(-mouse_delta.y * mouse_sencitivity * delta))	
@@ -230,8 +240,21 @@ func _physics_process(delta):
 	
 	equip_holder.rotation = cameras.rotation
 	
-	mouse_delta = Vector3.ZERO		
+	mouse_delta = Vector3.ZERO
+	
+	if !is_network_master():
+		return
+
+	if currently_equipped_item is Weapon and Input.is_action_pressed("shoot"):
+		var current_weapon = currently_equipped_item as Weapon;		
+		current_weapon.shoot()   
 			
+	elif currently_equipped_item is Collectable and Input.is_action_just_pressed("shoot"):
+		var item = currently_equipped_item as Collectable;
+		item.shoot()
+		currently_equipped_item = null
+		remove_item(item)
+					
 	if dialog_panel != null:
 		if interact_raycast.is_colliding():
 			if interact_raycast.get_collider() is Interactable:
@@ -251,12 +274,3 @@ func _physics_process(delta):
 						
 						if collider is Weapon:
 							equip_item(item)
-				
-		if currently_equipped_item is Weapon and Input.is_action_pressed("shoot"):
-			var current_weapon = currently_equipped_item as Weapon;		
-			current_weapon.shoot()
-		elif currently_equipped_item is Collectable and Input.is_action_just_pressed("shoot"):
-			var item = currently_equipped_item as Collectable;		
-			item.shoot()
-			currently_equipped_item = null
-			remove_item(item)

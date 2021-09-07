@@ -1,6 +1,6 @@
 extends Node
 
-var character_data:CharacterData = CharacterData.new()
+var peer_data:PeerData = PeerData.new()
 var delayed_logs:Dictionary = {}
 
 func _ready():
@@ -37,6 +37,16 @@ func are_the_same(item1, item2) -> bool:
 	item2 = to_json(item2)
 	
 	return item1 == item2
+	
+func get_gd_script_path(node:Node):
+	var path_to_gd_script:String = node.get("script").resource_path
+	return path_to_gd_script
+
+func get_tscn_path(node:Node):
+	var path_to_gd_script:String = node.get("script").resource_path
+	var path_to_tscn = path_to_gd_script.replace(".gd", ".tscn")
+	
+	return path_to_tscn
 
 
 func get_mapped_keys(action):
@@ -46,6 +56,26 @@ func get_mapped_keys(action):
 		mapped_keys.push_back(OS.get_scancode_string(key.scancode))
 
 	return mapped_keys
+	
+func create_event(action):
+	var event = InputEventAction.new()
+	event.action = action
+	event.pressed = true
+	
+	return event
+	
+func raise_event(event):
+	Input.parse_input_event(event)
+	
+func is_network_peer_connected():
+	if get_tree().network_peer == null:
+		return false
+			
+	if get_tree().network_peer.get_connection_status() == NetworkedMultiplayerENet.CONNECTION_CONNECTED:
+		return true
+	else:
+		return false
+	
 
 func get_interact_message():
 	var message = "Press " + String(Globals.get_mapped_keys("interact")) + " to interact with this item"

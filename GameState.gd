@@ -1,27 +1,27 @@
 extends Node
  
-sync var peers:Dictionary = {}
-var random_number_generator = RandomNumberGenerator.new()
+sync var _peers:Dictionary = {}
 
 func _process(delta):
-	if get_tree().network_peer != null and peers.size() > 0:		
+	if Globals.is_network_peer_connected():
 		var id = get_tree().get_network_unique_id()
-
-		peers[id] = inst2dict(Globals.character_data)
-		rset("peers", peers)
-		print(peers[id].animations)
+				
+		set_peer_data(id, Globals.peer_data)
+		
+		print(Globals.peer_data.event)
+		
+		rset("_peers", _peers)
 		
 		create_and_update_players()
+			
 
 func create_and_update_players():
 	if get_players_node() == null:
 		return
 		
-	var count = 0
-	for peer_id in peers:
-		count +=1
+	for peer_id in get_peers():
 		var player:Player = get_players_node().get_node(String(peer_id))
-		var peer_data:CharacterData = dict2inst(peers[peer_id])
+		var peer_data:PeerData = get_peer_data(peer_id)
 		
 		if player == null:
 			player = preload("res://Player.tscn").instance()
@@ -37,14 +37,33 @@ func create_and_update_players():
 			if id != peer_id:
 				update_player_node(peer_id, peer_data)
 				
-func update_player_node(peer_id, peer_data:CharacterData):
+func update_player_node(peer_id, peer_data:PeerData):
 	var player_node:Player = get_player_node(peer_id);
 	
 	if player_node and peer_data: 
 		player_node.display_name.set_text(peer_data.display_name)
 		player_node.global_transform = peer_data.global_transform
+		player_node.cameras.transform = peer_data.cameras_transform
+		
+		if !peer_data.currently_equipped_item_tscn.empty():			
+			var path_to_tscn = peer_data.currently_equipped_item_tscn
+			
+			if player_node.currently_equipped_item == null:
+				var instance = load(path_to_tscn).instance()
+				player_node.equip_item(instance)
+			else:
+				if player_node.currently_equipped_item.filename != path_to_tscn:
+					var instance = load(path_to_tscn).instance()
+					player_node.equip_item(instance)		
+		else:
+			if player_node.currently_equipped_item != null:
+				player_node.un_equip()
+		
 		for animation_key in peer_data.animations:
 			player_node.play_animation(animation_key, peer_data.animations[animation_key])
+			
+		if peer_data.event:
+			Globals.raise_event(peer_data.event)
 					
 	
 func get_player_node(id) -> Node:
@@ -53,11 +72,26 @@ func get_player_node(id) -> Node:
 func get_players_node() -> Node:
 	return Globals.get_players_node()
 	
+func get_peers() -> Dictionary:
+	return GameState._peers
+	
+func get_peer_data(peer_id:int) -> PeerData:
+	var peer_data = GameState._peers[peer_id]
+	var deserialized:PeerData = str2var(peer_data)
+	return deserialized
+
+func set_peer_data(peer_id:int, peer_data:PeerData):
+	var serialized = var2str(peer_data)
+	GameState._peers[peer_id] = serialized
+	
 func start_game():
 	get_tree().change_scene("res://Level1.tscn")
 
-func add_or_update_peer(peer_id, peer_data:CharacterData):
-	peers[peer_id] = inst2dict(peer_data)	
-		
 func remove_peer(id):
-	peers.erase(id)
+	_peers.erase(id)
+	var player_node = get_player_node(id)
+	
+	if player_node:
+		get_players_node().remove_child(player_node)
+	
+	
