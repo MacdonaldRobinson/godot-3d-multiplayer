@@ -76,6 +76,9 @@ func is_network_peer_connected():
 	else:
 		return false
 	
+func throw_exception(message:String):
+	push_error(message)
+	assert(false)	
 
 func get_interact_message():
 	var message = "Press " + String(Globals.get_mapped_keys("interact")) + " to interact with this item"

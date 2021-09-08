@@ -1,0 +1,208 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://lobby/Lobby.gd" type="Script" id=1]
+
+[node name="Lobby" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 380.0
+margin_top = 219.0
+margin_right = 643.0
+margin_bottom = 381.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
+margin_right = 263.0
+margin_bottom = 14.0
+text = "Players and Connection"
+align = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer"]
+margin_top = 18.0
+margin_right = 263.0
+margin_bottom = 18.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+margin_top = 22.0
+margin_right = 263.0
+margin_bottom = 162.0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CenterContainer/VBoxContainer/HBoxContainer2"]
+margin_right = 182.0
+margin_bottom = 140.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+margin_right = 182.0
+margin_bottom = 42.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer2"]
+margin_right = 58.0
+margin_bottom = 42.0
+size_flags_horizontal = 3
+
+[node name="ServerLabel" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer2/VBoxContainer"]
+margin_right = 58.0
+margin_bottom = 14.0
+text = "Server"
+
+[node name="ServerAddressField" type="LineEdit" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer2/VBoxContainer"]
+margin_top = 18.0
+margin_right = 58.0
+margin_bottom = 42.0
+text = "127.0.0.1"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer2"]
+margin_left = 62.0
+margin_right = 120.0
+margin_bottom = 42.0
+
+[node name="PortLabel" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer2/VBoxContainer2"]
+margin_right = 58.0
+margin_bottom = 14.0
+text = "Port"
+
+[node name="PortNumberField" type="LineEdit" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer2/VBoxContainer2"]
+margin_top = 18.0
+margin_right = 58.0
+margin_bottom = 42.0
+text = "8181"
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer2"]
+margin_left = 124.0
+margin_right = 182.0
+margin_bottom = 42.0
+
+[node name="MaxClientsLabel" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer2/VBoxContainer3"]
+margin_right = 58.0
+margin_bottom = 14.0
+text = "Max"
+
+[node name="MaxClientsField" type="LineEdit" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer2/VBoxContainer3"]
+margin_top = 18.0
+margin_right = 58.0
+margin_bottom = 42.0
+text = "5"
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+margin_top = 46.0
+margin_right = 182.0
+margin_bottom = 46.0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+margin_top = 50.0
+margin_right = 182.0
+margin_bottom = 92.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer3"]
+margin_right = 104.0
+margin_bottom = 42.0
+size_flags_horizontal = 3
+
+[node name="PlayerNameLabel" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer3/VBoxContainer"]
+margin_right = 104.0
+margin_bottom = 14.0
+text = "Player Name"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerNameField" type="LineEdit" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer3/VBoxContainer"]
+margin_top = 18.0
+margin_right = 104.0
+margin_bottom = 42.0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer3"]
+margin_left = 108.0
+margin_right = 182.0
+margin_bottom = 42.0
+
+[node name="GameTimeLabel" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer3/VBoxContainer2"]
+margin_right = 74.0
+margin_bottom = 14.0
+text = "Game Time"
+
+[node name="GameTimeField" type="LineEdit" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer3/VBoxContainer2"]
+margin_top = 18.0
+margin_right = 74.0
+margin_bottom = 42.0
+text = "60"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+margin_top = 96.0
+margin_right = 182.0
+margin_bottom = 116.0
+size_flags_vertical = 0
+
+[node name="Host" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer"]
+margin_right = 42.0
+margin_bottom = 20.0
+text = "Host"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer"]
+margin_left = 46.0
+margin_right = 143.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="Join" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer"]
+margin_left = 147.0
+margin_right = 182.0
+margin_bottom = 20.0
+text = "Join"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StartGameButton" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+margin_top = 120.0
+margin_right = 182.0
+margin_bottom = 140.0
+text = "Start / Resume Game"
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 186.0
+margin_right = 186.0
+margin_bottom = 140.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 190.0
+margin_right = 263.0
+margin_bottom = 140.0
+
+[node name="Players" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+margin_right = 73.0
+margin_bottom = 14.0
+text = "Players List"
+
+[node name="PlayersConnectedList" type="ItemList" parent="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+margin_top = 18.0
+margin_right = 73.0
+margin_bottom = 140.0
+size_flags_vertical = 3
+items = [ "Player 1", null, false, "Player 2", null, false, "Player 3", null, false ]
+auto_height = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/Host" to="." method="_on_Host_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/Join" to="." method="_on_Join_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StartGameButton" to="." method="_on_StartGameButton_pressed"]

@@ -12,57 +12,67 @@ _global_script_classes=[ {
 "base": "RigidBody",
 "class": "Ammo",
 "language": "GDScript",
-"path": "res://Ammo.gd"
+"path": "res://interactables/collectables/weapons/ammos/Ammo.gd"
 }, {
-"base": "Collectable",
+"base": "Weapon",
 "class": "Ball",
 "language": "GDScript",
-"path": "res://Ball.gd"
+"path": "res://interactables/collectables/ball/Ball.gd"
 }, {
 "base": "Interactable",
 "class": "Collectable",
 "language": "GDScript",
-"path": "res://Collectable.gd"
+"path": "res://interactables/collectables/Collectable.gd"
 }, {
 "base": "VBoxContainer",
 "class": "DialogPanel",
 "language": "GDScript",
-"path": "res://DialogPanel.gd"
+"path": "res://ui/dialog_panel/DialogPanel.gd"
 }, {
 "base": "Spatial",
 "class": "Interactable",
 "language": "GDScript",
-"path": "res://Interactable.gd"
+"path": "res://interactables/Interactable.gd"
+}, {
+"base": "WeaponProjectile",
+"class": "Launcher",
+"language": "GDScript",
+"path": "res://interactables/collectables/weapons/launcher/Launcher.gd"
 }, {
 "base": "Spatial",
 "class": "Level",
 "language": "GDScript",
-"path": "res://Level.gd"
+"path": "res://worlds/levels/Level.gd"
 }, {
 "base": "Node",
 "class": "PeerData",
 "language": "GDScript",
-"path": "res://PeerData.gd"
+"path": "res://lobby/networking/PeerData.gd"
 }, {
 "base": "KinematicBody",
 "class": "Player",
 "language": "GDScript",
-"path": "res://Player.gd"
+"path": "res://player/Player.gd"
 }, {
 "base": "MarginContainer",
 "class": "StatsPanel",
 "language": "GDScript",
-"path": "res://StatsPanel.gd"
+"path": "res://ui/stats_panel/StatsPanel.gd"
 }, {
 "base": "Sprite3D",
 "class": "Text3D",
 "language": "GDScript",
-"path": "res://Text3D.gd"
+"path": "res://ui/text_3d/Text3D.gd"
 }, {
 "base": "Collectable",
 "class": "Weapon",
 "language": "GDScript",
-"path": "res://Launcher.gd"
+"path": "res://interactables/collectables/weapons/Weapon.gd"
+}, {
+"base": "Weapon",
+"class": "WeaponProjectile",
+"language": "GDScript",
+"path": "res://interactables/collectables/weapons/WeaponProjectile.gd"
 } ]
 _global_script_class_icons={
 "Ammo": "",
@@ -70,24 +80,26 @@ _global_script_class_icons={
 "Collectable": "",
 "DialogPanel": "",
 "Interactable": "",
+"Launcher": "",
 "Level": "",
 "PeerData": "",
 "Player": "",
 "StatsPanel": "",
 "Text3D": "",
-"Weapon": ""
+"Weapon": "",
+"WeaponProjectile": ""
 }
 
 [application]
 
 config/name="godot-3d-multiplayer"
-run/main_scene="res://Lobby.tscn"
+run/main_scene="res://lobby/Lobby.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
-Networking="*res://Networking.gd"
-GameState="*res://GameState.gd"
+Networking="*res://lobby/networking/Networking.gd"
+GameState="*res://lobby/networking/GameState.gd"
 Globals="*res://Globals.gd"
 
 [display]
