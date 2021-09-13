@@ -6,4 +6,4 @@ func _ready():
 	self.item_name = "Ball"
 
 func shoot():
-	print("throw")
+	pass

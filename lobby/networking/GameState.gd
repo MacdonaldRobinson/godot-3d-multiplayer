@@ -4,14 +4,17 @@ sync var _peers:Dictionary = {}
 
 func _process(delta):
 	if Globals.is_network_peer_connected():
+		
 		var id = get_tree().get_network_unique_id()
-				
+		
+		#Globals.log("self "+String(id), String(Globals.peer_data.health) +" | "+String(Globals.peer_data.energy))
+		
 		set_peer_data(id, Globals.peer_data)
-		
+
 		rset("_peers", _peers)
-		
+
 		create_and_update_players()
-			
+
 
 func create_and_update_players():
 	if get_players_node() == null:
@@ -22,10 +25,9 @@ func create_and_update_players():
 		var peer_data:PeerData = get_peer_data(peer_id)
 		
 		if player == null:
-			player = preload("res://player/Player.tscn").instance()
-			player.name = String(peer_id)
+			player = load("res://player/Player.tscn").instance()
+			player.name = String(peer_id)			
 			player.disable_cameras()
-			
 			player.connect("ready", self, "update_player_node", [peer_id, peer_data])
 			
 			player.set_network_master(peer_id)
@@ -37,31 +39,11 @@ func create_and_update_players():
 				
 func update_player_node(peer_id, peer_data:PeerData):
 	var player_node:Player = get_player_node(peer_id);
-	
+
 	if player_node and peer_data: 
-		player_node.display_name.set_text(peer_data.display_name)
-		player_node.global_transform = peer_data.global_transform
-		player_node.cameras.transform = peer_data.cameras_transform
-		
-		if !peer_data.currently_equipped_item_tscn.empty():			
-			var path_to_tscn = peer_data.currently_equipped_item_tscn
+		#Globals.log("peers "+String(peer_id), String(peer_data.health) +" | "+String(peer_data.energy))
 			
-			if player_node.currently_equipped_item == null:
-				var instance = load(path_to_tscn).instance()
-				player_node.equip_item(instance)
-			else:
-				if player_node.currently_equipped_item.filename != path_to_tscn:
-					var instance = load(path_to_tscn).instance()
-					player_node.equip_item(instance)		
-		else:
-			if player_node.currently_equipped_item != null:
-				player_node.un_equip()
-		
-		for animation_key in peer_data.animations:
-			player_node.play_animation(animation_key, peer_data.animations[animation_key])
-#
-#		if peer_data.event:
-#			Globals.raise_event(peer_data.event)
+		player_node.set_from_peer_data(peer_data)
 					
 	
 func get_player_node(id) -> Node:

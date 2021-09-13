@@ -16,7 +16,7 @@ func _ready():
 	players_connected_list.clear();
 	start_game_button.visible = false	
 
-func _process(delta):	
+func _process(delta):
 	if Globals.is_network_peer_connected():
 		if get_tree().is_network_server():
 			server_config()

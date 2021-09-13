@@ -54,6 +54,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://player/Player.gd"
 }, {
+"base": "Sprite3D",
+"class": "Progress3D",
+"language": "GDScript",
+"path": "res://ui/heath_bar_3d/Progress3D.gd"
+}, {
 "base": "MarginContainer",
 "class": "StatsPanel",
 "language": "GDScript",
@@ -84,6 +89,7 @@ _global_script_class_icons={
 "Level": "",
 "PeerData": "",
 "Player": "",
+"Progress3D": "",
 "StatsPanel": "",
 "Text3D": "",
 "Weapon": "",

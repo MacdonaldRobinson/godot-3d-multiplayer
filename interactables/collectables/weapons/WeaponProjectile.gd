@@ -40,13 +40,15 @@ func shoot():
 		ammo.angular_velocity = Vector3.ZERO
 		
 		ammo.set_as_toplevel(true)
-		ammo.apply_central_impulse(-self.global_transform.basis.z * 50)
+		ammo.apply_central_impulse(-self.global_transform.basis.z * 100)
 		
 		ammo.set_as_toplevel(true)
 		
+		ammo.scale = ammo.scale / 2
+		
 		ammo.global_transform = ammo_spawn_position.global_transform
 		
-		get_tree().current_scene.add_child(ammo)
-		
-		decrease_ammo_amount()
+		if get_tree() and get_tree().current_scene:
+			get_tree().current_scene.add_child(ammo)			
+			decrease_ammo_amount()
 			

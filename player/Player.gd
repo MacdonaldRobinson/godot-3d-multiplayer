@@ -2,11 +2,17 @@ extends KinematicBody
 
 class_name Player
 
+enum AnimationState {
+	WALK = 0,
+	DEAD = 1
+}
+
 var velocity:Vector3 = Vector3.ZERO
 var mouse_delta
 var current_camera:Camera
 var currently_equipped_item:Interactable = null
 var collected_items:Array
+	
 
 export var gravity = 9.8
 export var mouse_sencitivity = 10
@@ -16,21 +22,54 @@ export var energy_decrease_amount:float = 1
 export var health_decrease_amount:float = 1
 export var camera_zoom_ticks:float = 1
 
-onready var cameras = $Cameras
-onready var main_camera = $Cameras/MainCamera
-onready var main_camera_position = $Cameras/MainCameraPosition3D
+export var health:int = 100 setget _set_health
+export var energy:int = 100 setget _set_energy
+export var display_name:String = "Player" setget _set_display_name
 
-onready var cross_hair = $Cameras/UI/CrossHair
-onready var interact_raycast:RayCast = $Cameras/InteractRayCast
-onready var stats_panel:StatsPanel = $Cameras/UI/StatsPanel
-onready var dialog_panel:DialogPanel = $Cameras/UI/DialogPanel
-onready var equip_holder:Position3D = $EquipPosition
-onready var slots:HBoxContainer = $Cameras/UI/Slots
-onready var slot_template:ToolButton = $Cameras/UI/Slots/Template
-onready var display_name:Text3D = $Name
-onready var anim_tree:AnimationTree = $Character/AnimationTree
+onready var _cameras = $Cameras
+onready var _main_camera:Camera = $Cameras/MainCamera
+
+onready var _cross_hair = $Cameras/ScreenOverlays/CrossHair
+onready var _interact_raycast:RayCast = $Cameras/InteractRayCast
+onready var _stats_panel:StatsPanel = $Cameras/ScreenOverlays/StatsPanel
+onready var _dialog_panel:DialogPanel = $Cameras/ScreenOverlays/DialogPanel
+onready var _equip_holder:Position3D = $EquipPosition
+onready var _slots:HBoxContainer = $Cameras/ScreenOverlays/Slots
+onready var _slot_template:ToolButton = $Cameras/ScreenOverlays/Slots/Template
+onready var _display_name:Text3D = $Name
+onready var _anim_tree:AnimationTree = $Character/AnimationTree
+onready var _health_bar:Progress3D = $HealthBar
 
 func get_class(): return "Player"
+
+func _set_health(new_value):
+	if new_value < 0:
+		return
+		
+	health = new_value
+	_stats_panel.health = health
+	_health_bar.value = health
+	
+	if health == 0:
+		set_current_animation_state(AnimationState.DEAD)
+	else:
+		set_current_animation_state(AnimationState.WALK)
+	
+	if is_network_master():
+		Globals.peer_data.health = health
+		
+func _set_energy(new_value):
+	if new_value < 0:
+		return
+
+	energy = new_value	
+	_stats_panel.energy = energy	
+	
+	if is_network_master():
+		Globals.peer_data.health = health
+	
+func _set_display_name(value):
+	_display_name.set_text(value)	
 
 func is_network_master():
 	if get_tree().network_peer == null:
@@ -41,21 +80,24 @@ func is_network_master():
 		
 	return .is_network_master()
 
-func _ready():
-	if !is_network_master():
+func _ready():		
+	if !is_network_master():		
 		return
 		
 	toggle_mouse_capture()
 	
 	collected_items = []	
-	current_camera = main_camera
+	current_camera = _main_camera
 	
 	current_camera.make_current()	
-
+		
 func _get_interact_raycast() -> RayCast:
 	return current_camera.get_node("RayCast") as RayCast
 
-func disable_cameras():
+func disable_cameras():	
+	if _main_camera:
+		_main_camera.current = false
+	
 	if current_camera and current_camera.current:
 		current_camera.current = false
 
@@ -76,17 +118,17 @@ func equip_item(item:Interactable):
 		
 	currently_equipped_item = item
 	item.transform.origin = Vector3.ZERO
-	equip_holder.add_child(currently_equipped_item)
+	_equip_holder.add_child(currently_equipped_item)
 
 func un_equip():
-	var children = equip_holder.get_children()
+	var children = _equip_holder.get_children()
 	
 	for child in children:
-		equip_holder.remove_child(child)
+		_equip_holder.remove_child(child)
 
 func show_message(message:String):
-	dialog_panel.visible = true
-	dialog_panel.set_text(message)
+	_dialog_panel.visible = true
+	_dialog_panel.set_text(message)
 	
 func equip_item_index(index:int):	
 	if collected_items.size() > index:
@@ -97,15 +139,15 @@ func equip_item_index(index:int):
 		
 func render_slots():
 	print("render_slots", collected_items)	
-	for slot in slots.get_children():
-		if slot.visible:
-			slots.remove_child(slot)
+	for _slot in _slots.get_children():
+		if _slot.visible:
+			_slots.remove_child(_slot)
 	
 	for item in collected_items:
-		var new_slot = slot_template.duplicate();
+		var new_slot = _slot_template.duplicate();
 		new_slot.visible = true
 		new_slot.text = item.item_name
-		slots.add_child(new_slot)
+		_slots.add_child(new_slot)
 
 func collect_item(item:Interactable):
 	print("ran collect_item", collected_items)
@@ -120,9 +162,6 @@ func remove_item(item:Interactable):
 	var index:int = collected_items.find(item)
 	collected_items.remove(index)
 	render_slots()
-
-func get_stats_panel():
-	return stats_panel
 	
 func _input(event):	
 	if !is_network_master():
@@ -133,24 +172,21 @@ func _input(event):
 		
 	if event is InputEventMouseButton:
 		var event_mouse_button:InputEventMouseButton = event as InputEventMouseButton
-		var camera_zoom = cameras.transform.origin.z
+		var camera_zoom = _cameras.transform.origin.z
 		
 		if event_mouse_button.button_index == BUTTON_WHEEL_UP:
 			camera_zoom = camera_zoom - camera_zoom_ticks
 		elif event_mouse_button.button_index == BUTTON_WHEEL_DOWN:
 			camera_zoom = camera_zoom + camera_zoom_ticks
 			
-		camera_zoom = lerp(cameras.transform.origin.z, camera_zoom, 0.1)
+		camera_zoom = lerp(_cameras.transform.origin.z, camera_zoom, 0.1)
 		
-		cameras.transform.origin.z = camera_zoom
+		_cameras.transform.origin.z = camera_zoom
 
 		
 var walk_blend_direction:Vector2 = Vector2.ZERO
 
 func handle_walk_animations():
-	if !is_network_master():
-		return
-		
 	var new_direction = Vector2.ZERO
 	
 	if Input.is_action_pressed("backward"):
@@ -164,18 +200,68 @@ func handle_walk_animations():
 		
 	walk_blend_direction = lerp(walk_blend_direction, new_direction, 0.1)	
 	play_animation("parameters/walk_direction/blend_position", walk_blend_direction)
+	
+func play_animation(animation_path:String, animation_value, set_in_peer_data:bool = true):
+	_anim_tree.set(animation_path, animation_value)
+	
+	if set_in_peer_data:
+		Globals.peer_data.animations[animation_path] = animation_value
+		Globals.peer_data.cameras_transform =_cameras.transform
+	
+func set_current_animation_state(state):
+	play_animation("parameters/state/current", state, false)
+		
+func shoot():
+	var current_weapon = currently_equipped_item as Weapon
+	current_weapon.shoot()
+	
+func set_from_peer_data(peer_data:PeerData):
+	self.health = peer_data.health
+	self.energy = peer_data.energy
+	self.global_transform = peer_data.global_transform
+	self._cameras.transform = peer_data.cameras_transform
+	self._equip_holder.rotation = self._cameras.rotation
+	self.display_name = peer_data.display_name
+	
+	if peer_data.remote_method_call:
+		self.call(peer_data.remote_method_call)
 
-func play_animation(animation_path, animation_value):
-	anim_tree.set(animation_path, animation_value)
-	Globals.peer_data.animations[animation_path] = animation_value
-	Globals.peer_data.cameras_transform = cameras.transform
+	if !peer_data.currently_equipped_item_tscn.empty():			
+		var path_to_tscn = peer_data.currently_equipped_item_tscn
+
+		if self.currently_equipped_item == null:
+			var instance = load(path_to_tscn).instance()
+			self.equip_item(instance)
+		else:
+			if self.currently_equipped_item.filename != path_to_tscn:
+				var instance = load(path_to_tscn).instance()
+				self.equip_item(instance)		
+	else:
+		if self.currently_equipped_item != null:
+			self.un_equip()
+
+	for animation_key in peer_data.animations:
+		self.play_animation(animation_key, peer_data.animations[animation_key])
+	
+func interact():
+	var collider = _interact_raycast.get_collider()
+	if collider:
+		collider.interact(self)
+		if collider is Collectable:
+			collider.get_parent().remove_child(collider)
+			
+			var item = collider as Collectable
+			collect_item(collider)
+			show_message(Globals.get_collected_message(1, collider))
+			
+			if collider is Weapon:
+				equip_item(item)
 	
 func _physics_process(delta):
-	handle_events(delta)
-	pass
+	if !is_network_master():
+		return	
 	
-func handle_events(delta):
-	Globals.peer_data.event = null
+	Globals.peer_data.remote_method_call = ""
 	
 	var direction = Vector3()
 	var new_velocity = velocity
@@ -209,65 +295,41 @@ func handle_events(delta):
 	if !is_on_floor():
 		new_velocity.y -= gravity
 	
-	var current_energy = stats_panel.get_energy()
-	var current_health = stats_panel.get_health()
-	
-	if current_energy > 0 && Input.is_action_pressed("jump"):
+	if self.energy > 0 && Input.is_action_pressed("jump"):
 		new_velocity.y += jump_force
-		stats_panel.set_energy(current_energy-energy_decrease_amount)
-		stats_panel.set_health(current_health-health_decrease_amount)
+		self.energy = self.energy-energy_decrease_amount
+			
 		
 	new_velocity = lerp(velocity, new_velocity, 0.1)
 	
-	if is_network_master():
-		velocity = move_and_slide(new_velocity, Vector3.UP)
-		Globals.peer_data.global_transform = self.global_transform
-		
-		if currently_equipped_item:
-			Globals.peer_data.currently_equipped_item_tscn = currently_equipped_item.filename
+	velocity = move_and_slide(new_velocity, Vector3.UP)		
+	Globals.peer_data.global_transform = self.global_transform
+	
+	if currently_equipped_item:
+		Globals.peer_data.currently_equipped_item_tscn = currently_equipped_item.filename
 	
 	if mouse_delta:
 		self.rotate_y(deg2rad(-mouse_delta.x * mouse_sencitivity * delta))	
-		cameras.rotate_x(deg2rad(-mouse_delta.y * mouse_sencitivity * delta))	
+		_cameras.rotate_x(deg2rad(-mouse_delta.y * mouse_sencitivity * delta))	
 		
-	cameras.rotation.x = clamp(cameras.rotation.x, -1.5, 1.5);
+	_cameras.rotation.x = clamp(_cameras.rotation.x, -1.5, 1.5);
 	
-	equip_holder.rotation = cameras.rotation
+	_equip_holder.rotation = _cameras.rotation
 	
 	mouse_delta = Vector3.ZERO
 	
-	if !is_network_master():
-		return
-
 	if currently_equipped_item is Weapon and Input.is_action_pressed("shoot"):
-		var current_weapon = currently_equipped_item as Weapon
-		current_weapon.shoot()
-			
-	elif currently_equipped_item is Collectable and Input.is_action_just_pressed("shoot"):
-		var item = currently_equipped_item as Collectable;
-		item.shoot(true)
-		currently_equipped_item = null
-		remove_item(item)
+		shoot()
+		Globals.peer_data.remote_method_call = "shoot"
 					
-	if dialog_panel != null:
-		if interact_raycast.is_colliding():
-			var collider = interact_raycast.get_collider()
-			print("collider", collider.filename)
-			
-			if interact_raycast.get_collider() is Interactable:
+	if _dialog_panel != null:
+		if _interact_raycast.is_colliding():
+			var collider = _interact_raycast.get_collider()
+			if _interact_raycast.get_collider() is Interactable:
 								
-				dialog_panel.visible = true
-				dialog_panel.set_text(Globals.get_interact_message())
-				
+				_dialog_panel.visible = true
+				_dialog_panel.set_text(Globals.get_interact_message())
 				
 				if Input.is_action_pressed("interact"):
-					collider.interact(self)
-					if collider is Collectable:
-						collider.get_parent().remove_child(collider)
-						
-						var item = collider as Collectable
-						collect_item(collider)
-						show_message(Globals.get_collected_message(1, collider))						
-						
-						if collider is Weapon:
-							equip_item(item)
+					interact()
+					#Globals.peer_data.remote_method_call = "interact"

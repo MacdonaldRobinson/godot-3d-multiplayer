@@ -48,6 +48,9 @@ func get_tscn_path(node:Node):
 	
 	return path_to_tscn
 
+func smooth_look_at(object_global_transform:Transform, look_at_point:Vector3) -> Transform:
+	var looking_at = object_global_transform.looking_at(look_at_point, Vector3.UP)
+	return object_global_transform.interpolate_with(looking_at, 0.1)	
 
 func get_mapped_keys(action):
 	var mapped_keys = []
@@ -57,7 +60,7 @@ func get_mapped_keys(action):
 
 	return mapped_keys
 	
-func create_event(action):
+func create_event(action:String):
 	var event = InputEventAction.new()
 	event.action = action
 	event.pressed = true

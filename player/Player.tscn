@@ -1,90 +1,50 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://player/Player.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
-[ext_resource path="res://assets/ui-textures/kenney_crosshairPack/PNG/White/crosshair003.png" type="Texture" id=3]
+[ext_resource path="res://ui/ScreenOverlays.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ui/heath_bar_3d/Progress3D.tscn" type="PackedScene" id=3]
 [ext_resource path="res://characters/Character.tscn" type="PackedScene" id=4]
 [ext_resource path="res://ui/text_3d/Text3D.tscn" type="PackedScene" id=5]
-[ext_resource path="res://ui/stats_panel/StatsPanel.tscn" type="PackedScene" id=6]
-[ext_resource path="res://ui/dialog_panel/DialogPanel.tscn" type="PackedScene" id=7]
 
 [sub_resource type="ViewportTexture" id=1]
 viewport_path = NodePath("Name/Viewport")
 
-[sub_resource type="CapsuleShape" id=2]
+[sub_resource type="ViewportTexture" id=4]
+
+[sub_resource type="CapsuleShape" id=3]
 radius = 0.785506
-height = 0.71951
+height = 2.98024
 
 [node name="Player" type="KinematicBody"]
 script = ExtResource( 1 )
 
 [node name="Name" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.14514, 0 )
 texture = SubResource( 1 )
 
+[node name="HealthBar" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.54131, 0 )
+texture = SubResource( 4 )
+
 [node name="EquipPosition" type="Position3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3967, 0.99039, -0.631651 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.49747, 2.7343, -0.111465 )
 
 [node name="Cameras" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.254622, 0 )
 
-[node name="MainCameraPosition3D" type="Position3D" parent="Cameras"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.34922, 1.82995, 1.69305 )
-
 [node name="InteractRayCast" type="RayCast" parent="Cameras"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.50718, -0.65165 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.3271, -0.46001 )
 enabled = true
 cast_to = Vector3( 0, 0, -3 )
 
-[node name="MainCamera" type="InterpolatedCamera" parent="Cameras"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.33842, 8.36088 )
-current = true
-far = 8192.0
-target = NodePath("../MainCameraPosition3D")
-enabled = true
+[node name="MainCamera" type="Camera" parent="Cameras"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.40813, 3.81631, 2.65209 )
 
-[node name="UI" type="CanvasLayer" parent="Cameras"]
-
-[node name="StatsPanel" parent="Cameras/UI" instance=ExtResource( 6 )]
-
-[node name="CrossHair" type="TextureRect" parent="Cameras/UI"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -32.0
-margin_top = -32.0
-margin_right = 32.0
-margin_bottom = 32.0
-texture = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="DialogPanel" parent="Cameras/UI" instance=ExtResource( 7 )]
-visible = false
-
-[node name="Slots" type="HBoxContainer" parent="Cameras/UI"]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -72.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Template" type="ToolButton" parent="Cameras/UI/Slots"]
-visible = false
-margin_right = 111.0
-margin_bottom = 72.0
-text = "Slot1"
-icon = ExtResource( 2 )
+[node name="ScreenOverlays" parent="Cameras" instance=ExtResource( 2 )]
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 0.5, 0, 0, 0, -2.18557e-08, -1, 0, 0.5, -4.37114e-08, 0, 1, 0 )
-shape = SubResource( 2 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2.04725, 0 )
+shape = SubResource( 3 )
 
 [node name="Character" parent="." instance=ExtResource( 4 )]
-transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0 )
-
-[editable path="Character"]
-[editable path="Character/asian-girl"]
+transform = Transform( -2, 0, -3.01992e-07, 0, 2, 0, 3.01992e-07, 0, -2, 0, 0, 0 )

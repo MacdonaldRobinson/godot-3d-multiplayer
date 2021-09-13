@@ -10,23 +10,26 @@ func _ready():
 
 func create_server(port, max_clients):
 	var peer = NetworkedMultiplayerENet.new()	
-	peer.create_server(int(port), int(max_clients))
-	get_tree().network_peer = peer
-	GameState.set_peer_data(peer.get_unique_id(), Globals.peer_data)	
+	var error = peer.create_server(int(port), int(max_clients))
+	
+	if not error:
+		get_tree().network_peer = peer
+		GameState.set_peer_data(peer.get_unique_id(), Globals.peer_data)	
 	
 func join_server(address, port):
 	var peer = NetworkedMultiplayerENet.new()
-	peer.create_client(String(address), int(port))	
-	get_tree().network_peer = peer
+	var error = peer.create_client(String(address), int(port))	
+	
+	if not error:
+		get_tree().network_peer = peer
 	
 func connected_to_server():
 	print("connected_to_server")
 	pass
 func server_disconnected():
 	print("server_disconnected")	
-	GameState.peers = {}
-	get_tree().network_peer = null
-	get_tree().change_scene("res://Lobby.tscn")
+	GameState._peers = {}
+	get_tree().change_scene("res://lobby/Lobby.tscn")		
 	pass	
 	
 func connection_failed():
@@ -40,6 +43,5 @@ func network_peer_connected(id):
 	
 func network_peer_disconnected(id):
 	print("network_peer_disconnected: ", id)
-	GameState.remove_peer(id)
-	
+	GameState.remove_peer(id)	
 	pass		

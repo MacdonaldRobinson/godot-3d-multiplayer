@@ -2,8 +2,8 @@ extends Sprite3D
 
 class_name Text3D
 
-onready var label:Label = $Viewport/Label
+func _ready():
+	self.texture = $Viewport.get_texture()
 
 func set_text(text):
-	if label:
-		label.text = text
+	$Viewport/Label.text = text

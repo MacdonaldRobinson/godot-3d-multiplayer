@@ -3,9 +3,14 @@
 [ext_resource path="res://characters/asian_girl/asian-girl.gltf" type="PackedScene" id=1]
 
 [sub_resource type="AnimationNodeAnimation" id=1]
-animation = "jump-loop"
+animation = "Standing React Death Backward-loop"
 
-[sub_resource type="AnimationNodeOneShot" id=2]
+[sub_resource type="AnimationNodeTransition" id=2]
+input_count = 2
+input_0/name = "walk"
+input_0/auto_advance = false
+input_1/name = "dead"
+input_1/auto_advance = false
 
 [sub_resource type="AnimationNodeAnimation" id=3]
 animation = "Walking Backwards-loop"
@@ -50,15 +55,15 @@ blend_point_7/node = SubResource( 10 )
 blend_point_7/pos = Vector2( 0, -1 )
 
 [sub_resource type="AnimationNodeBlendTree" id=12]
-graph_offset = Vector2( -243, 210 )
+graph_offset = Vector2( -260, -149.5 )
 nodes/Animation/node = SubResource( 1 )
-nodes/Animation/position = Vector2( -40, 380 )
-nodes/OneShot/node = SubResource( 2 )
-nodes/OneShot/position = Vector2( 260, 260 )
-nodes/output/position = Vector2( 520, 280 )
+nodes/Animation/position = Vector2( -160, 40 )
+nodes/output/position = Vector2( 560, -20 )
+nodes/state/node = SubResource( 2 )
+nodes/state/position = Vector2( 320, -120 )
 nodes/walk_direction/node = SubResource( 11 )
-nodes/walk_direction/position = Vector2( -40, 180 )
-node_connections = [ "output", 0, "OneShot", "OneShot", 0, "walk_direction", "OneShot", 1, "Animation" ]
+nodes/walk_direction/position = Vector2( -20, -200 )
+node_connections = [ "state", 0, "walk_direction", "state", 1, "Animation", "output", 0, "state" ]
 
 [node name="Character" type="Spatial"]
 
@@ -69,7 +74,7 @@ tree_root = SubResource( 12 )
 anim_player = NodePath("../asian-girl/AnimationPlayer")
 active = true
 root_motion_track = NodePath("Armature/Skeleton:RootMotion")
-parameters/OneShot/active = false
+parameters/state/current = 1
 parameters/walk_direction/blend_position = Vector2( 0, 0 )
 
 [editable path="asian-girl"]

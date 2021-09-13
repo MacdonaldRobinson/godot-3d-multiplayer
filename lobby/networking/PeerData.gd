@@ -9,4 +9,4 @@ var global_transform:Transform
 var animations:Dictionary = {}
 var cameras_transform:Transform
 var currently_equipped_item_tscn:String
-var event = null
+var remote_method_call:String

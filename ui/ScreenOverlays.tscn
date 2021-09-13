@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/ui-textures/kenney_crosshairPack/PNG/White/crosshair003.png" type="Texture" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=4]
+[ext_resource path="res://ui/dialog_panel/DialogPanel.tscn" type="PackedScene" id=5]
+[ext_resource path="res://ui/stats_panel/StatsPanel.tscn" type="PackedScene" id=6]
+
+[node name="ScreenOverlays" type="CanvasLayer"]
+
+[node name="StatsPanel" parent="." instance=ExtResource( 6 )]
+
+[node name="CrossHair" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -32.0
+margin_top = -32.0
+margin_right = 32.0
+margin_bottom = 32.0
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DialogPanel" parent="." instance=ExtResource( 5 )]
+visible = false
+
+[node name="Slots" type="HBoxContainer" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -72.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Template" type="ToolButton" parent="Slots"]
+visible = false
+margin_right = 111.0
+margin_bottom = 72.0
+text = "Slot1"
+icon = ExtResource( 4 )
