@@ -1,6 +1,7 @@
 extends Interactable
+class_name EnergyRefillStation
 
 func interact(body):
 	if body != null and body is Player:
-		var player = body as Player				
-		player.health = player.health + 1
+		var player = body as Player		
+		player.energy = player.energy + 1

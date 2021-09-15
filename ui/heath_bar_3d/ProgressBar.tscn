@@ -3,8 +3,7 @@
 [ext_resource path="res://assets/ui-textures/GUI Interface Kit Free/GUI Interface Kit Free/PNG/GUI-Kit-Pack-Free_11.png" type="Texture" id=1]
 
 [node name="Control" type="Control"]
-margin_right = 40.0
-margin_bottom = 40.0
+anchor_right = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -21,9 +20,7 @@ __meta__ = {
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 anchor_right = 1.0
-margin_top = 0.561218
-margin_right = 265.0
-margin_bottom = 47.0
+margin_bottom = 25.0
 value = 100.0
 __meta__ = {
 "_edit_use_anchors_": false

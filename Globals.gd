@@ -48,9 +48,15 @@ func get_tscn_path(node:Node):
 	
 	return path_to_tscn
 
-func smooth_look_at(object_global_transform:Transform, look_at_point:Vector3) -> Transform:
+func look_at(object_global_transform:Transform, look_at_point:Vector3, speed:float = 0.1) -> Transform:
 	var looking_at = object_global_transform.looking_at(look_at_point, Vector3.UP)
-	return object_global_transform.interpolate_with(looking_at, 0.1)	
+	return object_global_transform.interpolate_with(looking_at, speed)	
+
+func look_at_mouse(object_global_transform:Transform):
+	var mouse_position = get_viewport().get_mouse_position()	
+	var mouse_3d_position = Vector3(mouse_position.x, mouse_position.y, 0)
+	return look_at(object_global_transform, mouse_3d_position)
+	
 
 func get_mapped_keys(action):
 	var mapped_keys = []

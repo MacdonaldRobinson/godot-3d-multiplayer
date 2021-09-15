@@ -11,7 +11,7 @@ texture = SubResource( 1 )
 script = ExtResource( 1 )
 
 [node name="Viewport" type="Viewport" parent="."]
-size = Vector2( 265, 47 )
+size = Vector2( 150, 25 )
 size_override_stretch = true
 transparent_bg = true
 usage = 0

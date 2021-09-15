@@ -37,14 +37,16 @@ func shoot():
 		ammo.rotation = Vector3.ZERO
 		ammo.transform.origin = Vector3.ZERO
 		ammo.linear_velocity = Vector3.ZERO
+		ammo.angular_velocity = Vector3.ZERO#
+		ammo.rotation = Vector3.ZERO
+		ammo.transform.origin = Vector3.ZERO
+		ammo.linear_velocity = Vector3.ZERO
 		ammo.angular_velocity = Vector3.ZERO
 		
 		ammo.set_as_toplevel(true)
 		ammo.apply_central_impulse(-self.global_transform.basis.z * 100)
 		
 		ammo.set_as_toplevel(true)
-		
-		ammo.scale = ammo.scale / 2
 		
 		ammo.global_transform = ammo_spawn_position.global_transform
 		

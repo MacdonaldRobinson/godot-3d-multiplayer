@@ -26,16 +26,17 @@ export var health:int = 100 setget _set_health
 export var energy:int = 100 setget _set_energy
 export var display_name:String = "Player" setget _set_display_name
 
-onready var _cameras = $Cameras
-onready var _main_camera:Camera = $Cameras/MainCamera
+onready var _camera_pivot = $CameraPivot
+onready var _main_camera:Camera = $CameraPivot/MainCamera
 
-onready var _cross_hair = $Cameras/ScreenOverlays/CrossHair
-onready var _interact_raycast:RayCast = $Cameras/InteractRayCast
-onready var _stats_panel:StatsPanel = $Cameras/ScreenOverlays/StatsPanel
-onready var _dialog_panel:DialogPanel = $Cameras/ScreenOverlays/DialogPanel
-onready var _equip_holder:Position3D = $EquipPosition
-onready var _slots:HBoxContainer = $Cameras/ScreenOverlays/Slots
-onready var _slot_template:ToolButton = $Cameras/ScreenOverlays/Slots/Template
+onready var _cross_hair = $ScreenOverlays/CrossHair
+onready var _interact_raycast:RayCast = $CameraPivot/MainCamera/InteractRayCast
+onready var _weapon_raycast:RayCast = $CameraPivot/MainCamera/WeaponRayCast
+onready var _stats_panel:StatsPanel = $ScreenOverlays/StatsPanel
+onready var _dialog_panel:DialogPanel = $ScreenOverlays/DialogPanel
+onready var _equip_holder:Position3D = $CameraPivot/MainCamera/EquipPosition
+onready var _slots:HBoxContainer = $ScreenOverlays/Slots
+onready var _slot_template:ToolButton = $ScreenOverlays/Slots/Template
 onready var _display_name:Text3D = $Name
 onready var _anim_tree:AnimationTree = $Character/AnimationTree
 onready var _health_bar:Progress3D = $HealthBar
@@ -43,7 +44,7 @@ onready var _health_bar:Progress3D = $HealthBar
 func get_class(): return "Player"
 
 func _set_health(new_value):
-	if new_value < 0:
+	if new_value < 0 or new_value > 100:
 		return
 		
 	health = new_value
@@ -59,7 +60,7 @@ func _set_health(new_value):
 		Globals.peer_data.health = health
 		
 func _set_energy(new_value):
-	if new_value < 0:
+	if new_value < 0 or new_value > 100:
 		return
 
 	energy = new_value	
@@ -119,6 +120,9 @@ func equip_item(item:Interactable):
 	currently_equipped_item = item
 	item.transform.origin = Vector3.ZERO
 	_equip_holder.add_child(currently_equipped_item)
+	
+	Globals.peer_data.currently_equipped_item_tscn = currently_equipped_item.filename
+	print("equiped ->", currently_equipped_item.filename )
 
 func un_equip():
 	var children = _equip_holder.get_children()
@@ -150,10 +154,16 @@ func render_slots():
 		_slots.add_child(new_slot)
 
 func collect_item(item:Interactable):
-	print("ran collect_item", collected_items)
+	print("ran collect_item", item)
 	if item == null:
 		return
 		
+	var body = item.get_child(0)
+		
+	for child in body.get_children():
+		if child is CollisionShape:
+			(child as CollisionShape).disabled = true
+	
 	collected_items.append(item)
 	render_slots()
 
@@ -172,16 +182,16 @@ func _input(event):
 		
 	if event is InputEventMouseButton:
 		var event_mouse_button:InputEventMouseButton = event as InputEventMouseButton
-		var camera_zoom = _cameras.transform.origin.z
+		var camera_zoom = _camera_pivot.transform.origin.z
 		
-		if event_mouse_button.button_index == BUTTON_WHEEL_UP:
-			camera_zoom = camera_zoom - camera_zoom_ticks
-		elif event_mouse_button.button_index == BUTTON_WHEEL_DOWN:
-			camera_zoom = camera_zoom + camera_zoom_ticks
-			
-		camera_zoom = lerp(_cameras.transform.origin.z, camera_zoom, 0.1)
-		
-		_cameras.transform.origin.z = camera_zoom
+#		if event_mouse_button.button_index == BUTTON_WHEEL_UP:
+#			camera_zoom = camera_zoom - camera_zoom_ticks
+#		elif event_mouse_button.button_index == BUTTON_WHEEL_DOWN:
+#			camera_zoom = camera_zoom + camera_zoom_ticks
+#
+#		camera_zoom = lerp(_camera_pivot.transform.origin.z, camera_zoom, 0.1)
+#
+#		_camera_pivot.transform.origin.z = camera_zoom
 
 		
 var walk_blend_direction:Vector2 = Vector2.ZERO
@@ -206,7 +216,7 @@ func play_animation(animation_path:String, animation_value, set_in_peer_data:boo
 	
 	if set_in_peer_data:
 		Globals.peer_data.animations[animation_path] = animation_value
-		Globals.peer_data.cameras_transform =_cameras.transform
+		Globals.peer_data.camera_pivot_transform =_camera_pivot.transform
 	
 func set_current_animation_state(state):
 	play_animation("parameters/state/current", state, false)
@@ -216,35 +226,38 @@ func shoot():
 	current_weapon.shoot()
 	
 func set_from_peer_data(peer_data:PeerData):
-	self.health = peer_data.health
-	self.energy = peer_data.energy
-	self.global_transform = peer_data.global_transform
-	self._cameras.transform = peer_data.cameras_transform
-	self._equip_holder.rotation = self._cameras.rotation
-	self.display_name = peer_data.display_name
+	if is_network_master():
+		return
+		
+	health = peer_data.health
+	energy = peer_data.energy
+	global_transform = peer_data.global_transform
+	_camera_pivot.transform = peer_data.camera_pivot_transform
+	display_name = peer_data.display_name
 	
 	if peer_data.remote_method_call:
-		self.call(peer_data.remote_method_call)
+		call(peer_data.remote_method_call)
 
 	if !peer_data.currently_equipped_item_tscn.empty():			
 		var path_to_tscn = peer_data.currently_equipped_item_tscn
 
-		if self.currently_equipped_item == null:
+		if currently_equipped_item == null:
 			var instance = load(path_to_tscn).instance()
-			self.equip_item(instance)
+			equip_item(instance)
 		else:
-			if self.currently_equipped_item.filename != path_to_tscn:
+			if currently_equipped_item.filename != path_to_tscn:
 				var instance = load(path_to_tscn).instance()
-				self.equip_item(instance)		
+				equip_item(instance)		
 	else:
-		if self.currently_equipped_item != null:
-			self.un_equip()
+		if currently_equipped_item != null:
+			un_equip()
 
 	for animation_key in peer_data.animations:
-		self.play_animation(animation_key, peer_data.animations[animation_key])
+		play_animation(animation_key, peer_data.animations[animation_key])
 	
 func interact():
-	var collider = _interact_raycast.get_collider()
+	var collider = _interact_raycast.get_collider().get_parent()
+	
 	if collider:
 		collider.interact(self)
 		if collider is Collectable:
@@ -305,27 +318,36 @@ func _physics_process(delta):
 	velocity = move_and_slide(new_velocity, Vector3.UP)		
 	Globals.peer_data.global_transform = self.global_transform
 	
-	if currently_equipped_item:
-		Globals.peer_data.currently_equipped_item_tscn = currently_equipped_item.filename
-	
 	if mouse_delta:
 		self.rotate_y(deg2rad(-mouse_delta.x * mouse_sencitivity * delta))	
-		_cameras.rotate_x(deg2rad(-mouse_delta.y * mouse_sencitivity * delta))	
-		
-	_cameras.rotation.x = clamp(_cameras.rotation.x, -1.5, 1.5);
-	
-	_equip_holder.rotation = _cameras.rotation
-	
+		_camera_pivot.rotate_x(deg2rad(-mouse_delta.y * mouse_sencitivity * delta))	
+
+	_camera_pivot.rotation.x = clamp(_camera_pivot.rotation.x, -1.5, 1.5);
+
 	mouse_delta = Vector3.ZERO
 	
 	if currently_equipped_item is Weapon and Input.is_action_pressed("shoot"):
 		shoot()
 		Globals.peer_data.remote_method_call = "shoot"
-					
+	
+	if _weapon_raycast.is_colliding():
+		var collider = _weapon_raycast.get_collider()
+		
+		var new_transform = Globals.look_at(_equip_holder.global_transform, _weapon_raycast.get_collision_point())
+		_equip_holder.global_transform = new_transform
+	else:
+		_equip_holder.rotation = _equip_holder.rotation.linear_interpolate(Vector3.ZERO, 0.1)
+		
 	if _dialog_panel != null:
+		
 		if _interact_raycast.is_colliding():
+			
 			var collider = _interact_raycast.get_collider()
-			if _interact_raycast.get_collider() is Interactable:
+			var collider_parent = collider.get_parent()
+			
+			
+			
+			if collider_parent is Interactable:
 								
 				_dialog_panel.visible = true
 				_dialog_panel.set_text(Globals.get_interact_message())

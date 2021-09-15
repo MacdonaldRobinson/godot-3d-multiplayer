@@ -7,7 +7,7 @@
 viewport_path = NodePath("Viewport")
 
 [node name="Text3D" type="Sprite3D"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.08206, 0 )
+billboard = 1
 texture = SubResource( 1 )
 script = ExtResource( 1 )
 
