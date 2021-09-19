@@ -2,8 +2,6 @@ extends Weapon
 class_name WeaponProjectile
 
 onready var ammo_spawn_position:Position3D = null
-var max_capacity = -1
-var current_ammo_amount = -1
 var ammo_type:NodePath
 
 func _ready():
@@ -27,13 +25,12 @@ func can_shoot() -> bool:
 func decrease_ammo_amount():
 	if not current_ammo_amount < 0:
 		current_ammo_amount -= 1
-		
 
-func shoot():	
-	
+func shoot(weapon_ray_cast:RayCast):
 	if can_shoot():
 		var ammo:Ammo = load(String(ammo_type)).instance()
-
+				
+		ammo.weapon_ray_cast = weapon_ray_cast
 		ammo.rotation = Vector3.ZERO
 		ammo.transform.origin = Vector3.ZERO
 		ammo.linear_velocity = Vector3.ZERO
@@ -44,7 +41,7 @@ func shoot():
 		ammo.angular_velocity = Vector3.ZERO
 		
 		ammo.set_as_toplevel(true)
-		ammo.apply_central_impulse(-self.global_transform.basis.z * 100)
+		ammo.apply_central_impulse(-self.global_transform.basis.z * 50)
 		
 		ammo.set_as_toplevel(true)
 		
@@ -53,4 +50,3 @@ func shoot():
 		if get_tree() and get_tree().current_scene:
 			get_tree().current_scene.add_child(ammo)			
 			decrease_ammo_amount()
-			

@@ -33,9 +33,7 @@ func create_and_update_players():
 			player.set_network_master(peer_id)
 			get_players_node().add_child(player)
 		else:
-			var id = get_tree().network_peer.get_unique_id()
-			if id != peer_id:
-				update_player_node(peer_id, peer_data)
+			update_player_node(peer_id, peer_data)
 				
 func update_player_node(peer_id, peer_data:PeerData):
 	var player_node:Player = get_player_node(peer_id);

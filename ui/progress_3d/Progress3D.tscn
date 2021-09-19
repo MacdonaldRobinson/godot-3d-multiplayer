@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://ui/heath_bar_3d/Progress3D.gd" type="Script" id=1]
-[ext_resource path="res://ui/heath_bar_3d/ProgressBar.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ui/progress_3d/Progress3D.gd" type="Script" id=1]
+[ext_resource path="res://ui/progress_3d/ProgressBar.tscn" type="PackedScene" id=2]
 
 [sub_resource type="ViewportTexture" id=1]
 

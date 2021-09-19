@@ -32,7 +32,7 @@ func _process(delta):
 	
 	for peer_id in GameState.get_peers():
 		var peer:PeerData = GameState.get_peer_data(peer_id)
-		players_connected_list.add_item(peer.display_name)	
+		players_connected_list.add_item(peer.peer_name)	
 		
 func reset_buttons():
 	start_game_button.visible = false
@@ -50,11 +50,11 @@ func client_config():
 	join_button.visible = false
 
 func _on_Host_pressed():
-	Globals.peer_data.display_name = player_name_field.text
+	Globals.peer_data.peer_name = player_name_field.text
 	Networking.create_server(port_number_field.text, max_clients_field.text)
 	
 func _on_Join_pressed():
-	Globals.peer_data.display_name = player_name_field.text
+	Globals.peer_data.peer_name = player_name_field.text
 	Networking.join_server(server_address_field.text, port_number_field.text)
 	
 func disable_buttons():

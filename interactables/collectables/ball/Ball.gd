@@ -5,5 +5,5 @@ class_name Ball
 func _ready():
 	self.item_name = "Ball"
 
-func shoot():
+func shoot(weapon_ray_cast:RayCast):
 	pass

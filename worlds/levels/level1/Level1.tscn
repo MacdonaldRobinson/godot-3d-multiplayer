@@ -43,8 +43,10 @@ color_ramp = SubResource( 3 )
 [sub_resource type="QuadMesh" id=7]
 
 [sub_resource type="BoxShape" id=8]
+extents = Vector3( 50, 1, 50 )
 
 [sub_resource type="CubeMesh" id=9]
+size = Vector3( 100, 2, 100 )
 
 [sub_resource type="SpatialMaterial" id=10]
 albedo_texture = ExtResource( 1 )
@@ -78,7 +80,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7.09862 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.5228 )
 
 [node name="Ground" type="StaticBody" parent="."]
-transform = Transform( 100, 0, 0, 0, 1, 0, 0, 0, 100, 0, -1.04556, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.04556, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Ground"]
 shape = SubResource( 8 )

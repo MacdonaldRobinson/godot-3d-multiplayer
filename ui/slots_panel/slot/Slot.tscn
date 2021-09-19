@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://ui/slots_panel/slot/Slot.gd" type="Script" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+
+[node name="Slot" type="VBoxContainer"]
+margin_right = 72.0
+margin_bottom = 82.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_right = 72.0
+margin_bottom = 64.0
+texture = ExtResource( 2 )
+stretch_mode = 4
+
+[node name="ItemName" type="Label" parent="."]
+margin_top = 68.0
+margin_right = 72.0
+margin_bottom = 82.0
+text = "item Name"
+align = 1
