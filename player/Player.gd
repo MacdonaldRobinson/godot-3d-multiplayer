@@ -130,8 +130,8 @@ func equip_item(item:Interactable):
 	
 	_equip_holder.add_child(currently_equipped_item)
 	
-	Globals.peer_data.currently_equipped_item_tscn = currently_equipped_item.filename
-	print("equiped ->", currently_equipped_item.filename )
+	if is_network_master():
+		Globals.peer_data.currently_equipped_item_tscn = currently_equipped_item.filename		
 
 func un_equip():
 	var children = _equip_holder.get_children()
@@ -234,7 +234,7 @@ func set_from_peer_data(peer_data:PeerData):
 	_set_health(peer_data.health)
 	_set_energy(peer_data.energy)
 	
-	global_transform = peer_data.global_transform
+	global_transform = peer_data.global_transform	
 	_camera_pivot.rotation = peer_data.camera_pivot_rotation
 	_equip_holder.global_transform = peer_data.equip_holder_transform
 	

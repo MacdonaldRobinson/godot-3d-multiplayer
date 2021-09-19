@@ -39,14 +39,12 @@ func shoot(weapon_ray_cast:RayCast):
 		ammo.transform.origin = Vector3.ZERO
 		ammo.linear_velocity = Vector3.ZERO
 		ammo.angular_velocity = Vector3.ZERO
-		
-		ammo.set_as_toplevel(true)
-		ammo.apply_central_impulse(-self.global_transform.basis.z * 50)
-		
-		ammo.set_as_toplevel(true)
-		
-		ammo.global_transform = ammo_spawn_position.global_transform
+		 
 		
 		if get_tree() and get_tree().current_scene:
-			get_tree().current_scene.add_child(ammo)			
+			get_tree().current_scene.add_child(ammo)
+			ammo.set_as_toplevel(true)
+			ammo.global_transform = ammo_spawn_position.global_transform		
+			ammo.apply_central_impulse(-self.global_transform.basis.z * 50)
+					
 			decrease_ammo_amount()

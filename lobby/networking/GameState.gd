@@ -21,8 +21,11 @@ func create_and_update_players():
 		return
 		
 	for peer_id in get_peers():
-		var player:Player = get_players_node().get_node(String(peer_id))
 		var peer_data:PeerData = get_peer_data(peer_id)
+		var player:Player = null
+		
+		if get_players_node().has_node(String(peer_id)):
+			player = get_players_node().get_node(String(peer_id))
 		
 		if player == null:
 			player = load("res://player/Player.tscn").instance()

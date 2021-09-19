@@ -19,6 +19,7 @@ func _on_Bullet_body_entered(body):
 
 			bullet_hole.global_transform.origin = collision_point		
 
-			bullet_hole.look_at(collision_point + collider_normal , Vector3.UP)	
+			if !Vector3.UP.cross(collision_point + collider_normal):
+				bullet_hole.look_at(collision_point + collider_normal , Vector3.UP)	
 			
 	queue_free()

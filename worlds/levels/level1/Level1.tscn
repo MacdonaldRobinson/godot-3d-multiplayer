@@ -1,6 +1,6 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=18 format=2]
 
-[ext_resource path="res://assets/ui-textures/300PlusRepeatBackgrounds/bg308.png" type="Texture" id=1]
+[ext_resource path="res://worlds/levels/level1/GoalPost.tscn" type="PackedScene" id=1]
 [ext_resource path="res://worlds/levels/Level.gd" type="Script" id=2]
 [ext_resource path="res://default_env.tres" type="Environment" id=3]
 [ext_resource path="res://assets/ui-textures/particlePack_1.1/PNG (Transparent)/light_01.png" type="Texture" id=4]
@@ -8,6 +8,7 @@
 [ext_resource path="res://interactables/health_refill_station/HealthRefillStation.tscn" type="PackedScene" id=6]
 [ext_resource path="res://interactables/collectables/ball/Ball.tscn" type="PackedScene" id=7]
 [ext_resource path="res://interactables/collectables/weapons/launcher/Launcher.tscn" type="PackedScene" id=8]
+[ext_resource path="res://icon.png" type="Texture" id=9]
 
 [sub_resource type="SpatialMaterial" id=1]
 flags_transparent = true
@@ -42,17 +43,12 @@ color_ramp = SubResource( 3 )
 
 [sub_resource type="QuadMesh" id=7]
 
-[sub_resource type="BoxShape" id=8]
-extents = Vector3( 50, 1, 50 )
-
-[sub_resource type="CubeMesh" id=9]
-size = Vector3( 100, 2, 100 )
-
-[sub_resource type="SpatialMaterial" id=10]
-albedo_texture = ExtResource( 1 )
+[sub_resource type="SpatialMaterial" id=8]
+albedo_texture = ExtResource( 9 )
 uv1_triplanar = true
 
 [node name="Level1" type="Spatial"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.959, 0 )
 script = ExtResource( 2 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -66,12 +62,13 @@ process_material = SubResource( 6 )
 draw_pass_1 = SubResource( 7 )
 
 [node name="Interactables" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.49908, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12.8166, 0 )
 
 [node name="Ball" parent="Interactables" instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.6394, 28.3136, 0 )
 
 [node name="Launcher" parent="Interactables" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8578, 0 )
 
 [node name="HealthRefillStation" parent="Interactables" instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7.09862 )
@@ -79,19 +76,25 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7.09862 )
 [node name="EnergyRefillStation" parent="Interactables" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.5228 )
 
-[node name="Ground" type="StaticBody" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.04556, 0 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Ground"]
-shape = SubResource( 8 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Ground/CollisionShape"]
-mesh = SubResource( 9 )
-material/0 = SubResource( 10 )
-
 [node name="Players" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.9559, 9.25914 )
 
-[node name="LevelCamera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.87427, 21.4802 )
-current = true
+[node name="Ground" type="CSGBox" parent="."]
+material_override = SubResource( 8 )
+use_collision = true
+width = 100.0
+height = 50.0
+depth = 100.0
+
+[node name="Ground2" type="CSGBox" parent="Ground"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.18335, 0 )
+operation = 2
+width = 75.0
+height = 40.0
+depth = 75.0
+
+[node name="Goal" parent="." instance=ExtResource( 1 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -33.3359 )
+
+[node name="Goal2" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 33.1382 )
