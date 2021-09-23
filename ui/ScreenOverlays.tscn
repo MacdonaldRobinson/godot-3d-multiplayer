@@ -34,7 +34,7 @@ __meta__ = {
 
 [node name="Top" type="HBoxContainer" parent="."]
 anchor_right = 1.0
-margin_bottom = 141.0
+margin_bottom = 32.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -42,7 +42,6 @@ __meta__ = {
 [node name="PlayersStatsPanel" parent="Top" instance=ExtResource( 4 )]
 anchor_right = 0.0
 margin_right = 994.0
-margin_bottom = 141.0
 size_flags_horizontal = 3
 
 [node name="Bottom" type="HBoxContainer" parent="."]

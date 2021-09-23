@@ -1,12 +1,10 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://worlds/levels/level1/GoalPost.tscn" type="PackedScene" id=1]
 [ext_resource path="res://worlds/levels/Level.gd" type="Script" id=2]
 [ext_resource path="res://default_env.tres" type="Environment" id=3]
-[ext_resource path="res://assets/ui-textures/particlePack_1.1/PNG (Transparent)/light_01.png" type="Texture" id=4]
 [ext_resource path="res://interactables/energy_regfill_station/EnergyRegfillStation.tscn" type="PackedScene" id=5]
 [ext_resource path="res://interactables/health_refill_station/HealthRefillStation.tscn" type="PackedScene" id=6]
-[ext_resource path="res://interactables/collectables/ball/Ball.tscn" type="PackedScene" id=7]
 [ext_resource path="res://interactables/collectables/weapons/launcher/Launcher.tscn" type="PackedScene" id=8]
 [ext_resource path="res://icon.png" type="Texture" id=9]
 
@@ -19,7 +17,7 @@ params_billboard_mode = 3
 particles_anim_h_frames = 1
 particles_anim_v_frames = 1
 particles_anim_loop = false
-albedo_texture = ExtResource( 4 )
+albedo_texture = ExtResource( 9 )
 
 [sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0, 0.0135135, 0.297297, 0.47973, 0.702703, 0.952703, 1 )
@@ -62,10 +60,7 @@ process_material = SubResource( 6 )
 draw_pass_1 = SubResource( 7 )
 
 [node name="Interactables" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12.8166, 0 )
-
-[node name="Ball" parent="Interactables" instance=ExtResource( 7 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.6394, 28.3136, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10.3167, 0 )
 
 [node name="Launcher" parent="Interactables" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8578, 0 )
@@ -90,7 +85,7 @@ depth = 100.0
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.18335, 0 )
 operation = 2
 width = 75.0
-height = 40.0
+height = 35.0
 depth = 75.0
 
 [node name="Goal" parent="." instance=ExtResource( 1 )]

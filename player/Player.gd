@@ -35,8 +35,6 @@ onready var _screen_overlay:ScreenOverlay = $ScreenOverlays
 onready var _equip_holder:Position3D = $CameraPivot/MainCamera/EquipPosition
 onready var _over_head_name:Text3D = $Name
 onready var _health_bar:Progress3D = $HealthBar
-onready var _anim_tree:AnimationTree = $Character/AnimationTree
-
 
 func get_class(): return "Player"
 
@@ -213,7 +211,7 @@ func handle_walk_animations():
 	play_animation("parameters/walk_direction/blend_position", walk_blend_direction)
 	
 func play_animation(animation_path:String, animation_value, set_in_peer_data:bool = true):
-	_anim_tree.set(animation_path, animation_value)
+	#_anim_tree.set(animation_path, animation_value)
 	
 	if set_in_peer_data:
 		Globals.peer_data.animations[animation_path] = animation_value		

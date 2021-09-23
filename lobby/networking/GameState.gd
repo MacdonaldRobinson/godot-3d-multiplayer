@@ -7,11 +7,8 @@ func _process(delta):
 		
 		var id = get_tree().get_network_unique_id()
 		
-		#Globals.log("self "+String(id), String(Globals.peer_data.health) +" | "+String(Globals.peer_data.energy))
-		
 		set_peer_data(id, Globals.peer_data)
-
-		rset("_peers", _peers)
+		rset_unreliable("_peers", _peers)
 
 		create_and_update_players()
 
@@ -45,7 +42,6 @@ func update_player_node(peer_id, peer_data:PeerData):
 		#Globals.log("peers "+String(peer_id), String(peer_data.health) +" | "+String(peer_data.energy))
 			
 		player_node.set_from_peer_data(peer_data)
-					
 	
 func get_player_node(id) -> Node:
 	return get_players_node().get_node(String(id))
@@ -56,13 +52,26 @@ func get_players_node() -> Node:
 func get_peers() -> Dictionary:
 	return GameState._peers
 	
+func has_peer_data_changed(peer_id:int, peer_data:PeerData) -> bool:
+	if !GameState._peers.has(peer_id):
+		return true
+		
+	if var2str(GameState.get_peer_data(peer_id)) == var2str(peer_data):
+		return false
+		
+	return true
+	
+func get_raw_peer_data(peer_id:int) -> String:
+	var peer_data = GameState._peers[peer_id]
+	return peer_data
+	
 func get_peer_data(peer_id:int) -> PeerData:
 	var peer_data = GameState._peers[peer_id]
 	var deserialized:PeerData = str2var(peer_data)
 	return deserialized
 
 func set_peer_data(peer_id:int, peer_data:PeerData):
-	var serialized = var2str(peer_data)
+	var serialized = var2str(peer_data)	
 	GameState._peers[peer_id] = serialized
 	
 func start_game():

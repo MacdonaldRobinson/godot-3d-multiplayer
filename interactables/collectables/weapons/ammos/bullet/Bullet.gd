@@ -17,9 +17,12 @@ func _on_Bullet_body_entered(body):
 
 			collider.add_child(bullet_hole)
 
-			bullet_hole.global_transform.origin = collision_point		
-
-			if !Vector3.UP.cross(collision_point + collider_normal):
-				bullet_hole.look_at(collision_point + collider_normal , Vector3.UP)	
+			bullet_hole.global_transform.origin = collision_point
+			
+			if collider_normal != Vector3.UP:
+				bullet_hole.look_at(collision_point + collider_normal, Vector3.UP)	
+			else:
+				bullet_hole.rotate_x(deg2rad(90))
+				
 			
 	queue_free()
