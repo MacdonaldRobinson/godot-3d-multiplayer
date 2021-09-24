@@ -14,11 +14,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://interactables/collectables/weapons/ammos/Ammo.gd"
 }, {
-"base": "Weapon",
-"class": "Ball",
-"language": "GDScript",
-"path": "res://interactables/collectables/ball/Ball.gd"
-}, {
 "base": "Ammo",
 "class": "Bullet",
 "language": "GDScript",
@@ -33,6 +28,11 @@ _global_script_classes=[ {
 "class": "Collectable",
 "language": "GDScript",
 "path": "res://interactables/collectables/Collectable.gd"
+}, {
+"base": "Weapon",
+"class": "Creator",
+"language": "GDScript",
+"path": "res://interactables/collectables/weapons/creator/Creator.gd"
 }, {
 "base": "VBoxContainer",
 "class": "DialogPanel",
@@ -57,12 +57,17 @@ _global_script_classes=[ {
 "base": "WeaponProjectile",
 "class": "Launcher",
 "language": "GDScript",
-"path": "res://interactables/collectables/weapons/launcher/Launcher.gd"
+"path": "res://interactables/collectables/weapons/projectile/launcher/Launcher.gd"
 }, {
 "base": "Spatial",
 "class": "Level",
 "language": "GDScript",
 "path": "res://worlds/levels/Level.gd"
+}, {
+"base": "StaticBody",
+"class": "MeshSpray",
+"language": "GDScript",
+"path": "res://interactables/collectables/weapons/creator/structures/mesh_spray/MeshSpray.gd"
 }, {
 "base": "Node",
 "class": "PeerData",
@@ -99,6 +104,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/slots_panel/SlotsPanel.gd"
 }, {
+"base": "CSGBox",
+"class": "Terrain",
+"language": "GDScript",
+"path": "res://worlds/levels/level1/Terrain.gd"
+}, {
 "base": "Sprite3D",
 "class": "Text3D",
 "language": "GDScript",
@@ -112,20 +122,21 @@ _global_script_classes=[ {
 "base": "Weapon",
 "class": "WeaponProjectile",
 "language": "GDScript",
-"path": "res://interactables/collectables/weapons/WeaponProjectile.gd"
+"path": "res://interactables/collectables/weapons/projectile/WeaponProjectile.gd"
 } ]
 _global_script_class_icons={
 "Ammo": "",
-"Ball": "",
 "Bullet": "",
 "BulletHole": "",
 "Collectable": "",
+"Creator": "",
 "DialogPanel": "",
 "HealthRefillStation": "",
 "Interactable": "",
 "ItemStatsPanel": "",
 "Launcher": "",
 "Level": "",
+"MeshSpray": "",
 "PeerData": "",
 "Player": "",
 "PlayerStatsPanel": "",
@@ -133,6 +144,7 @@ _global_script_class_icons={
 "ScreenOverlay": "",
 "Slot": "",
 "SlotsPanel": "",
+"Terrain": "",
 "Text3D": "",
 "Weapon": "",
 "WeaponProjectile": ""
@@ -152,8 +164,6 @@ Globals="*res://Globals.gd"
 
 [display]
 
-window/size/width=600
-window/size/height=300
 window/size/always_on_top=true
 
 [input]

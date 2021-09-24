@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://player/Player.gd" type="Script" id=1]
 [ext_resource path="res://ui/ScreenOverlays.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ui/text_3d/Text3D.tscn" type="PackedScene" id=3]
+[ext_resource path="res://player/MainCamera.gd" type="Script" id=4]
 [ext_resource path="res://ui/progress_3d/Progress3D.tscn" type="PackedScene" id=5]
 [ext_resource path="res://icon.png" type="Texture" id=6]
 
@@ -39,9 +40,11 @@ texture = SubResource( 2 )
 [node name="ScreenOverlays" parent="." instance=ExtResource( 2 )]
 
 [node name="CameraPivot" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.45601, -1.17742 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.88158, -0.649846 )
 
 [node name="MainCamera" type="Camera" parent="CameraPivot"]
+far = 8192.0
+script = ExtResource( 4 )
 
 [node name="EquipPosition" type="Position3D" parent="CameraPivot/MainCamera"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.08936, -0.672286, -0.449856 )
@@ -55,14 +58,14 @@ enabled = true
 cast_to = Vector3( 0, 0, -100 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2.02255, 0 )
+transform = Transform( 1, 0, 0, 0, -2.18557e-08, -1, 0, 0.5, -4.37114e-08, 0, 2.02255, 0 )
 shape = SubResource( 3 )
 
 [node name="MeshInstance" type="MeshInstance" parent="CollisionShape"]
 mesh = SubResource( 5 )
 material/0 = null
 
-[node name="MeshInstance2" type="MeshInstance" parent="CollisionShape"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.797876, -1.04339 )
+[node name="MeshInstance2" type="MeshInstance" parent="CollisionShape/MeshInstance"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.857915, -1.04339 )
 mesh = SubResource( 6 )
 material/0 = null

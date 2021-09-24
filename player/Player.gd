@@ -16,7 +16,7 @@ var collected_items:Array
 export var gravity = 9.8
 export var mouse_sencitivity = 10
 export var movement_speed = 10
-export var jump_force = 100
+export var jump_force = 200
 export var energy_decrease_amount:float = 1
 export var health_decrease_amount:float = 1
 export var camera_zoom_ticks:float = 1
@@ -136,6 +136,10 @@ func un_equip():
 	
 	for child in children:
 		_equip_holder.remove_child(child)
+		
+	if has_node("spray"):
+		var spray = get_node("spray")
+		remove_child(spray)
 
 func equip_item_index(index:int):	
 	if collected_items.size() > index:
@@ -154,7 +158,7 @@ func equip_item_index(index:int):
 #		new_slot.text = item.item_name
 #		_slots.add_child(new_slot)
 
-func collect_item(item:Interactable):
+func collect_item(item:Collectable):
 	print("ran collect_item", item)
 	if item == null:
 		return
@@ -243,18 +247,23 @@ func set_from_peer_data(peer_data:PeerData):
 		var path_to_tscn = peer_data.currently_equipped_item_tscn
 
 		if currently_equipped_item == null:
-			var instance = load(path_to_tscn).instance()
+			var instance:Node = load(path_to_tscn).instance()
 			equip_item(instance)
+			
 		else:
 			if currently_equipped_item.filename != path_to_tscn:
 				var instance = load(path_to_tscn).instance()
 				equip_item(instance)		
+			
 	else:
 		if currently_equipped_item != null:
 			un_equip()
 
 	for animation_key in peer_data.animations:
 		play_animation(animation_key, peer_data.animations[animation_key])
+		
+	if currently_equipped_item and "spray" in currently_equipped_item:
+		currently_equipped_item.spray.global_transform = peer_data.mesh_spray_global_transform		
 	
 func interact():
 	var collider = _interact_raycast.get_collider().get_parent()
@@ -319,7 +328,7 @@ func _physics_process(delta):
 	if !is_on_floor():
 		new_velocity.y -= gravity
 	
-	if self.energy > 0 && Input.is_action_pressed("jump"):
+	if self.energy > 0 && Input.is_action_just_pressed("jump"):
 		new_velocity.y += jump_force
 		self.energy = self.energy-energy_decrease_amount
 			
