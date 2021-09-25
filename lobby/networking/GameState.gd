@@ -1,6 +1,9 @@
 extends Node
  
 sync var _peers:Dictionary = {}
+sync var _world_data:String
+
+var world_data:WorldData = WorldData.new()
 
 func _process(delta):
 	if Globals.is_network_peer_connected():
@@ -9,9 +12,13 @@ func _process(delta):
 		
 		set_peer_data(id, Globals.peer_data)
 		rset_unreliable("_peers", _peers)
+		
+		set_world_data(world_data)
+		rset_unreliable("_world_data", _world_data)
+		
+		Globals.log("_world_data", _world_data)
 
 		create_and_update_players()
-
 
 func create_and_update_players():
 	if get_players_node() == null:
@@ -74,8 +81,23 @@ func set_peer_data(peer_id:int, peer_data:PeerData):
 	var serialized = var2str(peer_data)	
 	GameState._peers[peer_id] = serialized
 	
-func start_game():
+func set_world_data(world_data:WorldData):
+	var serialized = var2str(world_data)
+	GameState._world_data = serialized
+	
+func get_world_data() -> WorldData:
+	if GameState._world_data:
+		var world_data = GameState._world_data
+		var deserialized:WorldData = str2var(world_data)
+		return deserialized	
+		
+	return WorldData.new()
+	
+remotesync func _start_game():
 	get_tree().change_scene("res://worlds/levels/level1/Level1.tscn")
+
+func start_game():
+	rpc_unreliable("_start_game")
 
 func remove_peer(id):
 	_peers.erase(id)

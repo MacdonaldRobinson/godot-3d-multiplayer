@@ -73,6 +73,24 @@ func create_event(action:String):
 	
 	return event
 	
+func toggle_mouse_capture():
+	if !is_network_master():
+		return
+		
+	if Input.get_mouse_mode() != Input.MOUSE_MODE_CAPTURED:
+		capture_mouse()
+	else:
+		release_mouse()
+
+func capture_mouse():
+	if Input.get_mouse_mode() != Input.MOUSE_MODE_CAPTURED:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+func release_mouse():
+	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+	
 func raise_event(event):
 	Input.parse_input_event(event)
 	

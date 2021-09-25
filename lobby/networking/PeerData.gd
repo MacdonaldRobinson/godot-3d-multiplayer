@@ -13,3 +13,5 @@ var camera_pivot_rotation:Vector3
 var currently_equipped_item_tscn:String
 var remote_method_call:String
 var mesh_spray_global_transform:Transform
+var world_state:Dictionary = {}
+var messages:Array = []

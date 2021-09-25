@@ -1,20 +1,21 @@
 extends Control
 
-onready var players_connected_list:ItemList = $CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PlayersConnectedList
+onready var players_connected_list:ItemList = $CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PlayersConnectedList
 
-onready var player_name_field:LineEdit = $CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer3/VBoxContainer/PlayerNameField
-onready var port_number_field:LineEdit = $CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer2/VBoxContainer2/PortNumberField
-onready var max_clients_field:LineEdit = $CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer2/VBoxContainer3/MaxClientsField
-onready var game_time_field:LineEdit = $CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer3/VBoxContainer2/GameTimeField
-onready var server_address_field:LineEdit  = $CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer2/VBoxContainer/ServerAddressField
+onready var player_name_field:LineEdit = $CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer3/VBoxContainer/PlayerNameField
+onready var port_number_field:LineEdit = $CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer2/VBoxContainer2/PortNumberField
+onready var max_clients_field:LineEdit = $CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer2/VBoxContainer3/MaxClientsField
+onready var game_time_field:LineEdit = $CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer3/VBoxContainer2/GameTimeField
+onready var server_address_field:LineEdit  = $CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer2/VBoxContainer/ServerAddressField
 
-onready var start_game_button:Button = $CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StartGameButton
-onready var join_button:Button = $CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/Join
-onready var host_button:Button = $CenterContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/Host
+onready var start_game_button:Button = $CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StartGameButton
+onready var join_button:Button = $CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/Join
+onready var host_button:Button = $CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/Host
 
 func _ready():
 	players_connected_list.clear();
 	start_game_button.visible = false	
+	Globals.release_mouse()
 
 func _process(delta):
 	if Globals.is_network_peer_connected():
@@ -33,7 +34,9 @@ func _process(delta):
 	for peer_id in GameState.get_peers():
 		var peer:PeerData = GameState.get_peer_data(peer_id)
 		players_connected_list.add_item(peer.peer_name)	
-		
+	
+
+
 func reset_buttons():
 	start_game_button.visible = false
 	host_button.visible = true
@@ -45,7 +48,7 @@ func server_config():
 	join_button.visible = false
 		
 func client_config():
-	start_game_button.visible = true
+	start_game_button.visible = false
 	host_button.visible = false
 	join_button.visible = false
 
@@ -67,4 +70,3 @@ func enable_buttons():
 
 func _on_StartGameButton_pressed():	
 	GameState.start_game()
-		

@@ -81,7 +81,7 @@ func _ready():
 		_screen_overlay.hide()
 		return
 		
-	toggle_mouse_capture()
+	Globals.toggle_mouse_capture()
 	
 	collected_items = []	
 	current_camera = _main_camera
@@ -98,14 +98,6 @@ func disable_cameras():
 	if current_camera and current_camera.current:
 		current_camera.current = false
 
-func toggle_mouse_capture():
-	if !is_network_master():
-		return
-		
-	if Input.get_mouse_mode() != Input.MOUSE_MODE_CAPTURED:
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	else:
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func equip_item(item:Interactable):
 	if item == null or item == currently_equipped_item:
@@ -279,7 +271,7 @@ func interact():
 			if collider is Weapon:
 				equip_item(item)
 
-func look_at_to_weapon_ray_cast():
+func look_at_weapon_ray_cast():
 	if _weapon_raycast.is_colliding():
 		var collider = _weapon_raycast.get_collider()
 		
@@ -315,11 +307,11 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("slot2"):
 		equip_item_index(1)
 
-	if Input.is_action_just_pressed("ui_cancel"):
-		get_tree().quit()	
+#	if Input.is_action_just_pressed("ui_cancel"):
+#		get_tree().quit()	
 		
 	if Input.is_action_just_pressed("toggle_mouse_capture"):
-		toggle_mouse_capture()	
+		Globals.toggle_mouse_capture()	
 		
 	direction = direction.normalized()
 		
@@ -352,7 +344,11 @@ func _physics_process(delta):
 		shoot()
 		Globals.peer_data.remote_method_call = "shoot"
 		
-	look_at_to_weapon_ray_cast()
+	look_at_weapon_ray_cast()
+	
+	if _weapon_raycast.is_colliding():
+		var collider = _weapon_raycast.get_collider()
+		print()
 	
 	if _interact_raycast.is_colliding():
 		

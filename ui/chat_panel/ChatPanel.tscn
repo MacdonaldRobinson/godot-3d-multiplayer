@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://ui/chat_panel/ChatPanel.gd" type="Script" id=1]
+
+[node name="ChatPanel" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 200, 10 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_right = 600.0
+margin_bottom = 14.0
+text = "Chat Messages"
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+margin_top = 18.0
+margin_right = 600.0
+margin_bottom = 272.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Messages" type="RichTextLabel" parent="PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 593.0
+margin_bottom = 247.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+scroll_active = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_top = 276.0
+margin_right = 600.0
+margin_bottom = 300.0
+size_flags_horizontal = 3
+
+[node name="SendMessage" type="LineEdit" parent="HBoxContainer"]
+margin_right = 600.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+placeholder_text = "Type something ..."
+
+[connection signal="text_entered" from="HBoxContainer/SendMessage" to="." method="_on_SendMessage_text_entered"]
