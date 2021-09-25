@@ -15,7 +15,7 @@ onready var host_button:Button = $CenterContainer/HBoxContainer/VBoxContainer/HB
 func _ready():
 	players_connected_list.clear();
 	start_game_button.visible = false	
-	Globals.release_mouse()
+	#Globals.release_mouse()
 
 func _process(delta):
 	if Globals.is_network_peer_connected():
@@ -33,9 +33,8 @@ func _process(delta):
 	
 	for peer_id in GameState.get_peers():
 		var peer:PeerData = GameState.get_peer_data(peer_id)
-		players_connected_list.add_item(peer.peer_name)	
-	
-
+		if peer:
+			players_connected_list.add_item(peer.peer_name)	
 
 func reset_buttons():
 	start_game_button.visible = false
@@ -48,7 +47,7 @@ func server_config():
 	join_button.visible = false
 		
 func client_config():
-	start_game_button.visible = false
+	start_game_button.visible = true
 	host_button.visible = false
 	join_button.visible = false
 

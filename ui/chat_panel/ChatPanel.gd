@@ -10,7 +10,10 @@ func print_messages():
 	messages.bbcode_text = ""
 	messages.bbcode_enabled = true
 	
-	var world_data:WorldData = GameState.world_data
+	if !GameState.get_peers().has("world_data"):
+		return
+	
+	var world_data:WorldData = GameState.get_peers().world_data
 	
 	if world_data:		
 		for message in world_data.messages:
@@ -22,7 +25,10 @@ func _on_SendMessage_text_entered(new_text):
 	message.from_peer_name = Globals.peer_data.peer_name
 	message.text = new_text
 	
-	var world_data:WorldData = GameState.world_data
+	if !GameState.get_peers().has("world_data"):
+		GameState.get_peers().world_data = WorldData.new()
+	
+	var world_data:WorldData = GameState.get_peers().world_data
 	
 	if world_data:
 		world_data.messages.append(message)
