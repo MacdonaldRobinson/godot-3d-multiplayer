@@ -327,7 +327,7 @@ func _physics_process(delta):
 		
 	new_velocity = lerp(velocity, new_velocity, 0.1)
 	
-	velocity = move_and_slide(new_velocity, Vector3.UP)		
+	velocity = move_and_slide(new_velocity, Vector3.UP)	
 	
 	if mouse_delta:
 		self.rotate_y(deg2rad(-mouse_delta.x * mouse_sencitivity * delta))	
@@ -347,8 +347,7 @@ func _physics_process(delta):
 	look_at_weapon_ray_cast()
 	
 	if _weapon_raycast.is_colliding():
-		var collider = _weapon_raycast.get_collider()
-		print()
+		var collider = _weapon_raycast.get_collider()		
 	
 	if _interact_raycast.is_colliding():
 		

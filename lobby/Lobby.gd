@@ -15,7 +15,6 @@ onready var host_button:Button = $CenterContainer/HBoxContainer/VBoxContainer/HB
 func _ready():
 	players_connected_list.clear();
 	start_game_button.visible = false	
-	#Globals.release_mouse()
 
 func _process(delta):
 	if Globals.is_network_peer_connected():
@@ -58,6 +57,7 @@ func _on_Host_pressed():
 func _on_Join_pressed():
 	Globals.peer_data.peer_name = player_name_field.text
 	Networking.join_server(server_address_field.text, port_number_field.text)
+	
 	
 func disable_buttons():
 	join_button.disabled = true
