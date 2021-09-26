@@ -182,15 +182,6 @@ func _input(event):
 	if Input.is_action_just_pressed("toggle_mouse_capture"):
 		Globals.toggle_mouse_capture()		
 		
-#		if event_mouse_button.button_index == BUTTON_WHEEL_UP:
-#			camera_zoom = camera_zoom - camera_zoom_ticks
-#		elif event_mouse_button.button_index == BUTTON_WHEEL_DOWN:
-#			camera_zoom = camera_zoom + camera_zoom_ticks
-#
-#		camera_zoom = lerp(_camera_pivot.transform.origin.z, camera_zoom, 0.1)
-#
-#		_camera_pivot.transform.origin.z = camera_zoom
-
 		
 var walk_blend_direction:Vector2 = Vector2.ZERO
 
@@ -256,9 +247,13 @@ func set_from_peer_data(peer_data:PeerData):
 	if currently_equipped_item and "spray" in currently_equipped_item:
 		currently_equipped_item.spray.global_transform = peer_data.mesh_spray_global_transform		
 	
-remotesync func shoot():
-	var current_weapon = currently_equipped_item as Weapon
-	current_weapon.shoot(_weapon_raycast)
+remotesync func equipped_item_primary_action():
+	if currently_equipped_item is Weapon:		
+		currently_equipped_item.primary_action(_weapon_raycast)
+	
+remotesync func equipped_item_secondary_action():
+	if currently_equipped_item is Weapon:
+		currently_equipped_item.secondary_action(_weapon_raycast)
 	
 func interact():
 	var collider = _interact_raycast.get_collider().get_parent()
@@ -344,13 +339,11 @@ func _physics_process(delta):
 	mouse_delta = Vector3.ZERO
 	
 	if Globals.is_mouse_captured():
-		if currently_equipped_item is Weapon and Input.is_action_pressed("shoot"):
-			if shoot_timer == 0:
-				rpc("shoot")
-				shoot_timer = 10
-			else:
-				shoot_timer -= 1
-		
+		if currently_equipped_item is Weapon and Input.is_action_pressed("primary_action"):
+			rpc("equipped_item_primary_action")
+		elif currently_equipped_item is Weapon and Input.is_action_just_pressed("secondary_action"):
+			rpc("equipped_item_secondary_action")
+
 	look_at_weapon_ray_cast()
 	
 	if _weapon_raycast.is_colliding():

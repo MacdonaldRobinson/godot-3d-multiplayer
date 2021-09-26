@@ -6,8 +6,6 @@ var spray:MeshSpray = item.instance()
 
 func _ready():
 	self.item_name = "Creator"
-	self.max_capacity = -1
-	self.current_ammo_amount = -1	
 	spray.name = "spray"
 	
 func setup_spray():
@@ -21,18 +19,20 @@ func setup_spray():
 		material.flags_transparent = true
 
 		spray.mesh_instance.material_override = material		
+
+remotesync func spray_mesh(global_transform_string:String):
+	var new_item:Spatial = item.instance()
+	get_tree().current_scene.add_child(new_item, true)
+	new_item.global_transform = str2var(global_transform_string)
 	
-func shoot(weapon_ray_cast:RayCast):
+func primary_action(weapon_ray_cast:RayCast):
 	if weapon_ray_cast.is_colliding():
 		var collider = weapon_ray_cast.get_collider()
 		if not collider is Player:
 			var create_at_position = weapon_ray_cast.get_collision_point()
 			var normal = weapon_ray_cast.get_collision_normal()
 			
-			var new_item:Spatial = item.instance()
-			get_tree().current_scene.add_child(new_item, true)
-			new_item.global_transform = spray.global_transform						
-	
+			rpc("spray_mesh", var2str(spray.global_transform))
 
 func _process(delta):
 	var parent = get_parent()	

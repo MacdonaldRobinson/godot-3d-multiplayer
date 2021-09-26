@@ -42,7 +42,7 @@ __meta__ = {
 
 [node name="PlayersStatsPanel" parent="Top" instance=ExtResource( 4 )]
 anchor_right = 0.0
-margin_right = 994.0
+margin_right = 570.0
 size_flags_horizontal = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
@@ -54,28 +54,28 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 margin_right = 200.0
-margin_bottom = 570.0
+margin_bottom = 270.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer"]
 margin_right = 200.0
-margin_bottom = 283.0
+margin_bottom = 133.0
 size_flags_vertical = 3
 
 [node name="ChatPanel" parent="HBoxContainer/VBoxContainer" instance=ExtResource( 6 )]
 modulate = Color( 1, 1, 1, 0.521569 )
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 287.0
+margin_top = 137.0
 margin_right = 200.0
-margin_bottom = 570.0
+margin_bottom = 270.0
 
 [node name="Bottom" type="HBoxContainer" parent="HBoxContainer"]
 margin_left = 204.0
-margin_right = 994.0
-margin_bottom = 570.0
+margin_right = 570.0
+margin_bottom = 270.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -83,13 +83,13 @@ __meta__ = {
 }
 
 [node name="CollectedItemsStatsPanel" parent="HBoxContainer/Bottom" instance=ExtResource( 3 )]
-margin_top = 570.0
-margin_right = 700.0
-margin_bottom = 570.0
+margin_top = 270.0
+margin_right = 362.0
+margin_bottom = 270.0
 size_flags_horizontal = 3
 size_flags_vertical = 10
 
 [node name="CurrentlyEquippedItemStatsPanel" parent="HBoxContainer/Bottom" instance=ExtResource( 5 )]
-margin_left = 704.0
-margin_right = 790.0
-margin_bottom = 570.0
+margin_left = 366.0
+margin_right = 366.0
+margin_bottom = 270.0

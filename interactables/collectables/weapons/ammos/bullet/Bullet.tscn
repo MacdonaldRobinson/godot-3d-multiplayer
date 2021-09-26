@@ -3,7 +3,7 @@
 [ext_resource path="res://interactables/collectables/weapons/ammos/bullet/Bullet.gd" type="Script" id=1]
 [ext_resource path="res://assets/ui-textures/300PlusRepeatBackgrounds/bg321.png" type="Texture" id=2]
 
-[sub_resource type="SphereShape" id=4]
+[sub_resource type="SphereShape" id=1]
 radius = 0.25
 
 [sub_resource type="SpatialMaterial" id=2]
@@ -22,7 +22,7 @@ contact_monitor = true
 script = ExtResource( 1 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-shape = SubResource( 4 )
+shape = SubResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="CollisionShape"]
 mesh = SubResource( 3 )

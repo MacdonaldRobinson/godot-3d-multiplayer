@@ -10,34 +10,3 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="ItemName" type="Label" parent="."]
-margin_top = 8.0
-margin_right = 86.0
-margin_bottom = 22.0
-text = "ItemName"
-
-[node name="CurrentOfMax" type="HBoxContainer" parent="."]
-margin_top = 26.0
-margin_right = 86.0
-margin_bottom = 40.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Current" type="Label" parent="CurrentOfMax"]
-margin_right = 47.0
-margin_bottom = 14.0
-text = "Current"
-
-[node name="Seperater" type="Label" parent="CurrentOfMax"]
-margin_left = 51.0
-margin_right = 56.0
-margin_bottom = 14.0
-text = "/"
-
-[node name="Max" type="Label" parent="CurrentOfMax"]
-margin_left = 60.0
-margin_right = 86.0
-margin_bottom = 14.0
-text = "Max"
