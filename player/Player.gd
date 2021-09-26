@@ -346,8 +346,8 @@ func _physics_process(delta):
 	if Globals.is_mouse_captured():
 		if currently_equipped_item is Weapon and Input.is_action_pressed("shoot"):
 			if shoot_timer == 0:
-				rpc_unreliable("shoot")
-				shoot_timer = 5
+				rpc("shoot")
+				shoot_timer = 10
 			else:
 				shoot_timer -= 1
 		

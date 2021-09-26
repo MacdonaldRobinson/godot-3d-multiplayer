@@ -10,6 +10,8 @@ func _ready():
 
 func create_server(port, max_clients):
 	var peer = NetworkedMultiplayerENet.new()	
+	peer.transfer_mode = NetworkedMultiplayerPeer.TRANSFER_MODE_RELIABLE
+	
 	var error = peer.create_server(int(port), int(max_clients))
 	
 	if not error:
@@ -18,6 +20,8 @@ func create_server(port, max_clients):
 
 func join_server(address, port):
 	var peer = NetworkedMultiplayerENet.new()
+	peer.transfer_mode = NetworkedMultiplayerPeer.TRANSFER_MODE_RELIABLE
+	
 	var error = peer.create_client(String(address), int(port))	
 	
 	if not error:
