@@ -194,8 +194,6 @@ Globals="*res://Globals.gd"
 
 [display]
 
-window/size/width=600
-window/size/height=300
 window/size/always_on_top=true
 
 [input]
