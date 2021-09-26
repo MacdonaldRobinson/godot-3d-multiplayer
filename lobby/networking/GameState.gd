@@ -4,7 +4,7 @@ var _world_data:WorldData = WorldData.new()
 
 func _process(delta):
 	if Globals.is_network_peer_connected():
-		#Globals.log("_world_data", _world_data)
+		#Globals.log("_world_data", _world_data.has_game_started)
 		
 		var id = get_tree().get_network_unique_id()
 		GameState.set_peer_data(id, Globals.peer_data)
@@ -69,18 +69,22 @@ func get_peer_data(peer_id:int) -> PeerData:
 	var peer_data = GameState.get_world_data().peers[peer_id]
 	return peer_data
 
-
 func start_game():
 	if Globals.is_network_peer_connected():
-		_start_game()
-		#rpc_unreliable("_start_game")	
+		#_start_game()
+		rpc_unreliable("_start_game")	
+		GameState.get_world_data().has_game_started = true
 	
 func add_chat_message(message:Message):
 	if Globals.is_network_peer_connected():
 		rpc_unreliable("_add_chat_message", var2str(message))
 
 func set_peer_data(peer_id:int, peer_data:PeerData):
-	if Globals.is_network_peer_connected():		
+	if Globals.is_network_peer_connected():
+		
+		if GameState.get_peers().has(peer_id) and var2str(GameState.get_peer_data(peer_id)) == var2str(peer_data):
+			return
+
 		rpc_unreliable("_set_peer_data", peer_id, var2str(peer_data))
 	
 func remove_peer(id):
@@ -91,16 +95,16 @@ func set_world_data(world_data:WorldData):
 	rpc_unreliable("_set_world_data", var2str(world_data))
 
 func call_peer_method(peer_id:int, peer_method_name:String, callback_method_name:String):
-	rpc_id(peer_id, peer_method_name, callback_method_name)	
+	rpc_unreliable_id(peer_id, peer_method_name, callback_method_name)	
 
 remotesync func respond_to_peer_method_call(execute_method_name:String, callback_method_name:String):
 	var caller_peer_id:int = get_tree().get_rpc_sender_id()
 	var result = call(execute_method_name)
-	rpc_id(caller_peer_id, callback_method_name, result)
+	rpc_unreliable_id(caller_peer_id, callback_method_name, result)
 
 remotesync func _start_game():
 	var scene:PackedScene = load("res://worlds/levels/level1/Level1.tscn")
-	get_tree().change_scene_to(scene)
+	get_tree().change_scene_to(scene)	
 	
 remotesync func _set_world_data(world_data:String):
 	GameState._world_data = str2var(world_data)

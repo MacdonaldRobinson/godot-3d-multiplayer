@@ -16,7 +16,7 @@ var collected_items:Array
 export var gravity = 9.8
 export var mouse_sencitivity = 10
 export var movement_speed = 10
-export var jump_force = 200
+export var jump_force = 50
 export var energy_decrease_amount:float = 1
 export var health_decrease_amount:float = 1
 export var camera_zoom_ticks:float = 1
@@ -81,7 +81,7 @@ func _ready():
 		_screen_overlay.hide()
 		return
 		
-	Globals.toggle_mouse_capture()
+	#Globals.toggle_mouse_capture()
 	
 	collected_items = []	
 	current_camera = _main_camera
@@ -172,12 +172,15 @@ func _input(event):
 	if !is_network_master():
 		return
 		
-	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED and event is InputEventMouseMotion:		
+	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED and event is InputEventMouseMotion:
 		mouse_delta = event.relative;
 		
 	if event is InputEventMouseButton:
 		var event_mouse_button:InputEventMouseButton = event as InputEventMouseButton
 		var camera_zoom = _camera_pivot.transform.origin.z
+		
+	if Input.is_action_just_pressed("toggle_mouse_capture"):
+		Globals.toggle_mouse_capture()		
 		
 #		if event_mouse_button.button_index == BUTTON_WHEEL_UP:
 #			camera_zoom = camera_zoom - camera_zoom_ticks
@@ -215,10 +218,6 @@ func play_animation(animation_path:String, animation_value, set_in_peer_data:boo
 func set_current_animation_state(state):
 	play_animation("parameters/state/current", state, false)
 		
-func shoot():
-	var current_weapon = currently_equipped_item as Weapon
-	current_weapon.shoot(_weapon_raycast)
-	
 func set_from_peer_data(peer_data:PeerData):
 	_set_player_name(peer_data.peer_name)
 	
@@ -251,11 +250,15 @@ func set_from_peer_data(peer_data:PeerData):
 		if currently_equipped_item != null:
 			un_equip()
 
-	for animation_key in peer_data.animations:
-		play_animation(animation_key, peer_data.animations[animation_key])
-		
+#	for animation_key in peer_data.animations:
+#		play_animation(animation_key, peer_data.animations[animation_key])
+#
 	if currently_equipped_item and "spray" in currently_equipped_item:
 		currently_equipped_item.spray.global_transform = peer_data.mesh_spray_global_transform		
+	
+remotesync func shoot():
+	var current_weapon = currently_equipped_item as Weapon
+	current_weapon.shoot(_weapon_raycast)
 	
 func interact():
 	var collider = _interact_raycast.get_collider().get_parent()
@@ -282,6 +285,7 @@ func look_at_weapon_ray_cast():
 		
 	Globals.peer_data.equip_holder_transform = _equip_holder.global_transform
 	
+var shoot_timer = 0
 func _physics_process(delta):	
 	if !is_network_master():
 		return	
@@ -292,26 +296,24 @@ func _physics_process(delta):
 	var new_velocity = velocity
 	
 	handle_walk_animations()
-	
-	if Input.is_action_pressed("forward"):		
-		direction -= transform.basis.z		
-	elif Input.is_action_pressed("backward"):		
-		direction += transform.basis.z
-	if Input.is_action_pressed("left"):		
-		direction -= transform.basis.x
-	elif Input.is_action_pressed("right"):
-		direction += transform.basis.x
-		
-	if Input.is_action_just_pressed("slot1"):
-		equip_item_index(0)
-	if Input.is_action_just_pressed("slot2"):
-		equip_item_index(1)
+	if Globals.is_mouse_captured():
+		if Input.is_action_pressed("forward"):		
+			direction -= transform.basis.z		
+		elif Input.is_action_pressed("backward"):		
+			direction += transform.basis.z
+		if Input.is_action_pressed("left"):		
+			direction -= transform.basis.x
+		elif Input.is_action_pressed("right"):
+			direction += transform.basis.x
+			
+		if Input.is_action_just_pressed("slot1"):
+			equip_item_index(0)
+		if Input.is_action_just_pressed("slot2"):
+			equip_item_index(1)
 
 #	if Input.is_action_just_pressed("ui_cancel"):
 #		get_tree().quit()	
 		
-	if Input.is_action_just_pressed("toggle_mouse_capture"):
-		Globals.toggle_mouse_capture()	
 		
 	direction = direction.normalized()
 		
@@ -320,9 +322,10 @@ func _physics_process(delta):
 	if !is_on_floor():
 		new_velocity.y -= gravity
 	
-	if self.energy > 0 && Input.is_action_just_pressed("jump"):
-		new_velocity.y += jump_force
-		self.energy = self.energy-energy_decrease_amount
+	if Globals.is_mouse_captured():
+		if self.energy > 0 && Input.is_action_pressed("jump"):
+			new_velocity.y += jump_force
+			self.energy = self.energy-energy_decrease_amount
 			
 		
 	new_velocity = lerp(velocity, new_velocity, 0.1)
@@ -340,9 +343,13 @@ func _physics_process(delta):
 
 	mouse_delta = Vector3.ZERO
 	
-	if currently_equipped_item is Weapon and Input.is_action_pressed("shoot"):
-		shoot()
-		Globals.peer_data.remote_method_call = "shoot"
+	if Globals.is_mouse_captured():
+		if currently_equipped_item is Weapon and Input.is_action_pressed("shoot"):
+			if shoot_timer == 0:
+				rpc_unreliable("shoot")
+				shoot_timer = 5
+			else:
+				shoot_timer -= 1
 		
 	look_at_weapon_ray_cast()
 	

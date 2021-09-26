@@ -46,7 +46,7 @@ func server_config():
 	join_button.visible = false
 		
 func client_config():
-	start_game_button.visible = true
+	start_game_button.visible = false
 	host_button.visible = false
 	join_button.visible = false
 
@@ -57,7 +57,6 @@ func _on_Host_pressed():
 func _on_Join_pressed():
 	Globals.peer_data.peer_name = player_name_field.text
 	Networking.join_server(server_address_field.text, port_number_field.text)
-	
 	
 func disable_buttons():
 	join_button.disabled = true

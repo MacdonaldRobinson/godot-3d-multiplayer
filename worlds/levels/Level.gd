@@ -9,11 +9,19 @@ func get_nodes_to_sync() -> Array:
 		if child is RigidBody:
 			if !nodes.has(child):
 				nodes.append(child)
+
+#	for child in get_tree().current_scene.get_children():
+#		if child is RigidBody:
+#			if !nodes.has(child):
+#				nodes.append(child)
+
 	return nodes
 
 func _process(delta):
 	if get_tree().is_network_server():
-		Globals.peer_data.world_state = {}
+		var world_data = GameState.get_world_data()
+		
+		world_data.sync_from_server_nodes = {}
 		for node in get_nodes_to_sync():
 			if node is Node:
 				var node_data:NodeData = NodeData.new()
@@ -22,17 +30,18 @@ func _process(delta):
 				node_data.parent_path = node.get_parent().get_path()
 				node_data.global_transform = node.global_transform
 			
-				Globals.peer_data.world_state[node.get_path()] = node_data
+				world_data.sync_from_server_nodes[node.get_path()] = node_data
 		
 	else:
+		var world_data = GameState.get_world_data()
 		for node in get_nodes_to_sync():
 			if node is RigidBody:
 				node.mode = RigidBody.MODE_KINEMATIC
-						
-		var server_peer_data:PeerData = GameState.get_peer_data(1)
-		if server_peer_data:
-			for node_path in server_peer_data.world_state:
-				var entry:NodeData = server_peer_data.world_state[node_path]
+		
+		if world_data:
+			var server_nodes = world_data.sync_from_server_nodes
+			for node_path in world_data.sync_from_server_nodes:
+				var entry:NodeData = server_nodes[node_path]
 				
 				if has_node(node_path):
 					var node = get_node(node_path)

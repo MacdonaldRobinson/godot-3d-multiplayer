@@ -80,6 +80,12 @@ func toggle_mouse_capture():
 	else:
 		release_mouse()
 
+func is_mouse_captured():
+	if Input.get_mouse_mode() != Input.MOUSE_MODE_CAPTURED:
+		return false
+	else:
+		return true
+
 func capture_mouse():
 	if Input.get_mouse_mode() != Input.MOUSE_MODE_CAPTURED:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

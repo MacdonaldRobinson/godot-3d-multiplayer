@@ -29,7 +29,8 @@ func connected_to_server():
 	pass
 func server_disconnected():
 	print("server_disconnected")		
-	get_tree().change_scene("res://lobby/Lobby.tscn")		
+	get_tree().change_scene("res://lobby/Lobby.tscn")
+	GameState.get_world_data().peers = {}
 	pass	
 	
 func connection_failed():

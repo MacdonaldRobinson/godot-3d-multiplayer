@@ -5,20 +5,22 @@
 [node name="ItemStatsPanel" type="VBoxContainer"]
 margin_right = 86.0
 margin_bottom = 40.0
+alignment = 2
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ItemName" type="Label" parent="."]
+margin_top = 8.0
 margin_right = 86.0
-margin_bottom = 14.0
+margin_bottom = 22.0
 text = "ItemName"
 
 [node name="CurrentOfMax" type="HBoxContainer" parent="."]
-margin_top = 18.0
+margin_top = 26.0
 margin_right = 86.0
-margin_bottom = 32.0
+margin_bottom = 40.0
 __meta__ = {
 "_edit_use_anchors_": false
 }

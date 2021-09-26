@@ -14,14 +14,14 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="."]
-margin_right = 600.0
+margin_right = 1024.0
 margin_bottom = 14.0
 text = "Chat Messages"
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 margin_top = 18.0
-margin_right = 600.0
-margin_bottom = 272.0
+margin_right = 1024.0
+margin_bottom = 572.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -31,21 +31,21 @@ __meta__ = {
 [node name="Messages" type="RichTextLabel" parent="PanelContainer"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 593.0
-margin_bottom = 247.0
+margin_right = 1017.0
+margin_bottom = 547.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 bbcode_enabled = true
 scroll_following = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_top = 276.0
-margin_right = 600.0
-margin_bottom = 300.0
+margin_top = 576.0
+margin_right = 1024.0
+margin_bottom = 600.0
 size_flags_horizontal = 3
 
 [node name="SendMessage" type="LineEdit" parent="HBoxContainer"]
-margin_right = 600.0
+margin_right = 1024.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 placeholder_text = "Type something ..."

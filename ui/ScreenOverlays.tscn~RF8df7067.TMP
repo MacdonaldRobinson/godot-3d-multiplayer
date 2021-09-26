@@ -83,11 +83,10 @@ __meta__ = {
 }
 
 [node name="CollectedItemsStatsPanel" parent="HBoxContainer/Bottom" instance=ExtResource( 3 )]
-margin_top = 570.0
 margin_right = 700.0
 margin_bottom = 570.0
 size_flags_horizontal = 3
-size_flags_vertical = 10
+size_flags_vertical = 3
 
 [node name="CurrentlyEquippedItemStatsPanel" parent="HBoxContainer/Bottom" instance=ExtResource( 5 )]
 margin_left = 704.0
