@@ -1,7 +1,6 @@
 extends Spatial
 class_name Level
 
-
 remote func update_node(node_path:String, global_transform:String):
 	var node = get_node(node_path)
 	if node is RigidBody:

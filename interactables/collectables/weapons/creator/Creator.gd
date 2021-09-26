@@ -34,6 +34,10 @@ func primary_action(weapon_ray_cast:RayCast):
 			
 			rpc("spray_mesh", var2str(spray.global_transform))
 
+remotesync func _update_spray_position(spray_global_transform:String):
+	spray.global_transform = str2var(spray_global_transform)
+	
+
 func _process(delta):
 	var parent = get_parent()	
 	var owner = parent.get_owner()
@@ -46,14 +50,14 @@ func _process(delta):
 			if not collider is Player:
 				var create_at_position = weapon_ray_cast.get_collision_point()
 				var normal = weapon_ray_cast.get_collision_normal()
-				
+
 				if !owner.has_node(spray.name):
 					owner.add_child(spray, true)
-				else:
-					if owner.name != String(get_tree().get_network_unique_id()):
-						spray.global_transform = GameState.get_peer_data(int(owner.name)).mesh_spray_global_transform
-						return
-						
+				
+				if owner.name != String(get_tree().get_network_unique_id()):
+					return
+				
+				if owner.has_node(spray.name):
 					if Input.is_action_pressed("ui_left"):
 						spray.rotation.z += deg2rad(1)
 					elif Input.is_action_pressed("ui_right"):
@@ -66,6 +70,7 @@ func _process(delta):
 						spray.global_transform.origin = create_at_position + normal 
 						
 					Globals.peer_data.mesh_spray_global_transform = spray.global_transform
+					rpc("_update_spray_position", var2str(spray.global_transform))
 									
 		else:
 			if owner.has_node(spray.name):

@@ -28,6 +28,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12.8166, 0 )
 [node name="Launcher" parent="Interactables" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8578, 0 )
 
+[node name="Launcher2" parent="Interactables" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.56971, 0.8578, 0 )
+
 [node name="HealthRefillStation" parent="Interactables" instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7.09862 )
 
@@ -36,6 +39,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.5228 )
 
 [node name="Creator" parent="Interactables" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.01969, 0.28547, 0 )
+
+[node name="Creator2" parent="Interactables" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.91862, 0.28547, 0 )
 
 [node name="Ball" parent="Interactables" instance=ExtResource( 7 )]
 

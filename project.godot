@@ -204,6 +204,10 @@ Networking="*res://lobby/networking/Networking.gd"
 GameState="*res://lobby/networking/GameState.gd"
 Globals="*res://Globals.gd"
 
+[debug]
+
+settings/stdout/print_fps=true
+
 [display]
 
 window/size/width=600

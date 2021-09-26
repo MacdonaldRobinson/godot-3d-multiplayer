@@ -2,45 +2,23 @@ extends Node
  
 var _world_data:WorldData = WorldData.new()
 
-func _process(delta):
-	if Globals.is_network_peer_connected():
-		#Globals.log("_world_data", _world_data.has_game_started)
-		
-		var id = get_tree().get_network_unique_id()
-		GameState.set_peer_data(id, Globals.peer_data)
-
-		create_and_update_players()
-
-func create_and_update_players():
+func add_player_to_world(peer_id):
 	if get_players_node() == null:
 		return
-		
-	for peer_id in get_peers():
-		var peer_data:PeerData = get_peer_data(peer_id)
-		var player:Player = null
-		
-		if get_players_node().has_node(String(peer_id)):
-			player = get_players_node().get_node(String(peer_id))
-		
-		if player == null:
-			player = load("res://player/Player.tscn").instance()
-			player.name = String(peer_id)			
-			player.disable_cameras()
-			player.connect("ready", self, "update_player_node", [peer_id, peer_data])
 			
-			player.set_network_master(peer_id)
-			get_players_node().add_child(player)
-		else:
-			update_player_node(peer_id, peer_data)
-				
-func update_player_node(peer_id, peer_data:PeerData):
-	var player_node:Player = get_player_node(peer_id);
-
-	if player_node and peer_data: 
-		#Globals.log("peers "+String(peer_id), String(peer_data.health) +" | "+String(peer_data.energy))
+	var peer_data:PeerData = get_peer_data(peer_id)
+	var player:Player = null
+	
+	if get_players_node().has_node(String(peer_id)):
+		player = get_players_node().get_node(String(peer_id))
 			
-		player_node.set_from_peer_data(peer_data)
-		
+	player = load("res://player/Player.tscn").instance()
+	player.name = String(peer_id)			
+	player.disable_cameras()
+	
+	player.set_network_master(peer_id)
+	get_players_node().add_child(player)
+	
 
 func get_world_data() -> WorldData:
 	return GameState._world_data
@@ -104,7 +82,11 @@ remotesync func respond_to_peer_method_call(execute_method_name:String, callback
 
 remotesync func _start_game():
 	var scene:PackedScene = load("res://worlds/levels/level1/Level1.tscn")
-	get_tree().change_scene_to(scene)	
+	get_tree().change_scene_to(scene)
+	yield(get_tree().create_timer(1), "timeout")
+	
+	for peer_id in GameState.get_world_data().peers:
+		add_player_to_world(peer_id)
 	
 remotesync func _set_world_data(world_data:String):
 	GameState._world_data = str2var(world_data)

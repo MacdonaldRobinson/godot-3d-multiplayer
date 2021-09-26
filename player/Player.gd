@@ -51,7 +51,7 @@ func _set_health(new_value):
 		set_current_animation_state(AnimationState.WALK)
 		
 	if is_network_master():
-		Globals.peer_data.health = new_value
+		sync_self_property("health", new_value)
 		
 func _set_energy(new_value):
 	if new_value < 0 or new_value > 100:
@@ -60,11 +60,14 @@ func _set_energy(new_value):
 	energy = new_value	
 	
 	if is_network_master():
-		Globals.peer_data.health = health
+		sync_self_property("energy", new_value)
 	
 func _set_player_name(new_name):
 	player_name = new_name
-	_over_head_name.set_text(new_name)	
+	_over_head_name.set_text(new_name)
+	
+	if is_network_master():
+		sync_self_property("player_name", new_name)
 
 func is_network_master():
 	if get_tree().network_peer == null:
@@ -76,12 +79,15 @@ func is_network_master():
 	return .is_network_master()
 
 func _ready():		
+	var peer_id = get_tree().get_network_unique_id()
+	var peer_data = GameState.get_peer_data(peer_id)
+		
+	_set_player_name(peer_data.peer_name)
+	
 	if !is_network_master():		
 		_main_camera.current = false
 		_screen_overlay.hide()
 		return
-		
-	#Globals.toggle_mouse_capture()
 	
 	collected_items = []	
 	current_camera = _main_camera
@@ -255,7 +261,7 @@ remotesync func equipped_item_secondary_action():
 	if currently_equipped_item is Weapon:
 		currently_equipped_item.secondary_action(_weapon_raycast)
 	
-func interact():
+remotesync func interact():
 	var collider = _interact_raycast.get_collider().get_parent()
 	
 	if collider:
@@ -279,14 +285,23 @@ func look_at_weapon_ray_cast():
 		_equip_holder.rotation = _equip_holder.rotation.linear_interpolate(Vector3.ZERO, 0.1)		
 		
 	Globals.peer_data.equip_holder_transform = _equip_holder.global_transform
-	
-var shoot_timer = 0
+
+func sync_camera_pivot_property(property_name:String, new_property_value):
+	rpc("_sync_camera_pivot_property", property_name, var2str(new_property_value))
+
+func sync_self_property(property_name:String, new_property_value):
+	rpc("_sync_self_property", property_name, var2str(new_property_value))
+
+remote func _sync_camera_pivot_property(property_name:String, new_property_value:String):
+	_camera_pivot.set(property_name, str2var(new_property_value))
+
+remote func _sync_self_property(property_name:String, new_property_value:String):
+	set(property_name, str2var(new_property_value))
+
 func _physics_process(delta):	
 	if !is_network_master():
 		return	
 		
-	Globals.peer_data.remote_method_call = ""
-	
 	var direction = Vector3()
 	var new_velocity = velocity
 	
@@ -321,20 +336,25 @@ func _physics_process(delta):
 		if self.energy > 0 && Input.is_action_pressed("jump"):
 			new_velocity.y += jump_force
 			self.energy = self.energy-energy_decrease_amount
-			
-		
+
 	new_velocity = lerp(velocity, new_velocity, 0.1)
 	
 	velocity = move_and_slide(new_velocity, Vector3.UP)	
 	
+	sync_self_property("global_transform", self.global_transform)
+	
+	var old_camera_pivot_rotation = var2str(_camera_pivot.rotation)
+	var old_self_rotation = var2str(self.rotation)
 	if mouse_delta:
 		self.rotate_y(deg2rad(-mouse_delta.x * mouse_sencitivity * delta))	
 		_camera_pivot.rotate_x(deg2rad(-mouse_delta.y * mouse_sencitivity * delta))	
 
 	_camera_pivot.rotation.x = clamp(_camera_pivot.rotation.x, -1.5, 1.5);
 	
-	Globals.peer_data.global_transform = self.global_transform
-	Globals.peer_data.camera_pivot_rotation = _camera_pivot.rotation
+	var new_camera_pivot_rotation = var2str(_camera_pivot.rotation)
+	var new_self_rotation = var2str(self.rotation)	
+	
+	sync_camera_pivot_property("global_transform", _camera_pivot.global_transform)	
 
 	mouse_delta = Vector3.ZERO
 	
@@ -356,7 +376,7 @@ func _physics_process(delta):
 
 		if collider_parent is Interactable:			
 			if Input.is_action_pressed("interact"):
-				interact()
+				rpc("interact")
 
 	_screen_overlay.update_data(player_name, 
 			health, 
