@@ -87,7 +87,9 @@ func _process(delta):
 						spray.global_transform.origin = create_at_position + normal 
 						
 					Globals.peer_data.mesh_spray_global_transform = spray.global_transform
-					rpc("_update_spray_position", var2str(spray.global_transform))
+					
+					if Globals.is_network_peer_connected():
+						rpc("_update_spray_position", var2str(spray.global_transform))
 									
 		else:
 			if owner.has_node(spray.name):
