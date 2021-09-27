@@ -1,6 +1,6 @@
 # Godot 3d multiplayer
 
-This is a sample project to get started with 3D Game programming using the Godot Game Engine.
+This is a sample project to get started with 3D multiplayer game programming using the Godot Game Engine.
 
 It has the following features
   - Lobby management
