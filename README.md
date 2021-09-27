@@ -9,10 +9,11 @@ It has the following features
     - Player Sync 
   - Collecting Items
   - Equipping Items
-  - Primary and secondary Item actions i.e left mouse and right mouse buttons actions
+  - Primary and secondary Item actions
   - Weapon systems:
     - Launcher
     - Mesh Spray
+  - Bullet Hole
 
 
 https://macdonaldrobinson.github.io/godot-3d-multiplayer/exports/html/3d-PaintBall.html
@@ -22,5 +23,5 @@ Instructions:
   - AWSD keys for movement
   - Space bar to jump / fly
   - 'E' to interact with item
-  - Left mouse click for primary action
-  - Right mouse click  for secondary action
+  - Left mouse click for primary action of equipped item
+  - Right mouse click  for secondary action  of equipped item
