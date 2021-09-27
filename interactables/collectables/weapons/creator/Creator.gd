@@ -51,7 +51,7 @@ remotesync func spray_mesh(global_transform_string:String):
 	get_tree().current_scene.add_child(new_item, true)
 	new_item.global_transform = str2var(global_transform_string)
 
-remotesync func _update_spray_position(spray_global_transform:String):
+remote func _update_spray_position(spray_global_transform:String):
 	spray.global_transform = str2var(spray_global_transform)
 	
 
@@ -88,8 +88,7 @@ func _process(delta):
 						
 					Globals.peer_data.mesh_spray_global_transform = spray.global_transform
 					
-					if Globals.is_network_peer_connected():
-						rpc("_update_spray_position", var2str(spray.global_transform))
+					rpc("_update_spray_position", var2str(spray.global_transform))
 									
 		else:
 			if owner.has_node(spray.name):
