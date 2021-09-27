@@ -39,11 +39,12 @@ func secondary_action(weapon_ray_cast:RayCast):
 
 
 remotesync func remove_colliding(collider_node_path:String):
-	var node = get_node(collider_node_path)
-	if node:
-		var parent_node = node.get_parent()
-		if parent_node:
-			parent_node.remove_child(node)
+	if has_node(collider_node_path):
+		var node = get_node(collider_node_path)
+		if node:
+			var parent_node = node.get_parent()
+			if parent_node:
+				parent_node.remove_child(node)
 
 remotesync func spray_mesh(global_transform_string:String):
 	var new_item:Spatial = item.instance()
