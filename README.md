@@ -4,16 +4,15 @@ This is a sample project to get started with 3D multiplayer game programming usi
 
 It has the following features
   - Lobby management
-  - RPC
-    - Game World Sync
-    - Player Sync 
+  - Chat System
+  - Game World Sync  
   - Collecting Items
   - Equipping Items
   - Primary and secondary Item actions
   - Weapon systems:
     - Launcher
     - Mesh Spray
-  - Bullet Hole
+  - Bullet Hole  
 
 
 https://macdonaldrobinson.github.io/godot-3d-multiplayer/exports/html/3d-PaintBall.html
