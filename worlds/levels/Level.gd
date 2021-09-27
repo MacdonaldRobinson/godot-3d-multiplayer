@@ -10,7 +10,7 @@ remote func update_node(node_path:String, global_transform:String):
 	node.global_transform = new_global_transform
 
 func _process(event):
-	if get_tree().is_network_server():	
+	if Globals.is_network_server():	
 		var nodes = get_tree().current_scene.get_children()
 		nodes.append_array($Interactables.get_children())			
 		
@@ -20,4 +20,5 @@ func _process(event):
 					var node_path = node.get_path()
 					var global_transform_string = var2str(node.global_transform)
 					
-					rpc("update_node", node_path, global_transform_string)
+					if Globals.is_network_peer_connected():
+						rpc("update_node", node_path, global_transform_string)

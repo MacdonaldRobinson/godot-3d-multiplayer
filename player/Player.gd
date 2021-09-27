@@ -291,10 +291,12 @@ func look_at_weapon_ray_cast():
 	Globals.peer_data.equip_holder_transform = _equip_holder.global_transform
 
 func sync_camera_pivot_property(property_name:String, new_property_value):
-	rpc("_sync_camera_pivot_property", property_name, var2str(new_property_value))
+	if Globals.is_network_peer_connected():
+		rpc("_sync_camera_pivot_property", property_name, var2str(new_property_value))
 
 func sync_self_property(property_name:String, new_property_value):
-	rpc("_sync_self_property", property_name, var2str(new_property_value))
+	if Globals.is_network_peer_connected():
+		rpc("_sync_self_property", property_name, var2str(new_property_value))
 
 remote func _sync_camera_pivot_property(property_name:String, new_property_value:String):
 	_camera_pivot.set(property_name, str2var(new_property_value))
@@ -363,10 +365,16 @@ func _physics_process(delta):
 	mouse_delta = Vector3.ZERO
 	
 	if Globals.is_mouse_captured():
-		if currently_equipped_item is Weapon and Input.is_action_pressed("primary_action"):			
-			rpc("equipped_item_primary_action")
+		if currently_equipped_item is Weapon and Input.is_action_pressed("primary_action"):
+			if Globals.is_network_peer_connected():
+				rpc("equipped_item_primary_action")
+			else:
+				equipped_item_primary_action()
 		elif currently_equipped_item is Weapon and Input.is_action_pressed("secondary_action"):			
-			rpc("equipped_item_secondary_action")
+			if Globals.is_network_peer_connected():
+				rpc("equipped_item_secondary_action")
+			else:
+				equipped_item_secondary_action()
 
 	look_at_weapon_ray_cast()
 	
@@ -380,7 +388,10 @@ func _physics_process(delta):
 
 		if collider_parent is Interactable:			
 			if Input.is_action_pressed("interact"):
-				rpc("interact")
+				if Globals.is_network_peer_connected():
+					rpc("interact")
+				else:
+					interact()
 
 	_screen_overlay.update_data(player_name, 
 			health, 

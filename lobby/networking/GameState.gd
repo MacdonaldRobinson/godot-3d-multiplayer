@@ -44,8 +44,10 @@ func get_peers() -> Dictionary:
 	return GameState.get_world_data().peers
 		
 func get_peer_data(peer_id:int) -> PeerData:
-	var peer_data = GameState.get_world_data().peers[peer_id]
-	return peer_data
+	if GameState.get_world_data().peers.has(peer_id):
+		var peer_data = GameState.get_world_data().peers[peer_id]
+		return peer_data
+	return PeerData.new()
 
 func start_game():
 	if Globals.is_network_peer_connected():

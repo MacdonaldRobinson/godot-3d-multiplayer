@@ -98,7 +98,7 @@ func release_mouse():
 func raise_event(event):
 	Input.parse_input_event(event)
 	
-func is_network_peer_connected():
+func is_network_peer_connected()  -> bool:
 	if get_tree().network_peer == null:
 		return false
 			
@@ -106,7 +106,25 @@ func is_network_peer_connected():
 		return true
 	else:
 		return false
+		
+func is_network_server()  -> bool:
+	if !is_network_peer_connected():
+		return true
+	else:
+		return get_tree().is_network_server()
 	
+func is_network_master() -> bool:
+	if !is_network_peer_connected():
+		return true
+	else:
+		return .is_network_master()
+	
+func get_peer_id()  -> int:
+	if !is_network_peer_connected():
+		return 1
+	else:
+		return get_tree().get_network_unique_id()
+
 func throw_exception(message:String):
 	push_error(message)
 	assert(false)	

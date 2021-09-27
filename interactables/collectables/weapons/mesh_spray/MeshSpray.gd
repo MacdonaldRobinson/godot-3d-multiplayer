@@ -27,15 +27,21 @@ func primary_action(weapon_ray_cast:RayCast):
 			var create_at_position = weapon_ray_cast.get_collision_point()
 			var normal = weapon_ray_cast.get_collision_normal()
 			
-			rpc("spray_mesh", var2str(spray.global_transform))
+			if Globals.is_network_peer_connected():
+				rpc("spray_mesh", var2str(spray.global_transform))
+			else:
+				spray_mesh(var2str(spray.global_transform))
 
 func secondary_action(weapon_ray_cast:RayCast):
 	if weapon_ray_cast.is_colliding():
 		var collider = weapon_ray_cast.get_collider()		
 		if collider is Sprayable:
 			if collider.get_parent():
-				#collider.get_parent().remove_child(collider)
-				rpc("remove_colliding", collider.get_path())
+				if Globals.is_network_peer_connected():
+					rpc("remove_colliding", collider.get_path())
+				else:
+					remove_colliding(collider.get_path())
+					
 
 
 remotesync func remove_colliding(collider_node_path:String):
@@ -71,8 +77,9 @@ func _process(delta):
 				if !owner.has_node(spray.name):
 					owner.add_child(spray, true)
 				
-				if owner.name != String(get_tree().get_network_unique_id()):
-					return
+				if Globals.is_network_peer_connected():
+					if owner.name != String(Globals.get_peer_id()):
+						return
 				
 				if owner.has_node(spray.name):
 					if Input.is_action_pressed("ui_left"):
@@ -88,13 +95,14 @@ func _process(delta):
 						
 					Globals.peer_data.mesh_spray_global_transform = spray.global_transform
 					
-					rpc("_update_spray_position", var2str(spray.global_transform))
+					if Globals.is_network_peer_connected():
+						rpc("_update_spray_position", var2str(spray.global_transform))
 									
 		else:
-			if owner.has_node(spray.name):
+			if owner and "has_node" in owner and owner.has_node(spray.name):
 				owner.remove_child(spray)
 
 	else:
-		if owner.has_node(spray.name):
+		if owner and "has_node" in owner and owner.has_node(spray.name):
 			owner.remove_child(spray)
 

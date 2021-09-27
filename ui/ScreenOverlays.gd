@@ -22,5 +22,5 @@ func _input(event):
 	else:
 		chat_panel.modulate.a = 1
 		
-		if is_network_master():
+		if Globals.is_network_master():
 			chat_panel.send_message.grab_focus()
