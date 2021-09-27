@@ -15,7 +15,7 @@ It has the following features
   - Bullet Hole  
 
 
-https://macdonaldrobinson.github.io/godot-3d-multiplayer/exports/html/3d-PaintBall.html
+https://macdonaldrobinson.github.io/godot-3d-multiplayer/exports/html/3d-multiplayer.html
 
 Instructions:
   - CTRL to toggle mouse capture
