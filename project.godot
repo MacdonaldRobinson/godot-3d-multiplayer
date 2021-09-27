@@ -84,7 +84,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://worlds/levels/Level.gd"
 }, {
-"base": "Spatial",
+"base": "StaticBody",
 "class": "MeshSpray",
 "language": "GDScript",
 "path": "res://interactables/collectables/weapons/creator/structures/mesh_spray/MeshSpray.gd"

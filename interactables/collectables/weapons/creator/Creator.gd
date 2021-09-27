@@ -20,11 +20,6 @@ func setup_spray():
 
 		spray.mesh_instance.material_override = material		
 
-remotesync func spray_mesh(global_transform_string:String):
-	var new_item:Spatial = item.instance()
-	get_tree().current_scene.add_child(new_item, true)
-	new_item.global_transform = str2var(global_transform_string)
-	
 func primary_action(weapon_ray_cast:RayCast):
 	if weapon_ray_cast.is_colliding():
 		var collider = weapon_ray_cast.get_collider()
@@ -33,6 +28,27 @@ func primary_action(weapon_ray_cast:RayCast):
 			var normal = weapon_ray_cast.get_collision_normal()
 			
 			rpc("spray_mesh", var2str(spray.global_transform))
+
+func secondary_action(weapon_ray_cast:RayCast):
+	if weapon_ray_cast.is_colliding():
+		var collider = weapon_ray_cast.get_collider()		
+		if collider is MeshSpray:
+			if collider.get_parent():
+				#collider.get_parent().remove_child(collider)
+				rpc("remove_colliding", collider.get_path())
+
+
+remotesync func remove_colliding(collider_node_path:String):
+	var node = get_node(collider_node_path)
+	if node:
+		var parent_node = node.get_parent()
+		if parent_node:
+			parent_node.remove_child(node)
+
+remotesync func spray_mesh(global_transform_string:String):
+	var new_item:Spatial = item.instance()
+	get_tree().current_scene.add_child(new_item, true)
+	new_item.global_transform = str2var(global_transform_string)
 
 remotesync func _update_spray_position(spray_global_transform:String):
 	spray.global_transform = str2var(spray_global_transform)

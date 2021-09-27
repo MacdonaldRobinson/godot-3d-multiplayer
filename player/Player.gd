@@ -89,6 +89,7 @@ func _ready():
 		_screen_overlay.hide()
 		return
 	
+	
 	collected_items = []	
 	current_camera = _main_camera
 	
@@ -215,44 +216,44 @@ func play_animation(animation_path:String, animation_value, set_in_peer_data:boo
 func set_current_animation_state(state):
 	play_animation("parameters/state/current", state, false)
 		
-func set_from_peer_data(peer_data:PeerData):
-	_set_player_name(peer_data.peer_name)
-	
-	if is_network_master():
-		return
-	
-	_set_health(peer_data.health)
-	_set_energy(peer_data.energy)
-	
-	global_transform = peer_data.global_transform	
-	_camera_pivot.rotation = peer_data.camera_pivot_rotation
-	_equip_holder.global_transform = peer_data.equip_holder_transform
-	
-	if peer_data.remote_method_call:
-		call(peer_data.remote_method_call)
-
-	if !peer_data.currently_equipped_item_tscn.empty():			
-		var path_to_tscn = peer_data.currently_equipped_item_tscn
-
-		if currently_equipped_item == null:
-			var instance:Node = load(path_to_tscn).instance()
-			equip_item(instance)
-			
-		else:
-			if currently_equipped_item.filename != path_to_tscn:
-				var instance = load(path_to_tscn).instance()
-				equip_item(instance)		
-			
-	else:
-		if currently_equipped_item != null:
-			un_equip()
-
-#	for animation_key in peer_data.animations:
-#		play_animation(animation_key, peer_data.animations[animation_key])
+#func set_from_peer_data(peer_data:PeerData):
+#	_set_player_name(peer_data.peer_name)
 #
-	if currently_equipped_item and "spray" in currently_equipped_item:
-		currently_equipped_item.spray.global_transform = peer_data.mesh_spray_global_transform		
-	
+#	if is_network_master():
+#		return
+#
+#	_set_health(peer_data.health)
+#	_set_energy(peer_data.energy)
+#
+#	global_transform = peer_data.global_transform	
+#	_camera_pivot.rotation = peer_data.camera_pivot_rotation
+#	_equip_holder.global_transform = peer_data.equip_holder_transform
+#
+#	if peer_data.remote_method_call:
+#		call(peer_data.remote_method_call)
+#
+#	if !peer_data.currently_equipped_item_tscn.empty():			
+#		var path_to_tscn = peer_data.currently_equipped_item_tscn
+#
+#		if currently_equipped_item == null:
+#			var instance:Node = load(path_to_tscn).instance()
+#			equip_item(instance)
+#
+#		else:
+#			if currently_equipped_item.filename != path_to_tscn:
+#				var instance = load(path_to_tscn).instance()
+#				equip_item(instance)		
+#
+#	else:
+#		if currently_equipped_item != null:
+#			un_equip()
+#
+##	for animation_key in peer_data.animations:
+##		play_animation(animation_key, peer_data.animations[animation_key])
+##
+#	if currently_equipped_item and "spray" in currently_equipped_item:
+#		currently_equipped_item.spray.global_transform = peer_data.mesh_spray_global_transform		
+#
 remotesync func equipped_item_primary_action():
 	if currently_equipped_item is Weapon:		
 		currently_equipped_item.primary_action(_weapon_raycast)
@@ -262,6 +263,9 @@ remotesync func equipped_item_secondary_action():
 		currently_equipped_item.secondary_action(_weapon_raycast)
 	
 remotesync func interact():
+	if !_interact_raycast.is_colliding():
+		return
+		
 	var collider = _interact_raycast.get_collider().get_parent()
 	
 	if collider:
@@ -359,9 +363,9 @@ func _physics_process(delta):
 	mouse_delta = Vector3.ZERO
 	
 	if Globals.is_mouse_captured():
-		if currently_equipped_item is Weapon and Input.is_action_pressed("primary_action"):
+		if currently_equipped_item is Weapon and Input.is_action_pressed("primary_action"):			
 			rpc("equipped_item_primary_action")
-		elif currently_equipped_item is Weapon and Input.is_action_just_pressed("secondary_action"):
+		elif currently_equipped_item is Weapon and Input.is_action_pressed("secondary_action"):			
 			rpc("equipped_item_secondary_action")
 
 	look_at_weapon_ray_cast()

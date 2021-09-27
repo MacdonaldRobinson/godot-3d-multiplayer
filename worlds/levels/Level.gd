@@ -8,8 +8,8 @@ remote func update_node(node_path:String, global_transform:String):
 	
 	var new_global_transform = str2var(global_transform)		
 	node.global_transform = new_global_transform
-	
-func _process(delta):
+
+func _process(event):
 	if get_tree().is_network_server():	
 		var nodes = get_tree().current_scene.get_children()
 		nodes.append_array($Interactables.get_children())			
