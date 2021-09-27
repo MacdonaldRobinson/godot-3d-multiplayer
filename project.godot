@@ -44,11 +44,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://interactables/collectables/Collectable.gd"
 }, {
-"base": "Weapon",
-"class": "Creator",
-"language": "GDScript",
-"path": "res://interactables/collectables/weapons/creator/Creator.gd"
-}, {
 "base": "VBoxContainer",
 "class": "DialogPanel",
 "language": "GDScript",
@@ -84,10 +79,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://worlds/levels/Level.gd"
 }, {
-"base": "StaticBody",
+"base": "Weapon",
 "class": "MeshSpray",
 "language": "GDScript",
-"path": "res://interactables/collectables/weapons/creator/structures/mesh_spray/MeshSpray.gd"
+"path": "res://interactables/collectables/weapons/mesh_spray/MeshSpray.gd"
 }, {
 "base": "Resource",
 "class": "Message",
@@ -134,6 +129,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/slots_panel/SlotsPanel.gd"
 }, {
+"base": "StaticBody",
+"class": "Sprayable",
+"language": "GDScript",
+"path": "res://interactables/collectables/weapons/mesh_spray/structures/sprayable/Wall.gd"
+}, {
 "base": "CSGBox",
 "class": "Terrain",
 "language": "GDScript",
@@ -167,7 +167,6 @@ _global_script_class_icons={
 "BulletHole": "",
 "ChatPanel": "",
 "Collectable": "",
-"Creator": "",
 "DialogPanel": "",
 "Grenade": "",
 "HealthRefillStation": "",
@@ -185,6 +184,7 @@ _global_script_class_icons={
 "ScreenOverlay": "",
 "Slot": "",
 "SlotsPanel": "",
+"Sprayable": "",
 "Terrain": "",
 "Text3D": "",
 "Weapon": "",

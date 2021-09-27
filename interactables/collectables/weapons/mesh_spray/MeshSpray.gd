@@ -1,11 +1,11 @@
 extends Weapon
-class_name Creator
+class_name MeshSpray
 
-var item = preload("res://interactables/collectables/weapons/creator/structures/mesh_spray/MeshSpray.tscn")
-var spray:MeshSpray = item.instance()
+var item = preload("res://interactables/collectables/weapons/mesh_spray/structures/sprayable/Wall.tscn")
+var spray:Sprayable = item.instance()
 
 func _ready():
-	self.item_name = "Creator"
+	self.item_name = "MeshSpray"
 	spray.name = "spray"
 	
 func setup_spray():
@@ -32,7 +32,7 @@ func primary_action(weapon_ray_cast:RayCast):
 func secondary_action(weapon_ray_cast:RayCast):
 	if weapon_ray_cast.is_colliding():
 		var collider = weapon_ray_cast.get_collider()		
-		if collider is MeshSpray:
+		if collider is Sprayable:
 			if collider.get_parent():
 				#collider.get_parent().remove_child(collider)
 				rpc("remove_colliding", collider.get_path())
@@ -51,7 +51,7 @@ remotesync func spray_mesh(global_transform_string:String):
 	get_tree().current_scene.add_child(new_item, true)
 	new_item.global_transform = str2var(global_transform_string)
 
-remote func _update_spray_position(spray_global_transform:String):
+remotesync func _update_spray_position(spray_global_transform:String):
 	spray.global_transform = str2var(spray_global_transform)
 	
 

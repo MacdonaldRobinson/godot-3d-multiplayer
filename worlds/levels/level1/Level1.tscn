@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://interactables/collectables/weapons/creator/Creator.tscn" type="PackedScene" id=1]
+[ext_resource path="res://interactables/collectables/weapons/mesh_spray/MeshSpray.tscn" type="PackedScene" id=1]
 [ext_resource path="res://worlds/levels/Level.gd" type="Script" id=2]
 [ext_resource path="res://default_env.tres" type="Environment" id=3]
 [ext_resource path="res://worlds/levels/level1/Terrain.gd" type="Script" id=4]
@@ -37,13 +37,13 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7.09862 )
 [node name="EnergyRefillStation" parent="Interactables" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.5228 )
 
-[node name="Creator" parent="Interactables" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.01969, 0.28547, 0 )
-
-[node name="Creator2" parent="Interactables" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.91862, 0.28547, 0 )
-
 [node name="Ball" parent="Interactables" instance=ExtResource( 7 )]
+
+[node name="MeshSpray" parent="Interactables" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.43414 )
+
+[node name="MeshSpray2" parent="Interactables" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.6256, 0, 3.49447 )
 
 [node name="Players" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.9559, 9.25914 )
