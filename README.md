@@ -9,7 +9,7 @@ It has the following features
     - Player Sync 
   - Collecting Items
   - Equipping Items
-  - Primary and secondary Item actions i.e sleft mouse and right mouse buttons actions
+  - Primary and secondary Item actions i.e left mouse and right mouse buttons actions
   - Weapon systems:
     - Launcher
     - Mesh Spray
