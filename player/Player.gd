@@ -140,22 +140,7 @@ func un_equip():
 		var spray = get_node("spray")
 		remove_child(spray)
 
-func equip_item_index(index:int):	
-	if collected_items.size() > index:
-		var item = collected_items[index]
-		equip_item(item)		
-		
-#func render_slots():
-#	print("render_slots", collected_items)	
-#	for _slot in _slots.get_children():
-#		if _slot.visible:
-#			_slots.remove_child(_slot)
-#
-#	for item in collected_items:
-#		var new_slot = _slot_template.duplicate();
-#		new_slot.visible = true
-#		new_slot.text = item.item_name
-#		_slots.add_child(new_slot)
+	
 
 func collect_item(item:Collectable):
 	print("ran collect_item", item)
@@ -253,7 +238,13 @@ func set_current_animation_state(state):
 ##
 #	if currently_equipped_item and "spray" in currently_equipped_item:
 #		currently_equipped_item.spray.global_transform = peer_data.mesh_spray_global_transform		
-#
+
+
+remotesync func equip_item_index(index:int):
+	if collected_items.size() > index:
+		var item = collected_items[index]
+		equip_item(item)	
+
 remotesync func equipped_item_primary_action():
 	if currently_equipped_item is Weapon:		
 		currently_equipped_item.primary_action(_weapon_raycast)
@@ -292,11 +283,11 @@ func look_at_weapon_ray_cast():
 
 func sync_camera_pivot_property(property_name:String, new_property_value):
 	if Globals.is_network_peer_connected():
-		rpc("_sync_camera_pivot_property", property_name, var2str(new_property_value))
+		rpc_unreliable("_sync_camera_pivot_property", property_name, var2str(new_property_value))
 
 func sync_self_property(property_name:String, new_property_value):
 	if Globals.is_network_peer_connected():
-		rpc("_sync_self_property", property_name, var2str(new_property_value))
+		rpc_unreliable("_sync_self_property", property_name, var2str(new_property_value))
 
 remote func _sync_camera_pivot_property(property_name:String, new_property_value:String):
 	_camera_pivot.set(property_name, str2var(new_property_value))
@@ -323,9 +314,15 @@ func _physics_process(delta):
 			direction += transform.basis.x
 			
 		if Input.is_action_just_pressed("slot1"):
-			equip_item_index(0)
+			if Globals.is_network_peer_connected():
+				rpc_unreliable("equip_item_index", 0)
+			else:
+				equip_item_index(0)
 		if Input.is_action_just_pressed("slot2"):
-			equip_item_index(1)
+			if Globals.is_network_peer_connected():
+				rpc_unreliable("equip_item_index", 1)
+			else:
+				equip_item_index(1)
 
 #	if Input.is_action_just_pressed("ui_cancel"):
 #		get_tree().quit()	
@@ -367,12 +364,12 @@ func _physics_process(delta):
 	if Globals.is_mouse_captured():
 		if currently_equipped_item is Weapon and Input.is_action_pressed("primary_action"):
 			if Globals.is_network_peer_connected():
-				rpc("equipped_item_primary_action")
+				rpc_unreliable("equipped_item_primary_action")
 			else:
 				equipped_item_primary_action()
 		elif currently_equipped_item is Weapon and Input.is_action_pressed("secondary_action"):			
 			if Globals.is_network_peer_connected():
-				rpc("equipped_item_secondary_action")
+				rpc_unreliable("equipped_item_secondary_action")
 			else:
 				equipped_item_secondary_action()
 
@@ -389,7 +386,7 @@ func _physics_process(delta):
 		if collider_parent is Interactable:			
 			if Input.is_action_pressed("interact"):
 				if Globals.is_network_peer_connected():
-					rpc("interact")
+					rpc_unreliable("interact")
 				else:
 					interact()
 

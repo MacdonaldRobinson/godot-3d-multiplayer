@@ -24,12 +24,12 @@ func _process(delta):
 			client_config()
 	else:
 		reset_buttons()
-		
+
 	if GameState.get_peers().size() == 0:
 		reset_buttons()
-		
+
 	players_connected_list.clear()
-	
+
 	for peer_id in GameState.get_peers():
 		var peer:PeerData = GameState.get_peer_data(peer_id)
 		if peer:

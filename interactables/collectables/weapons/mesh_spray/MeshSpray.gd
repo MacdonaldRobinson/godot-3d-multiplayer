@@ -28,7 +28,7 @@ func primary_action(weapon_ray_cast:RayCast):
 			var normal = weapon_ray_cast.get_collision_normal()
 			
 			if Globals.is_network_peer_connected():
-				rpc("_spray_mesh", var2str(spray.global_transform))
+				rpc_unreliable("_spray_mesh", var2str(spray.global_transform))
 			else:
 				_spray_mesh(var2str(spray.global_transform))
 			
@@ -39,7 +39,7 @@ func secondary_action(weapon_ray_cast:RayCast):
 			if collider.get_parent():
 				
 				if Globals.is_network_peer_connected():
-					rpc("_remove_colliding", collider.get_path())
+					rpc_unreliable("_remove_colliding", collider.get_path())
 				else:
 					_remove_colliding(collider.get_path())
 
@@ -95,7 +95,7 @@ func _process(delta):
 					Globals.peer_data.mesh_spray_global_transform = spray.global_transform
 					
 					if Globals.is_network_peer_connected():
-						rpc("_update_spray_position", var2str(spray.global_transform))
+						rpc_unreliable("_update_spray_position", var2str(spray.global_transform))
 									
 		else:
 			if owner and "has_node" in owner and owner.has_node(spray.name):
