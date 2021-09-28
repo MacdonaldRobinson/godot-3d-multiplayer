@@ -3,11 +3,13 @@ class_name Level
 
 remote func update_node(node_path:String, global_transform:String):
 	var node = get_node(node_path)
-	if node is RigidBody:
-		node.mode = RigidBody.MODE_KINEMATIC
-	
-	var new_global_transform = str2var(global_transform)		
-	node.global_transform = new_global_transform
+	if node:
+		if node is RigidBody:
+			node.mode = RigidBody.MODE_KINEMATIC
+					
+			if "global_transform" in node:
+				var new_global_transform = str2var(global_transform)		
+				node.global_transform = new_global_transform
 
 func _process(event):
 	if Globals.is_network_server():	
@@ -19,6 +21,4 @@ func _process(event):
 				if "global_transform" in node:
 					var node_path = node.get_path()
 					var global_transform_string = var2str(node.global_transform)
-					
-					if Globals.is_network_peer_connected():
-						rpc("update_node", node_path, global_transform_string)
+					rpc("update_node", node_path, global_transform_string)

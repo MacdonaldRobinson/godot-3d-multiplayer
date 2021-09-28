@@ -28,23 +28,22 @@ func primary_action(weapon_ray_cast:RayCast):
 			var normal = weapon_ray_cast.get_collision_normal()
 			
 			if Globals.is_network_peer_connected():
-				rpc("spray_mesh", var2str(spray.global_transform))
+				rpc("_spray_mesh", var2str(spray.global_transform))
 			else:
-				spray_mesh(var2str(spray.global_transform))
-
+				_spray_mesh(var2str(spray.global_transform))
+			
 func secondary_action(weapon_ray_cast:RayCast):
 	if weapon_ray_cast.is_colliding():
 		var collider = weapon_ray_cast.get_collider()		
 		if collider is Sprayable:
 			if collider.get_parent():
+				
 				if Globals.is_network_peer_connected():
-					rpc("remove_colliding", collider.get_path())
+					rpc("_remove_colliding", collider.get_path())
 				else:
-					remove_colliding(collider.get_path())
-					
+					_remove_colliding(collider.get_path())
 
-
-remotesync func remove_colliding(collider_node_path:String):
+remotesync func _remove_colliding(collider_node_path:String):
 	if has_node(collider_node_path):
 		var node = get_node(collider_node_path)
 		if node:
@@ -52,7 +51,7 @@ remotesync func remove_colliding(collider_node_path:String):
 			if parent_node:
 				parent_node.remove_child(node)
 
-remotesync func spray_mesh(global_transform_string:String):
+remotesync func _spray_mesh(global_transform_string:String):
 	var new_item:Spatial = item.instance()
 	get_tree().current_scene.add_child(new_item, true)
 	new_item.global_transform = str2var(global_transform_string)
