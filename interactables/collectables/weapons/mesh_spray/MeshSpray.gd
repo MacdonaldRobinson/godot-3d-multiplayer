@@ -1,5 +1,6 @@
 extends Weapon
 class_name MeshSpray
+func get_class(): return "MeshSpray"
 
 var item = preload("res://interactables/collectables/weapons/mesh_spray/structures/sprayable/Wall.tscn")
 var spray:Sprayable = item.instance()
@@ -7,6 +8,7 @@ var spray:Sprayable = item.instance()
 func _ready():
 	self.item_name = "MeshSpray"
 	spray.name = "spray"
+	can_stack = false
 	
 func setup_spray():
 	if spray.mesh_instance:
@@ -20,7 +22,7 @@ func setup_spray():
 
 		spray.mesh_instance.material_override = material		
 
-func primary_action(weapon_ray_cast:RayCast):
+func primary_action():
 	if weapon_ray_cast.is_colliding():
 		var collider = weapon_ray_cast.get_collider()
 		if not collider is Player:
@@ -28,18 +30,20 @@ func primary_action(weapon_ray_cast:RayCast):
 			var normal = weapon_ray_cast.get_collision_normal()
 			
 			if Globals.is_network_peer_connected():
-				rpc_unreliable("_spray_mesh", var2str(spray.global_transform))
+				rpc("_spray_mesh", var2str(spray.global_transform))
+				pass
 			else:
 				_spray_mesh(var2str(spray.global_transform))
 			
-func secondary_action(weapon_ray_cast:RayCast):
+func secondary_action():
 	if weapon_ray_cast.is_colliding():
 		var collider = weapon_ray_cast.get_collider()		
 		if collider is Sprayable:
 			if collider.get_parent():
 				
 				if Globals.is_network_peer_connected():
-					rpc_unreliable("_remove_colliding", collider.get_path())
+					rpc("_remove_colliding", collider.get_path())
+					pass
 				else:
 					_remove_colliding(collider.get_path())
 
@@ -96,6 +100,7 @@ func _process(delta):
 					
 					if Globals.is_network_peer_connected():
 						rpc_unreliable("_update_spray_position", var2str(spray.global_transform))
+						pass
 									
 		else:
 			if owner and "has_node" in owner and owner.has_node(spray.name):

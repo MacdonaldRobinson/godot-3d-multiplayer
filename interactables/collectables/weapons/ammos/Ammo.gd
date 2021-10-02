@@ -1,4 +1,4 @@
-extends RigidBody
+extends Collectable
 class_name Ammo
+func get_class(): return "Ammo"
 
-var weapon_ray_cast:RayCast

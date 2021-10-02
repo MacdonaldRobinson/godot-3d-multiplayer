@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://ui/ScreenOverlays.gd" type="Script" id=1]
 [ext_resource path="res://assets/ui-textures/kenney_crosshairPack/PNG/White/crosshair003.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://ui/stats_panels/player_stats_panel/PlayerStatsPanel.tscn" type="PackedScene" id=4]
 [ext_resource path="res://ui/stats_panels/item_stats_panel/ItemStatsPanel.tscn" type="PackedScene" id=5]
 [ext_resource path="res://ui/chat_panel/ChatPanel.tscn" type="PackedScene" id=6]
+[ext_resource path="res://ui/dialog_panel/DialogPanel.tscn" type="PackedScene" id=7]
 
 [node name="ScreenOverlays" type="Control"]
 anchor_right = 1.0
@@ -93,3 +94,14 @@ size_flags_vertical = 10
 margin_left = 366.0
 margin_right = 366.0
 margin_bottom = 270.0
+
+[node name="DialogPanel" parent="." instance=ExtResource( 7 )]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -287.76
+margin_top = -49.8591
+margin_right = 282.24
+margin_bottom = -13.8591
+size_flags_horizontal = 3

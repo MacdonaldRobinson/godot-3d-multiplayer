@@ -18,7 +18,7 @@ func add_player_to_world(peer_id):
 	
 	player.set_network_master(peer_id)
 	get_players_node().add_child(player)
-	
+	pass
 
 func get_world_data() -> WorldData:
 	return GameState._world_data
@@ -51,14 +51,13 @@ func get_peer_data(peer_id:int) -> PeerData:
 
 func start_game():
 	if Globals.is_network_server():
-		rpc_unreliable("_start_game")	
+		rpc("_start_game")
 		GameState.get_world_data().has_game_started = true
-	else:
-		_start_game()
 	
 func add_chat_message(message:Message):
 	if Globals.is_network_peer_connected():
-		rpc_unreliable("_add_chat_message", var2str(message))
+		rpc("_add_chat_message", var2str(message))
+		pass
 
 func set_peer_data(peer_id:int, peer_data:PeerData):
 	if Globals.is_network_peer_connected():
@@ -66,22 +65,43 @@ func set_peer_data(peer_id:int, peer_data:PeerData):
 		if GameState.get_peers().has(peer_id) and var2str(GameState.get_peer_data(peer_id)) == var2str(peer_data):
 			return
 
-		rpc_unreliable("_set_peer_data", peer_id, var2str(peer_data))
+		rpc("_set_peer_data", peer_id, var2str(peer_data))
 	
 func remove_peer(id):
 	if Globals.is_network_peer_connected():
-		rpc_unreliable("_remove_peer", id)
+		rpc("_remove_peer", id)
+		pass
 
 func set_world_data(world_data:WorldData):
-	rpc_unreliable("_set_world_data", var2str(world_data))
+	if Globals.is_network_server():
+		rpc("_set_world_data", var2str(world_data))
+	pass
+	
+func set_world_data_for_peer(peer_id:int, world_data:WorldData):
+	if Globals.is_network_server():
+		rpc_id(peer_id, "_set_world_data", var2str(world_data))
+	pass
+	
+func sync_world_data_with_peers():
+	if Globals.is_network_server():
+		GameState.set_world_data(GameState.get_world_data())	
+	
+func sync_world_data_with_peer(peer_id:int):
+	if Globals.is_network_server():
+		GameState.set_world_data_for_peer(peer_id, GameState.get_world_data())	
 
-func call_peer_method(peer_id:int, peer_method_name:String, callback_method_name:String):
-	rpc_unreliable_id(peer_id, peer_method_name, callback_method_name)	
+func call_peer_method(peer_id:int, peer_method_name:String, callback_method_name:String = ""):
 
+	if callback_method_name:	
+		rpc_id(peer_id, peer_method_name, callback_method_name)	
+	else:
+		rpc_id(peer_id, peer_method_name)			
+	pass
+	
 remotesync func respond_to_peer_method_call(execute_method_name:String, callback_method_name:String):
 	var caller_peer_id:int = get_tree().get_rpc_sender_id()
 	var result = call(execute_method_name)
-	rpc_unreliable_id(caller_peer_id, callback_method_name, result)
+	rpc_id(caller_peer_id, callback_method_name, result)
 
 remotesync func _start_game():
 	var scene:PackedScene = load("res://worlds/levels/level1/Level1.tscn")
@@ -90,7 +110,7 @@ remotesync func _start_game():
 	
 	for peer_id in GameState.get_world_data().peers:
 		add_player_to_world(peer_id)
-	
+		
 remotesync func _set_world_data(world_data:String):
 	GameState._world_data = str2var(world_data)
 	
@@ -101,8 +121,8 @@ remotesync func _set_peer_data(peer_id:int, peer_data:String):
 	var deserialized:PeerData = str2var(peer_data)	
 	GameState.get_world_data().peers[peer_id] = deserialized
 	
-	if get_tree().is_network_server():
-		GameState.set_world_data(GameState.get_world_data())
+	if Globals.is_network_server():
+		GameState.sync_world_data_with_peers()
 	
 remotesync func _remove_peer(id):
 	GameState.get_world_data().peers.erase(id)

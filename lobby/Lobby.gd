@@ -46,7 +46,7 @@ func server_config():
 	join_button.visible = false
 		
 func client_config():
-	start_game_button.visible = true
+	start_game_button.visible = false
 	host_button.visible = false
 	join_button.visible = false
 

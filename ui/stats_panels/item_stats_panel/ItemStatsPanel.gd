@@ -9,14 +9,11 @@ func update_data(item:Interactable):
 		self.remove_child(child)
 		
 	if item is WeaponProjectile:
-		add_ammo_collector_ui(item.primary_ammo_collector)
-		add_ammo_collector_ui(item.secondary_ammo_collector)
+		add_ammo_collector_ui(item.primary_item_collector)
+		add_ammo_collector_ui(item.secondary_item_collector)
 
 func add_ammo_collector_ui(ammo_collector:AmmoCollector):
 	var ammo_collector_ui = load("res://ui/stats_panels/item_stats_panel/ammo_collector_ui/AmmoCollectorUI.tscn").instance()
 	self.add_child(ammo_collector_ui)
 	
 	ammo_collector_ui.update_data(ammo_collector)
-
-		
-		

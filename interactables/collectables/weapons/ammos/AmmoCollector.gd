@@ -1,7 +1,8 @@
-extends Resource
+extends ItemCollector
 class_name AmmoCollector
+func get_class(): return "AmmoCollector"
 
-var ammo_name:String = "Ammo Name"
-var ammo_node_path:String
-var current_amount:int = -1
-var max_capacity:int = -1
+func _ready():
+	item_name = "Ammo Name"
+	current_amount = -1
+	max_capacity = -1

@@ -56,7 +56,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.08936, -0.672286, -0.449856 
 
 [node name="InteractRayCast" type="RayCast" parent="CameraPivot/MainCamera"]
 enabled = true
-cast_to = Vector3( 0, 0, -3 )
+cast_to = Vector3( 0, 0, -5 )
 
 [node name="WeaponRayCast" type="RayCast" parent="CameraPivot/MainCamera"]
 enabled = true

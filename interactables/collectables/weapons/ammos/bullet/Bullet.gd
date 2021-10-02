@@ -1,5 +1,7 @@
 extends Ammo
 class_name Bullet
+func get_class(): return "Bullet"
+
 
 func _on_Timer_timeout():
 	queue_free()

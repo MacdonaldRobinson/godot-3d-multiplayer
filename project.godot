@@ -9,12 +9,12 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "RigidBody",
+"base": "Collectable",
 "class": "Ammo",
 "language": "GDScript",
 "path": "res://interactables/collectables/weapons/ammos/Ammo.gd"
 }, {
-"base": "Resource",
+"base": "ItemCollector",
 "class": "AmmoCollector",
 "language": "GDScript",
 "path": "res://interactables/collectables/weapons/ammos/AmmoCollector.gd"
@@ -49,20 +49,30 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/dialog_panel/DialogPanel.gd"
 }, {
-"base": "Ammo",
+"base": "Interactable",
+"class": "EnergyRefillStation",
+"language": "GDScript",
+"path": "res://interactables/energy_regfill_station/EnergyRefillStation.gd"
+}, {
+"base": "Weapon",
 "class": "Grenade",
 "language": "GDScript",
-"path": "res://interactables/collectables/weapons/ammos/grenade/Grenade.gd"
+"path": "res://interactables/collectables/weapons/grenade/Grenade.gd"
 }, {
 "base": "Interactable",
 "class": "HealthRefillStation",
 "language": "GDScript",
 "path": "res://interactables/health_refill_station/HealthRefillStation.gd"
 }, {
-"base": "Spatial",
+"base": "Node",
 "class": "Interactable",
 "language": "GDScript",
 "path": "res://interactables/Interactable.gd"
+}, {
+"base": "Resource",
+"class": "ItemCollector",
+"language": "GDScript",
+"path": "res://interactables/collectables/ItemCollector.gd"
 }, {
 "base": "Node",
 "class": "ItemStatsPanel",
@@ -168,9 +178,11 @@ _global_script_class_icons={
 "ChatPanel": "",
 "Collectable": "",
 "DialogPanel": "",
+"EnergyRefillStation": "",
 "Grenade": "",
 "HealthRefillStation": "",
 "Interactable": "",
+"ItemCollector": "",
 "ItemStatsPanel": "",
 "Launcher": "",
 "Level": "",
@@ -203,6 +215,11 @@ config/icon="res://icon.png"
 Networking="*res://lobby/networking/Networking.gd"
 GameState="*res://lobby/networking/GameState.gd"
 Globals="*res://Globals.gd"
+
+[debug]
+
+gdscript/warnings/deprecated_keyword=false
+gdscript/warnings/standalone_ternary=false
 
 [display]
 

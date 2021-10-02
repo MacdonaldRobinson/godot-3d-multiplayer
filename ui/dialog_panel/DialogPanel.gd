@@ -1,8 +1,8 @@
 extends VBoxContainer
-
 class_name DialogPanel
+func get_class(): return "DialogPanel"
 
-onready var text_box = $ColorRect/MarginContainer/RichTextLabel
+onready var text_box = $ColorRect/MarginContainer/Label
 
 func _ready():
 	pass # Replace with function body.

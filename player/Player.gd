@@ -1,6 +1,6 @@
 extends KinematicBody
-
 class_name Player
+func get_class(): return "Player"
 
 enum AnimationState {
 	WALK = 0,
@@ -36,7 +36,6 @@ onready var _equip_holder:Position3D = $CameraPivot/MainCamera/EquipPosition
 onready var _over_head_name:Text3D = $Name
 onready var _health_bar:Progress3D = $HealthBar
 
-func get_class(): return "Player"
 
 func _set_health(new_value):
 	if new_value < 0 or new_value > 100:
@@ -113,15 +112,8 @@ func equip_item(item:Interactable):
 	un_equip()
 		
 	currently_equipped_item = item
-
-	for child in item.get_children():
-		if child is CollisionShape:
-			child.disabled = true
-		else:
-			for c in child.get_children():
-				if c is CollisionShape:
-					c.disabled = true
 		
+	currently_equipped_item.disable_collisions()
 	
 	item.transform.origin = Vector3.ZERO	
 	
@@ -140,20 +132,56 @@ func un_equip():
 		var spray = get_node("spray")
 		remove_child(spray)
 
-	
 
-func collect_item(item:Collectable):
-	print("ran collect_item", item)
-	if item == null:
-		return
+func find_in_collected_items(find_item:Collectable)->ItemCollector:
+	for item_collector in collected_items:
+		if item_collector is ItemCollector:			
+			if item_collector.item_custom_class_name == find_item.get_class():	
+				return item_collector
+				
+	return null
+	
+func remove_from_collected_items(find_item:Collectable)->bool:
+	for item_collector in collected_items:
+		if item_collector is ItemCollector:			
+			if item_collector.item_custom_class_name == find_item.get_class():	
+				collected_items.erase(item_collector)
+				return true
+				
+	return false
+
+func collect_item(new_item:Collectable) -> bool:
+	if new_item == null:
+		return false
 		
-	var body = item.get_child(0)
+	var body = new_item.get_child(0)
+	
+	if body is Spatial:
+		body = body.get_child(0)
 		
 	for child in body.get_children():
 		if child is CollisionShape:
 			(child as CollisionShape).disabled = true
+			
+			
+	var was_collected = false	
+	var found_item = find_in_collected_items(new_item)
 	
-	collected_items.append(item)
+	if found_item:
+		if new_item.can_stack:
+			found_item.current_amount +=1
+			was_collected = true
+	else:
+		var new_item_collector:ItemCollector = ItemCollector.new()		
+		new_item_collector.item_name = new_item.get_class()
+		new_item_collector.item_tscn_path = new_item.filename
+		new_item_collector.item_custom_class_name = new_item.get_class()
+		new_item_collector.current_amount = 1		
+		collected_items.append(new_item_collector)
+		was_collected = true
+		
+	return was_collected 
+		
 
 func remove_item(item:Interactable):
 	print("ran remove_item", collected_items)
@@ -242,33 +270,36 @@ func set_current_animation_state(state):
 
 remotesync func equip_item_index(index:int):
 	if collected_items.size() > index:
-		var item = collected_items[index]
+		var item_collector:ItemCollector = collected_items[index]
+		var item = load(item_collector.item_tscn_path).instance()
 		equip_item(item)	
 
 remotesync func equipped_item_primary_action():
-	if currently_equipped_item is Weapon:		
-		currently_equipped_item.primary_action(_weapon_raycast)
+	if currently_equipped_item is Collectable:	
+		currently_equipped_item.set_weapon_ray_cast(_weapon_raycast)
+		currently_equipped_item.primary_action()
 	
 remotesync func equipped_item_secondary_action():
-	if currently_equipped_item is Weapon:
-		currently_equipped_item.secondary_action(_weapon_raycast)
+	if currently_equipped_item is Collectable:
+		currently_equipped_item.set_weapon_ray_cast(_weapon_raycast)
+		currently_equipped_item.secondary_action()
 	
 remotesync func interact():
 	if !_interact_raycast.is_colliding():
 		return
 		
-	var collider = _interact_raycast.get_collider().get_parent()
+	var collider = _interact_raycast.get_collider()
+	
+	if not collider is Interactable:
+		collider = collider.get_parent()
 	
 	if collider:
 		collider.interact(self)
 		if collider is Collectable:
-			collider.get_parent().remove_child(collider)
-			
-			var item = collider as Collectable
-			collect_item(collider)
-			
-			if collider is Weapon:
-				equip_item(item)
+			if collect_item(collider):
+				collider.get_parent().remove_child(collider)	
+				if collider is Weapon:
+					equip_item(collider)
 
 func look_at_weapon_ray_cast():
 	if _weapon_raycast.is_colliding():
@@ -283,11 +314,21 @@ func look_at_weapon_ray_cast():
 
 func sync_camera_pivot_property(property_name:String, new_property_value):
 	if Globals.is_network_peer_connected():
-		rpc_unreliable("_sync_camera_pivot_property", property_name, var2str(new_property_value))
+		rpc("_sync_camera_pivot_property", property_name, var2str(new_property_value))
+		pass
+		
+func sync_equip_holder_property(property_name:String, new_property_value):
+	if Globals.is_network_peer_connected():
+		rpc("_sync_equip_holder_property", property_name, var2str(new_property_value))
+		pass
 
 func sync_self_property(property_name:String, new_property_value):
 	if Globals.is_network_peer_connected():
-		rpc_unreliable("_sync_self_property", property_name, var2str(new_property_value))
+		rpc("_sync_self_property", property_name, var2str(new_property_value))
+		pass
+		
+remote func _sync_equip_holder_property(property_name:String, new_property_value:String):
+	_equip_holder.set(property_name, str2var(new_property_value))
 
 remote func _sync_camera_pivot_property(property_name:String, new_property_value:String):
 	_camera_pivot.set(property_name, str2var(new_property_value))
@@ -315,12 +356,14 @@ func _physics_process(delta):
 			
 		if Input.is_action_just_pressed("slot1"):
 			if Globals.is_network_peer_connected():
-				rpc_unreliable("equip_item_index", 0)
+				rpc("equip_item_index", 0)
+				pass
 			else:
 				equip_item_index(0)
 		if Input.is_action_just_pressed("slot2"):
 			if Globals.is_network_peer_connected():
-				rpc_unreliable("equip_item_index", 1)
+				rpc("equip_item_index", 1)
+				pass
 			else:
 				equip_item_index(1)
 
@@ -344,32 +387,25 @@ func _physics_process(delta):
 	
 	velocity = move_and_slide(new_velocity, Vector3.UP)	
 	
-	sync_self_property("global_transform", self.global_transform)
-	
-	var old_camera_pivot_rotation = var2str(_camera_pivot.rotation)
-	var old_self_rotation = var2str(self.rotation)
 	if mouse_delta:
 		self.rotate_y(deg2rad(-mouse_delta.x * mouse_sencitivity * delta))	
 		_camera_pivot.rotate_x(deg2rad(-mouse_delta.y * mouse_sencitivity * delta))	
 
 	_camera_pivot.rotation.x = clamp(_camera_pivot.rotation.x, -1.5, 1.5);
-	
-	var new_camera_pivot_rotation = var2str(_camera_pivot.rotation)
-	var new_self_rotation = var2str(self.rotation)	
-	
-	sync_camera_pivot_property("global_transform", _camera_pivot.global_transform)	
 
 	mouse_delta = Vector3.ZERO
 	
 	if Globals.is_mouse_captured():
-		if currently_equipped_item is Weapon and Input.is_action_pressed("primary_action"):
+		if currently_equipped_item is Collectable and Input.is_action_pressed("primary_action"):
 			if Globals.is_network_peer_connected():
-				rpc_unreliable("equipped_item_primary_action")
+				rpc("equipped_item_primary_action")
+				pass
 			else:
 				equipped_item_primary_action()
-		elif currently_equipped_item is Weapon and Input.is_action_pressed("secondary_action"):			
+		elif currently_equipped_item is Collectable and Input.is_action_just_pressed("secondary_action"):			
 			if Globals.is_network_peer_connected():
-				rpc_unreliable("equipped_item_secondary_action")
+				rpc("equipped_item_secondary_action")
+				pass
 			else:
 				equipped_item_secondary_action()
 
@@ -383,10 +419,11 @@ func _physics_process(delta):
 		var collider = _interact_raycast.get_collider()
 		var collider_parent = collider.get_parent()
 
-		if collider_parent is Interactable:			
+		if collider is Interactable or collider_parent is Interactable:					
 			if Input.is_action_pressed("interact"):
 				if Globals.is_network_peer_connected():
-					rpc_unreliable("interact")
+					rpc("interact")
+					pass
 				else:
 					interact()
 
@@ -395,3 +432,10 @@ func _physics_process(delta):
 			energy,
 			currently_equipped_item, 
 			collected_items)
+			
+	sync_self_property("global_transform", self.global_transform)
+	sync_camera_pivot_property("global_transform", _camera_pivot.global_transform)	
+	sync_equip_holder_property("global_transform", _equip_holder.global_transform)
+
+	if self.global_transform.origin.y < -50:
+		queue_free()

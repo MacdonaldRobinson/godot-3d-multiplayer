@@ -9,7 +9,9 @@ func _ready():
 
 
 func create_server(port, max_clients):
-	var peer = NetworkedMultiplayerENet.new()
+	var peer = NetworkedMultiplayerENet.new()	
+	peer.transfer_mode = NetworkedMultiplayerPeer.TRANSFER_MODE_RELIABLE
+	
 	var error = peer.create_server(int(port), int(max_clients))
 	
 	if not error:
@@ -18,6 +20,7 @@ func create_server(port, max_clients):
 
 func join_server(address, port):
 	var peer = NetworkedMultiplayerENet.new()
+	peer.transfer_mode = NetworkedMultiplayerPeer.TRANSFER_MODE_RELIABLE
 	
 	var error = peer.create_client(String(address), int(port))	
 	
@@ -39,8 +42,9 @@ func connection_failed():
 	pass
 	
 func network_peer_connected(id):	
-	print("network_peer_connected: ", id)
-	pass
+	print("network_peer_connected: ", id)		
+	if Globals.is_network_server():
+		GameState.sync_world_data_with_peer(id)		
 	
 func network_peer_disconnected(id):
 	print("network_peer_disconnected: ", id)

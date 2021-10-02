@@ -1,5 +1,6 @@
 tool
 extends Sprite3D
+func get_class(): return "Sprite3D"
 
 class_name Progress3D
 

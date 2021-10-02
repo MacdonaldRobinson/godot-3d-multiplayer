@@ -1,11 +1,13 @@
 extends VBoxContainer
 class_name ChatPanel
+func get_class(): return "ChatPanel"
 
 onready var send_message:LineEdit = $HBoxContainer/SendMessage
 onready var messages:RichTextLabel = $PanelContainer/Messages
 
 func _process(delta):
-	print_messages()
+	if Globals.is_network_peer_connected():
+		print_messages()
 
 func print_messages():	
 	messages.bbcode_text = ""

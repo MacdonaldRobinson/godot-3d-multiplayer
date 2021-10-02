@@ -10,6 +10,9 @@ func _ready():
 	timer.start(2)
 	
 func get_players_node() -> Node:
+	if !get_tree()  or !get_tree().current_scene:
+		return null
+		
 	var current_scene = get_tree().current_scene
 	
 	if current_scene != null and current_scene.has_node("Players"):
@@ -124,6 +127,13 @@ func get_peer_id()  -> int:
 		return 1
 	else:
 		return get_tree().get_network_unique_id()
+		
+func get_current_scene() -> Node:
+	if get_tree() and get_tree().current_scene:	
+		return get_tree().current_scene
+		
+	return null
+	
 
 func throw_exception(message:String):
 	push_error(message)
