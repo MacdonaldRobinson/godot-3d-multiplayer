@@ -4,22 +4,32 @@
 [ext_resource path="res://icon.png" type="Texture" id=2]
 
 [node name="Slot" type="VBoxContainer"]
-margin_right = 72.0
+margin_right = 81.0
 margin_bottom = 82.0
+size_flags_horizontal = 3
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="."]
-margin_right = 72.0
+[node name="TextureButton" type="TextureButton" parent="."]
+margin_right = 81.0
 margin_bottom = 64.0
-texture = ExtResource( 2 )
-stretch_mode = 4
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = ExtResource( 2 )
+expand = true
+stretch_mode = 3
 
 [node name="ItemName" type="Label" parent="."]
 margin_top = 68.0
-margin_right = 72.0
+margin_right = 81.0
 margin_bottom = 82.0
 text = "item Name"
 align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="TextureButton" to="." method="_on_TextureButton_pressed"]

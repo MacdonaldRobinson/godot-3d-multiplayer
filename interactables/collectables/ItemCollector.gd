@@ -8,3 +8,4 @@ var item_tscn_path:String
 var item_custom_class_name:String
 var current_amount:int = -1
 var max_capacity:int = -1
+var call_back_method:FuncRef

@@ -1,5 +1,5 @@
 extends Node
- 
+
 var _world_data:WorldData = WorldData.new()
 
 func add_player_to_world(peer_id):
@@ -7,7 +7,7 @@ func add_player_to_world(peer_id):
 		return
 			
 	var peer_data:PeerData = get_peer_data(peer_id)
-	var player:Player = null
+	var player = null
 	
 	if get_players_node().has_node(String(peer_id)):
 		player = get_players_node().get_node(String(peer_id))
@@ -21,13 +21,13 @@ func add_player_to_world(peer_id):
 	pass
 
 func get_world_data() -> WorldData:
-	return GameState._world_data
+	return _world_data
 	
 func get_chat_messages()->Array:
-	if !GameState.get_world_data():
+	if !get_world_data():
 		return []
 		
-	return GameState.get_world_data().messages
+	return get_world_data().messages
 	
 func get_player_node(id) -> Node:
 	if get_players_node():
@@ -38,21 +38,21 @@ func get_players_node() -> Node:
 	return Globals.get_players_node()
 
 func get_peers() -> Dictionary:
-	if !GameState.get_world_data():
+	if !get_world_data():
 		return {}
 		
-	return GameState.get_world_data().peers
+	return get_world_data().peers
 		
 func get_peer_data(peer_id:int) -> PeerData:
-	if GameState.get_world_data().peers.has(peer_id):
-		var peer_data = GameState.get_world_data().peers[peer_id]
+	if get_world_data().peers.has(peer_id):
+		var peer_data = get_world_data().peers[peer_id]
 		return peer_data
 	return PeerData.new()
 
 func start_game():
 	if Globals.is_network_server():
 		rpc("_start_game")
-		GameState.get_world_data().has_game_started = true
+		get_world_data().has_game_started = true
 	
 func add_chat_message(message:Message):
 	if Globals.is_network_peer_connected():
@@ -62,7 +62,7 @@ func add_chat_message(message:Message):
 func set_peer_data(peer_id:int, peer_data:PeerData):
 	if Globals.is_network_peer_connected():
 		
-		if GameState.get_peers().has(peer_id) and var2str(GameState.get_peer_data(peer_id)) == var2str(peer_data):
+		if get_peers().has(peer_id) and var2str(get_peer_data(peer_id)) == var2str(peer_data):
 			return
 
 		rpc("_set_peer_data", peer_id, var2str(peer_data))
@@ -84,11 +84,11 @@ func set_world_data_for_peer(peer_id:int, world_data:WorldData):
 	
 func sync_world_data_with_peers():
 	if Globals.is_network_server():
-		GameState.set_world_data(GameState.get_world_data())	
+		set_world_data(get_world_data())	
 	
 func sync_world_data_with_peer(peer_id:int):
 	if Globals.is_network_server():
-		GameState.set_world_data_for_peer(peer_id, GameState.get_world_data())	
+		set_world_data_for_peer(peer_id, get_world_data())	
 
 func call_peer_method(peer_id:int, peer_method_name:String, callback_method_name:String = ""):
 
@@ -108,24 +108,24 @@ remotesync func _start_game():
 	get_tree().change_scene_to(scene)
 	yield(get_tree().create_timer(1), "timeout")
 	
-	for peer_id in GameState.get_world_data().peers:
+	for peer_id in get_world_data().peers:
 		add_player_to_world(peer_id)
 		
 remotesync func _set_world_data(world_data:String):
-	GameState._world_data = str2var(world_data)
+	_world_data = str2var(world_data)
 	
 remotesync func _add_chat_message(message:String):
 	get_chat_messages().append(str2var(message))
 
 remotesync func _set_peer_data(peer_id:int, peer_data:String):
 	var deserialized:PeerData = str2var(peer_data)	
-	GameState.get_world_data().peers[peer_id] = deserialized
+	get_world_data().peers[peer_id] = deserialized
 	
 	if Globals.is_network_server():
-		GameState.sync_world_data_with_peers()
+		sync_world_data_with_peers()
 	
 remotesync func _remove_peer(id):
-	GameState.get_world_data().peers.erase(id)
+	get_world_data().peers.erase(id)
 	var player_node = get_player_node(id)
 	
 	if player_node:

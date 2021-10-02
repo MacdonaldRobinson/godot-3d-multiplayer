@@ -2,6 +2,7 @@ extends VBoxContainer
 class_name ChatPanel
 func get_class(): return "ChatPanel"
 
+onready var send_button:Button = $HBoxContainer/SendButton
 onready var send_message:LineEdit = $HBoxContainer/SendMessage
 onready var messages:RichTextLabel = $PanelContainer/Messages
 
@@ -19,10 +20,12 @@ func print_messages():
 
 	
 func _on_SendMessage_text_entered(new_text):
+	send_button.emit_signal("pressed")
+
+func _on_SendButton_pressed():
 	var message:Message = Message.new()
 	message.from_peer_name = Globals.peer_data.peer_name
-	message.text = new_text
+	message.text = send_message.text
 	
 	GameState.add_chat_message(message)
-	send_message.text = ""
-	
+	send_message.text = ""	

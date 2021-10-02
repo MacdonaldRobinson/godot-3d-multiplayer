@@ -13,14 +13,11 @@ func update_data(player_name:String,
 			collected_items:Array):
 	player_stats_panel.update_data(player_name, health, energy)
 	currently_equipped_item_stats_panel.update_data(currently_equipped_item)
-	collected_items_panel.update_data(collected_items)	
+	collected_items_panel.update_data(collected_items)
 
 func _input(event):
 	if Globals.is_mouse_captured():
-		chat_panel.modulate.a = 0.5	
+		chat_panel.modulate.a = 0.5
 		chat_panel.send_message.release_focus()
 	else:
 		chat_panel.modulate.a = 1
-		
-		if Globals.is_network_master():
-			chat_panel.send_message.grab_focus()

@@ -141,6 +141,16 @@ func find_in_collected_items(find_item:Collectable)->ItemCollector:
 				
 	return null
 	
+func find_index_in_collected_items(find_item:Collectable)->int:
+	var index = -1
+	for item_collector in collected_items:
+		if item_collector is ItemCollector:		
+			index+=1
+			if item_collector.item_custom_class_name == find_item.get_class():	
+				return index
+				
+	return -1
+	
 func remove_from_collected_items(find_item:Collectable)->bool:
 	for item_collector in collected_items:
 		if item_collector is ItemCollector:			
@@ -176,7 +186,9 @@ func collect_item(new_item:Collectable) -> bool:
 		new_item_collector.item_name = new_item.get_class()
 		new_item_collector.item_tscn_path = new_item.filename
 		new_item_collector.item_custom_class_name = new_item.get_class()
-		new_item_collector.current_amount = 1		
+		new_item_collector.current_amount = 1
+		new_item_collector.call_back_method = funcref(self, "equip_item_index")		
+		
 		collected_items.append(new_item_collector)
 		was_collected = true
 		
@@ -293,9 +305,12 @@ remotesync func interact():
 	if not collider is Interactable:
 		collider = collider.get_parent()
 	
-	if collider:
-		collider.interact(self)
+	if collider is Interactable:
+		collider.set_interacting_body(self)
+		collider.set_interacting_ray_cast(_interact_raycast)
+		collider.interact()
 		if collider is Collectable:
+			collider.set_weapon_ray_cast(_weapon_raycast)
 			if collect_item(collider):
 				collider.get_parent().remove_child(collider)	
 				if collider is Weapon:
@@ -426,6 +441,8 @@ func _physics_process(delta):
 					pass
 				else:
 					interact()
+
+	funcref(self, "foo")
 
 	_screen_overlay.update_data(player_name, 
 			health, 
