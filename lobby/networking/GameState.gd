@@ -16,7 +16,7 @@ func add_player_to_world(peer_id):
 	player.name = String(peer_id)			
 	player.disable_cameras()
 	
-	player.set_network_master(peer_id)
+	player.set_network_master(peer_id, true)
 	get_players_node().add_child(player)
 	pass
 

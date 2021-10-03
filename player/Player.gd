@@ -109,6 +109,9 @@ func equip_item(item:Interactable):
 	if item == null or item == currently_equipped_item:
 		return
 		
+	if currently_equipped_item and currently_equipped_item.get_class() == item.get_class():
+		return
+		
 	un_equip()
 		
 	currently_equipped_item = item
@@ -235,45 +238,6 @@ func play_animation(animation_path:String, animation_value, set_in_peer_data:boo
 	
 func set_current_animation_state(state):
 	play_animation("parameters/state/current", state, false)
-		
-#func set_from_peer_data(peer_data:PeerData):
-#	_set_player_name(peer_data.peer_name)
-#
-#	if is_network_master():
-#		return
-#
-#	_set_health(peer_data.health)
-#	_set_energy(peer_data.energy)
-#
-#	global_transform = peer_data.global_transform	
-#	_camera_pivot.rotation = peer_data.camera_pivot_rotation
-#	_equip_holder.global_transform = peer_data.equip_holder_transform
-#
-#	if peer_data.remote_method_call:
-#		call(peer_data.remote_method_call)
-#
-#	if !peer_data.currently_equipped_item_tscn.empty():			
-#		var path_to_tscn = peer_data.currently_equipped_item_tscn
-#
-#		if currently_equipped_item == null:
-#			var instance:Node = load(path_to_tscn).instance()
-#			equip_item(instance)
-#
-#		else:
-#			if currently_equipped_item.filename != path_to_tscn:
-#				var instance = load(path_to_tscn).instance()
-#				equip_item(instance)		
-#
-#	else:
-#		if currently_equipped_item != null:
-#			un_equip()
-#
-##	for animation_key in peer_data.animations:
-##		play_animation(animation_key, peer_data.animations[animation_key])
-##
-#	if currently_equipped_item and "spray" in currently_equipped_item:
-#		currently_equipped_item.spray.global_transform = peer_data.mesh_spray_global_transform		
-
 
 remotesync func equip_item_index(index:int):
 	if collected_items.size() > index:
@@ -290,7 +254,7 @@ remotesync func equipped_item_secondary_action():
 	if currently_equipped_item is Collectable:
 		currently_equipped_item.set_weapon_ray_cast(_weapon_raycast)
 		currently_equipped_item.secondary_action()
-	
+
 remotesync func interact():
 	if !_interact_raycast.is_colliding():
 		return
@@ -309,7 +273,7 @@ remotesync func interact():
 			if collect_item(collider):
 				collider.get_parent().remove_child(collider)	
 				if collider is Weapon:
-					equip_item(collider)
+					equip_item(collider)					
 
 func look_at_weapon_ray_cast():
 	if _weapon_raycast.is_colliding():
@@ -337,7 +301,7 @@ func sync_self_property(property_name:String, new_property_value):
 		rpc("_sync_self_property", property_name, var2str(new_property_value))
 		pass
 		
-remote func _sync_equip_holder_property(property_name:String, new_property_value:String):
+remote func _sync_equip_holder_property(property_name:String, new_property_value:String):	
 	_equip_holder.set(property_name, str2var(new_property_value))
 
 remote func _sync_camera_pivot_property(property_name:String, new_property_value:String):
@@ -347,7 +311,7 @@ remote func _sync_self_property(property_name:String, new_property_value:String)
 	set(property_name, str2var(new_property_value))
 
 func _physics_process(delta):	
-	if !is_network_master():
+	if !is_network_master():		
 		return	
 		
 	var direction = Vector3()
@@ -367,13 +331,12 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("slot1"):
 			if Globals.is_network_peer_connected():
 				rpc("equip_item_index", 0)
-				pass
 			else:
 				equip_item_index(0)
+				
 		if Input.is_action_just_pressed("slot2"):
 			if Globals.is_network_peer_connected():
 				rpc("equip_item_index", 1)
-				pass
 			else:
 				equip_item_index(1)
 
@@ -409,13 +372,11 @@ func _physics_process(delta):
 		if currently_equipped_item is Collectable and Input.is_action_just_pressed("primary_action"):
 			if Globals.is_network_peer_connected():
 				rpc("equipped_item_primary_action")
-				pass
 			else:
 				equipped_item_primary_action()
 		elif currently_equipped_item is Collectable and Input.is_action_just_pressed("secondary_action"):			
 			if Globals.is_network_peer_connected():
 				rpc("equipped_item_secondary_action")
-				pass
 			else:
 				equipped_item_secondary_action()
 
@@ -430,10 +391,9 @@ func _physics_process(delta):
 		var collider_parent = collider.get_parent()
 
 		if collider is Interactable or collider_parent is Interactable:					
-			if Input.is_action_pressed("interact"):
+			if Input.is_action_just_pressed("interact"):
 				if Globals.is_network_peer_connected():
 					rpc("interact")
-					pass
 				else:
 					interact()
 

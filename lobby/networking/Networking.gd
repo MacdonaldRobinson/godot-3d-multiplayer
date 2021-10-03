@@ -42,9 +42,7 @@ func connection_failed():
 	pass
 	
 func network_peer_connected(id):	
-	print("network_peer_connected: ", id)		
-	if Globals.is_network_server():
-		GameState.sync_world_data_with_peer(id)		
+	print("network_peer_connected: ", id)
 	
 func network_peer_disconnected(id):
 	print("network_peer_disconnected: ", id)

@@ -101,8 +101,12 @@ func release_mouse():
 func raise_event(event):
 	Input.parse_input_event(event)
 	
+	
+func is_rpc_sender_self():
+	return get_tree().get_rpc_sender_id() == get_tree().get_network_unique_id()
+	
 func is_network_peer_connected()  -> bool:
-	if get_tree().network_peer == null:
+	if get_tree() == null or get_tree().network_peer == null:
 		return false
 			
 	if get_tree().network_peer.get_connection_status() == NetworkedMultiplayerENet.CONNECTION_CONNECTED:

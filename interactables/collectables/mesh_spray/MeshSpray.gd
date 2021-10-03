@@ -30,8 +30,7 @@ func primary_action():
 			var normal = weapon_ray_cast.get_collision_normal()
 			
 			if Globals.is_network_peer_connected():
-				rpc("_spray_mesh", var2str(spray.global_transform))
-				pass
+				rpc("_spray_mesh", var2str(spray.global_transform))				
 			else:
 				_spray_mesh(var2str(spray.global_transform))
 			
@@ -60,7 +59,7 @@ remotesync func _spray_mesh(global_transform_string:String):
 	get_tree().current_scene.add_child(new_item, true)
 	new_item.global_transform = str2var(global_transform_string)
 
-remotesync func _update_spray_position(spray_global_transform:String):
+remote func _update_spray_position(spray_global_transform:String):
 	spray.global_transform = str2var(spray_global_transform)
 	
 
