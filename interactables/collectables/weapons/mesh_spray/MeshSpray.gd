@@ -8,7 +8,7 @@ var spray:Sprayable = item.instance()
 func _ready():
 	self.item_name = "MeshSpray"
 	spray.name = "spray"
-	can_stack = false
+	can_stack = false	
 	
 func setup_spray():
 	if spray.mesh_instance:
@@ -68,9 +68,10 @@ func _process(delta):
 	var parent = get_parent()	
 	var owner = parent.get_owner()
 	if owner is Player:
-		setup_spray()
 		var weapon_ray_cast:RayCast = owner._weapon_raycast
 		weapon_ray_cast.add_exception(owner)
+		weapon_ray_cast.add_exception(spray)
+		
 		if weapon_ray_cast.is_colliding():
 			var collider = weapon_ray_cast.get_collider()
 			if not collider is Player:
@@ -79,6 +80,7 @@ func _process(delta):
 
 				if !owner.has_node(spray.name):
 					owner.add_child(spray, true)
+					setup_spray()
 				
 				if Globals.is_network_peer_connected():
 					if owner.name != String(Globals.get_peer_id()):
@@ -99,7 +101,7 @@ func _process(delta):
 					Globals.peer_data.mesh_spray_global_transform = spray.global_transform
 					
 					if Globals.is_network_peer_connected():
-						rpc_unreliable("_update_spray_position", var2str(spray.global_transform))
+						rpc("_update_spray_position", var2str(spray.global_transform))
 						pass
 									
 		else:
