@@ -31,7 +31,9 @@ material = SubResource( 6 )
 radius = 0.25
 mid_height = 0.25
 
-[node name="Player" type="KinematicBody"]
+[node name="Player" type="KinematicBody" groups=[
+"player",
+]]
 script = ExtResource( 1 )
 
 [node name="Name" parent="." instance=ExtResource( 3 )]
@@ -45,7 +47,7 @@ texture = SubResource( 9 )
 [node name="ScreenOverlays" parent="." instance=ExtResource( 2 )]
 
 [node name="CameraPivot" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.88158, -0.649846 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.67238, -0.866926 )
 
 [node name="MainCamera" type="Camera" parent="CameraPivot"]
 far = 8192.0

@@ -53,11 +53,17 @@ func throw_self(force:int = 5):
 			var self_transform = self.global_transform
 			
 			item.get_parent().remove_child(item)
-			Globals.get_current_scene().add_child(item, true)
+			Globals.get_current_scene().add_child(item, true)						
 			
 			item.global_transform = self_transform
-			item.enable_collisions()
-			item.apply_central_impulse(-self.global_transform.basis.z * force)
+			
+			var collision_exceptions:Array = []
+#			collision_exceptions.append(get_parent())
+#			collision_exceptions.append(owner)
+			
+			item.enable_collisions(collision_exceptions)
+			
+			item.apply_central_impulse(-owner._equip_holder.global_transform.basis.z * force)
 			
 			self.decrease_item_collector_amount(primary_item_collector)
 			

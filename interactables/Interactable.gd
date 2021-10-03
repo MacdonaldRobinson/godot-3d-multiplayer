@@ -1,4 +1,4 @@
-extends Node
+extends PhysicsBody
 class_name Interactable
 func get_class(): return "Interactable"
 
@@ -21,15 +21,24 @@ func disable_collisions():
 				if c is CollisionShape:
 					c.disabled = true	
 
-func enable_collisions():
-	for child in self.get_children():
+func enable_collisions(exception_objects:Array = []):
+	var item = self
+	
+	if item is PhysicsBody:
+		for obj in exception_objects:
+			item.add_collision_exception_with(obj)
+	
+	for child in item.get_children():
+		if child is PhysicsBody:
+			for obj in exception_objects:
+				child.add_collision_exception_with(obj)
+				
 		if child is CollisionShape:
-			child.disabled = false
+			child.disabled = false			
 		else:
 			for c in child.get_children():
 				if c is CollisionShape:
 					c.disabled = false	
-				
 
 func interact():
 	print("Called base Interactable")

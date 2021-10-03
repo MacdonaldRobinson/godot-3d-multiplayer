@@ -20,6 +20,6 @@ func _ready():
 	secondary_ammo_collector.max_capacity = -1
 	
 	self.item_name = "Launcher"
-	self.set_ammo_spawn_position(get_node("Body/AmmoSpawnPosition"))
+	self.set_ammo_spawn_position($AmmoSpawnPosition)
 	self.set_primary_item_collector(primary_ammo_collector)
 	#.set_secondary_ammo_collector(secondary_ammo_collector)

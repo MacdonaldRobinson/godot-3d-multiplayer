@@ -64,7 +64,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://interactables/health_refill_station/HealthRefillStation.gd"
 }, {
-"base": "Node",
+"base": "PhysicsBody",
 "class": "Interactable",
 "language": "GDScript",
 "path": "res://interactables/Interactable.gd"

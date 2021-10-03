@@ -164,12 +164,7 @@ func collect_item(new_item:Collectable) -> bool:
 	if new_item == null:
 		return false
 		
-	var body = new_item.get_child(0)
-	
-	if body is Spatial:
-		body = body.get_child(0)
-		
-	for child in body.get_children():
+	for child in new_item.get_children():
 		if child is CollisionShape:
 			(child as CollisionShape).disabled = true
 			
@@ -411,7 +406,7 @@ func _physics_process(delta):
 	mouse_delta = Vector3.ZERO
 	
 	if Globals.is_mouse_captured():
-		if currently_equipped_item is Collectable and Input.is_action_pressed("primary_action"):
+		if currently_equipped_item is Collectable and Input.is_action_just_pressed("primary_action"):
 			if Globals.is_network_peer_connected():
 				rpc("equipped_item_primary_action")
 				pass
@@ -442,8 +437,6 @@ func _physics_process(delta):
 				else:
 					interact()
 
-	funcref(self, "foo")
-
 	_screen_overlay.update_data(player_name, 
 			health, 
 			energy,
@@ -455,4 +448,5 @@ func _physics_process(delta):
 	sync_equip_holder_property("global_transform", _equip_holder.global_transform)
 
 	if self.global_transform.origin.y < -50:
-		queue_free()
+		print("died")
+		#queue_free()
