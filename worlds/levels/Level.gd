@@ -49,8 +49,9 @@ func _process(event):
 		for node in nodes:
 			if node is Interactable and node.is_inside_tree():
 				if "global_transform" in node:
-					var node_path = node.get_path()
+					var node_path:String = node.get_path()
 					var global_transform_string = var2str(node.global_transform)					
+						
 					if !previous.has(node_path) or previous[node_path] != global_transform_string:						
 						rpc("update_node", node_path, global_transform_string)
 						previous[node_path] = global_transform_string

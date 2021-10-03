@@ -53,6 +53,8 @@ func throw_self(force:int = 5):
 			var self_transform = self.global_transform
 			
 			item.get_parent().remove_child(item)
+			
+			item = item.duplicate()
 			Globals.get_current_scene().add_child(item, true)						
 			
 			item.global_transform = self_transform
@@ -65,8 +67,10 @@ func throw_self(force:int = 5):
 			
 			item.apply_central_impulse(-owner._equip_holder.global_transform.basis.z * force)
 			
+			owner.currently_equipped_item = null
+			
 			self.decrease_item_collector_amount(primary_item_collector)
 			
-			if !can_use_item_collector(found):
+			if !can_use_item_collector(found):				
 				owner.remove_from_collected_items(self)	
 	

@@ -28,9 +28,8 @@ remote func _throw_self():
 	
 
 func primary_action():
-	print("ran granade primary action")
-	#self.throw_self(1)
-	#rpc("_throw_self")
+	print("ran granade primary action")	
+	self.throw_self(1)
 	timer.start()
 	
 func secondary_action():

@@ -113,7 +113,7 @@ func equip_item(item:Interactable):
 		return
 		
 	un_equip()
-		
+	
 	currently_equipped_item = item
 		
 	currently_equipped_item.disable_collisions()
