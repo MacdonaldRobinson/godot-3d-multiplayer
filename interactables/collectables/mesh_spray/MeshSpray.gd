@@ -1,8 +1,8 @@
-extends Weapon
+extends Collectable
 class_name MeshSpray
 func get_class(): return "MeshSpray"
 
-var item = preload("res://interactables/collectables/weapons/mesh_spray/structures/sprayable/Wall.tscn")
+var item = preload("res://interactables/collectables/mesh_spray/structures/sprayable/Wall.tscn")
 var spray:Sprayable = item.instance()
 
 func _ready():

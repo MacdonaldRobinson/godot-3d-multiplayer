@@ -89,10 +89,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://worlds/levels/Level.gd"
 }, {
-"base": "Weapon",
+"base": "Collectable",
 "class": "MeshSpray",
 "language": "GDScript",
-"path": "res://interactables/collectables/weapons/mesh_spray/MeshSpray.gd"
+"path": "res://interactables/collectables/mesh_spray/MeshSpray.gd"
 }, {
 "base": "Resource",
 "class": "Message",
@@ -142,7 +142,7 @@ _global_script_classes=[ {
 "base": "StaticBody",
 "class": "Sprayable",
 "language": "GDScript",
-"path": "res://interactables/collectables/weapons/mesh_spray/structures/sprayable/Wall.gd"
+"path": "res://interactables/collectables/mesh_spray/structures/sprayable/Wall.gd"
 }, {
 "base": "CSGBox",
 "class": "Terrain",
