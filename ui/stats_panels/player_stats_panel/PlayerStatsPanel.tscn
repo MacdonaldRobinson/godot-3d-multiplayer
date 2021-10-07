@@ -38,7 +38,7 @@ __meta__ = {
 
 [node name="Stats" type="VBoxContainer" parent="."]
 margin_left = 42.0
-margin_right = 1024.0
+margin_right = 600.0
 margin_bottom = 32.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -48,11 +48,11 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Stats"]
-margin_right = 982.0
+margin_right = 558.0
 margin_bottom = 14.0
 
 [node name="Health" type="ProgressBar" parent="Stats/HBoxContainer"]
-margin_right = 489.0
+margin_right = 277.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -62,8 +62,8 @@ __meta__ = {
 }
 
 [node name="TextureRect" type="TextureRect" parent="Stats/HBoxContainer"]
-margin_left = 493.0
-margin_right = 982.0
+margin_left = 281.0
+margin_right = 558.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -73,11 +73,11 @@ stretch_mode = 5
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Stats"]
 margin_top = 18.0
-margin_right = 982.0
+margin_right = 558.0
 margin_bottom = 32.0
 
 [node name="Energy" type="ProgressBar" parent="Stats/HBoxContainer2"]
-margin_right = 489.0
+margin_right = 277.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -87,8 +87,8 @@ __meta__ = {
 }
 
 [node name="TextureRect" type="TextureRect" parent="Stats/HBoxContainer2"]
-margin_left = 493.0
-margin_right = 982.0
+margin_left = 281.0
+margin_right = 558.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 size_flags_vertical = 3

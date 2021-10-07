@@ -6,6 +6,7 @@ var can_stack = true
 var primary_item_collector:ItemCollector
 var secondary_item_collector:ItemCollector
 var weapon_ray_cast:RayCast
+var was_thrown:bool = false
 
 func set_weapon_ray_cast(weapon_ray_cast:RayCast):
 	self.weapon_ray_cast = weapon_ray_cast
@@ -41,15 +42,14 @@ func primary_action():
 func secondary_action():
 	print("secondary_action primary_action")
 	pass
-
-func throw_self(force:int = 5):
 	
+func throw_self(force:int = 5):	
 	if get_parent() and get_parent().owner:
 		var owner = get_parent().owner
 		var found = owner.find_in_collected_items(self)
 		if found:
 			self.set_primary_item_collector(found)			
-			var item = self
+			var item:Collectable = self
 			var self_transform = self.global_transform
 			
 			item.get_parent().remove_child(item)
@@ -58,10 +58,12 @@ func throw_self(force:int = 5):
 			Globals.get_current_scene().add_child(item, true)						
 			
 			item.global_transform = self_transform
+			item.was_thrown = true
 			
 			var collision_exceptions:Array = []
 #			collision_exceptions.append(get_parent())
 #			collision_exceptions.append(owner)
+
 			
 			item.enable_collisions(collision_exceptions)
 			
@@ -72,5 +74,4 @@ func throw_self(force:int = 5):
 			self.decrease_item_collector_amount(primary_item_collector)
 			
 			if !can_use_item_collector(found):				
-				owner.remove_from_collected_items(self)	
-	
+				owner.remove_from_collected_items(self)

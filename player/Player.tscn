@@ -31,9 +31,7 @@ material = SubResource( 6 )
 radius = 0.25
 mid_height = 0.25
 
-[node name="Player" type="KinematicBody" groups=[
-"player",
-]]
+[node name="Player" type="KinematicBody"]
 script = ExtResource( 1 )
 
 [node name="Name" parent="." instance=ExtResource( 3 )]

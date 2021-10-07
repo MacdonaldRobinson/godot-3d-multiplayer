@@ -118,13 +118,7 @@ func is_network_server()  -> bool:
 	if !is_network_peer_connected():
 		return true
 	else:
-		return get_tree().is_network_server()
-	
-func is_network_master() -> bool:
-	if !is_network_peer_connected():
-		return true
-	else:
-		return .is_network_master()
+		return get_tree().is_network_server()	
 	
 func get_peer_id()  -> int:
 	if !is_network_peer_connected():

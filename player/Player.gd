@@ -369,12 +369,12 @@ func _physics_process(delta):
 	mouse_delta = Vector3.ZERO
 	
 	if Globals.is_mouse_captured():
-		if currently_equipped_item is Collectable and Input.is_action_just_pressed("primary_action"):
+		if currently_equipped_item is Collectable and Input.is_action_pressed("primary_action"):
 			if Globals.is_network_peer_connected():
 				rpc("equipped_item_primary_action")
 			else:
 				equipped_item_primary_action()
-		elif currently_equipped_item is Collectable and Input.is_action_just_pressed("secondary_action"):			
+		elif currently_equipped_item is Collectable and Input.is_action_pressed("secondary_action"):			
 			if Globals.is_network_peer_connected():
 				rpc("equipped_item_secondary_action")
 			else:
@@ -391,7 +391,7 @@ func _physics_process(delta):
 		var collider_parent = collider.get_parent()
 
 		if collider is Interactable or collider_parent is Interactable:					
-			if Input.is_action_just_pressed("interact"):
+			if Input.is_action_pressed("interact"):
 				if Globals.is_network_peer_connected():
 					rpc("interact")
 				else:
