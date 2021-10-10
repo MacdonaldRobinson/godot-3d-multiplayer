@@ -6,7 +6,10 @@ var can_stack = true
 var primary_item_collector:ItemCollector
 var secondary_item_collector:ItemCollector
 var weapon_ray_cast:RayCast
-var was_thrown:bool = false
+var initial_collection_amount:int = 1
+var is_sticky_on_throw:bool = false
+
+signal was_throw_impact
 
 func set_weapon_ray_cast(weapon_ray_cast:RayCast):
 	self.weapon_ray_cast = weapon_ray_cast
@@ -40,6 +43,10 @@ func primary_action():
 	
 func secondary_action():	
 	decrease_item_collector_amount(secondary_item_collector)
+
+func _body_entered(body:Node):
+	if body != self.get_parent().owner:
+		emit_signal("was_throw_impact", body)
 	
 func throw_self(force:int = 50):	
 	if get_parent() and get_parent().owner:
@@ -52,11 +59,13 @@ func throw_self(force:int = 50):
 			
 			item.get_parent().remove_child(item)
 			
-			item = item.duplicate()
 			Globals.get_current_scene().add_child(item, true)						
 			
 			item.global_transform = self_transform
-			item.was_thrown = true
+			
+			if !item.is_connected("body_entered", item, "_body_entered"):
+				item.connect("body_entered", item, "_body_entered")
+			#item.was_thrown = true
 			
 			var collision_exceptions:Array = []
 #			collision_exceptions.append(get_parent())

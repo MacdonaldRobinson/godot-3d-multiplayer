@@ -2,37 +2,50 @@ extends Weapon
 class_name ThrowableWeapon
 func get_class(): return "ThrowableWeapon"
 
-var _throwable_weapon_config:ThrowableWeaponConfig = ThrowableWeaponConfig.new()
+var _config:ThrowableWeaponConfig = ThrowableWeaponConfig.new()
 
 func _ready():
-	item_name = "Throwable Weapon"	
+	item_name = "Throwable Weapon"		
 
-func setup(throwable_weapon_config:ThrowableWeaponConfig):
-	_throwable_weapon_config = throwable_weapon_config
-	_throwable_weapon_config.area_of_effect.connect("body_entered", self, "_on_area_of_effect_body_entered")
+func setup(config:ThrowableWeaponConfig):
+	_config = config
 	
-func explode():
+	if !self.is_connected("was_throw_impact", self, "_was_throw_impact"):
+		self.connect("was_throw_impact", self, "_was_throw_impact")
+	
+func start_explosion_sequence():
+	if self.is_sticky_on_throw:
+		self.mode = RigidBody.MODE_KINEMATIC
+
+	yield(get_tree().create_timer(_config.explode_delay), "timeout")
+
 	print("explode")
-	_throwable_weapon_config.explosion.emitting = true
-	_throwable_weapon_config.explosion.one_shot = true
+	_config.explosion.emitting = true
+	_config.explosion.one_shot = true
 	
-	if _throwable_weapon_config.mesh:
-		_throwable_weapon_config.mesh.visible = false	
 	
-	var bodies = _throwable_weapon_config.area_of_effect.get_overlapping_bodies()
+	if _config.mesh:
+		_config.mesh.visible = false	
+	
+	var bodies = _config.area_of_effect.get_overlapping_bodies()
 
 	for body in bodies:
 		if body is RigidBody:
 			var direction = (self.global_transform.origin - body.global_transform.origin).normalized()
 			
 			if body != self:
-				body.apply_central_impulse(-direction * _throwable_weapon_config.explosion_force)		
+				body.apply_central_impulse(-direction * _config.explosion_force)		
 		
 		if body is Player:
-			body.health -= _throwable_weapon_config.damage_given
+			body.health -= _config.damage_given
 				
-	yield(get_tree().create_timer(_throwable_weapon_config.explosion_lifetime), "timeout")
+	yield(get_tree().create_timer(_config.explosion_lifetime), "timeout")
 	queue_free()
+	
+func _was_throw_impact(body:Node):
+	print("_was_throw_impact", body)
+	start_explosion_sequence()
+	disconnect("was_throw_impact", self, "_was_throw_impact")
 
 func primary_action():
 	print("ran granade primary_action")	
@@ -41,9 +54,3 @@ func primary_action():
 func secondary_action():
 	print("ran granade secondary_action")	
 	self.throw_self(1)
-
-func _on_area_of_effect_body_entered(body):
-	if was_thrown:		
-		was_thrown = false
-		yield(get_tree().create_timer(_throwable_weapon_config.explode_delay), "timeout")
-		explode()

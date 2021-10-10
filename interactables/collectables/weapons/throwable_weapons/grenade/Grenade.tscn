@@ -38,5 +38,3 @@ mesh = SubResource( 4 )
 material/0 = null
 
 [node name="Explosion" parent="." instance=ExtResource( 1 )]
-
-[connection signal="body_entered" from="." to="." method="_on_Grenade_body_entered"]

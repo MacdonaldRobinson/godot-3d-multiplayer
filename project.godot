@@ -19,6 +19,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://interactables/collectables/weapons/ammos/AmmoCollector.gd"
 }, {
+"base": "ThrowableWeapon",
+"class": "ArcaneBolt",
+"language": "GDScript",
+"path": "res://interactables/collectables/weapons/throwable_weapons/bolt/Bolt.gd"
+}, {
 "base": "Interactable",
 "class": "Ball",
 "language": "GDScript",
@@ -33,6 +38,16 @@ _global_script_classes=[ {
 "class": "BulletHole",
 "language": "GDScript",
 "path": "res://interactables/collectables/weapons/ammos/bullet/bullet_hole/BulletHole.gd"
+}, {
+"base": "Node",
+"class": "Character",
+"language": "GDScript",
+"path": "res://player/characters/Character.gd"
+}, {
+"base": "Spatial",
+"class": "Characters",
+"language": "GDScript",
+"path": "res://player/characters/Characters.gd"
 }, {
 "base": "VBoxContainer",
 "class": "ChatPanel",
@@ -68,6 +83,11 @@ _global_script_classes=[ {
 "class": "Explosion",
 "language": "GDScript",
 "path": "res://effects/explosion/Explosion.gd"
+}, {
+"base": "Weapon",
+"class": "FlameThrower",
+"language": "GDScript",
+"path": "res://interactables/collectables/weapons/flame_thrower/FlameThrower.gd"
 }, {
 "base": "Particles",
 "class": "Flames",
@@ -119,11 +139,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/stats_panels/item_stats_panel/ItemStatsPanel.gd"
 }, {
-"base": "WeaponProjectile",
-"class": "Launcher",
-"language": "GDScript",
-"path": "res://interactables/collectables/weapons/weapon_projectiles/launcher/Launcher.gd"
-}, {
 "base": "Spatial",
 "class": "Level",
 "language": "GDScript",
@@ -163,6 +178,11 @@ _global_script_classes=[ {
 "class": "Progress3D",
 "language": "GDScript",
 "path": "res://ui/progress_3d/Progress3D.gd"
+}, {
+"base": "WeaponProjectile",
+"class": "Riffle",
+"language": "GDScript",
+"path": "res://interactables/collectables/weapons/weapon_projectiles/riffle/Riffle.gd"
 }, {
 "base": "Control",
 "class": "ScreenOverlay",
@@ -222,9 +242,12 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "Ammo": "",
 "AmmoCollector": "",
+"ArcaneBolt": "",
 "Ball": "",
 "Bullet": "",
 "BulletHole": "",
+"Character": "",
+"Characters": "",
 "ChatPanel": "",
 "Collectable": "",
 "DialogPanel": "",
@@ -232,6 +255,7 @@ _global_script_class_icons={
 "DragHandleUIConfig": "",
 "EnergyRefillStation": "",
 "Explosion": "",
+"FlameThrower": "",
 "Flames": "",
 "Grenade": "",
 "HealthRefillStation": "",
@@ -242,7 +266,6 @@ _global_script_class_icons={
 "ItemSlotUI": "",
 "ItemSlotUIConfig": "",
 "ItemStatsPanel": "",
-"Launcher": "",
 "Level": "",
 "MeshSpray": "",
 "Message": "",
@@ -251,6 +274,7 @@ _global_script_class_icons={
 "Player": "",
 "PlayerStatsPanel": "",
 "Progress3D": "",
+"Riffle": "",
 "ScreenOverlay": "",
 "Slot": "",
 "SlotsPanel": "",
@@ -267,7 +291,7 @@ _global_script_class_icons={
 [application]
 
 config/name="godot-3d-multiplayer"
-run/main_scene="res://lobby/Lobby.tscn"
+run/main_scene="res://character_selector/CharacterSelector.tscn"
 config/icon="res://icon.png"
 
 [autoload]

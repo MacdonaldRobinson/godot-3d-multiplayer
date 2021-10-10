@@ -1,8 +1,47 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://effects/flames/Flames.tscn" type="PackedScene" id=1]
 [ext_resource path="res://effects/explosion/Explosion.tscn" type="PackedScene" id=2]
 [ext_resource path="res://effects/Bolt/Bolt.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/ui-textures/particlePack_1.1/PNG (Transparent)/spark_04.png" type="Texture" id=4]
+[ext_resource path="res://player/characters/character1/Character1.tscn" type="PackedScene" id=5]
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_transparent = true
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+params_blend_mode = 1
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+albedo_texture = ExtResource( 4 )
+
+[sub_resource type="Gradient" id=2]
+colors = PoolColorArray( 0.261719, 0, 0.523438, 1, 0.513726, 0.333333, 0.568627, 0 )
+
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
+
+[sub_resource type="Curve" id=4]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.246393 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=5]
+curve = SubResource( 4 )
+
+[sub_resource type="ParticlesMaterial" id=6]
+emission_shape = 1
+emission_sphere_radius = 2.0
+direction = Vector3( 0, 0, 0 )
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+angle = 360.0
+angle_random = 1.0
+scale = 10.0
+scale_curve = SubResource( 5 )
+color_ramp = SubResource( 3 )
+
+[sub_resource type="QuadMesh" id=7]
 
 [node name="Effects" type="Spatial"]
 
@@ -14,3 +53,14 @@ visible = false
 amount = 10
 
 [node name="Bolt" parent="." instance=ExtResource( 3 )]
+visible = false
+
+[node name="CollisionShape" parent="." instance=ExtResource( 5 )]
+visible = false
+
+[node name="Particles" type="Particles" parent="."]
+material_override = SubResource( 1 )
+amount = 10
+local_coords = false
+process_material = SubResource( 6 )
+draw_pass_1 = SubResource( 7 )

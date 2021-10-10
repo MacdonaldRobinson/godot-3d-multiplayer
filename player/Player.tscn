@@ -1,34 +1,14 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://player/Player.gd" type="Script" id=1]
 [ext_resource path="res://ui/screen_overlay/ScreenOverlays.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ui/text_3d/Text3D.tscn" type="PackedScene" id=3]
+[ext_resource path="res://player/characters/character1/Character1.tscn" type="PackedScene" id=4]
 [ext_resource path="res://ui/progress_3d/Progress3D.tscn" type="PackedScene" id=5]
-[ext_resource path="res://assets/ui-textures/300PlusRepeatBackgrounds/bg323.png" type="Texture" id=6]
-[ext_resource path="res://assets/ui-textures/300PlusRepeatBackgrounds/bg273.png" type="Texture" id=7]
 
 [sub_resource type="ViewportTexture" id=1]
 
 [sub_resource type="ViewportTexture" id=2]
-
-[sub_resource type="CapsuleShape" id=3]
-height = 2.0
-
-[sub_resource type="SpatialMaterial" id=4]
-albedo_texture = ExtResource( 6 )
-uv1_triplanar = true
-
-[sub_resource type="CapsuleMesh" id=5]
-material = SubResource( 4 )
-mid_height = 2.0
-
-[sub_resource type="SpatialMaterial" id=6]
-albedo_texture = ExtResource( 7 )
-
-[sub_resource type="CapsuleMesh" id=7]
-material = SubResource( 6 )
-radius = 0.25
-mid_height = 0.25
 
 [node name="Player" type="KinematicBody"]
 script = ExtResource( 1 )
@@ -65,15 +45,5 @@ cast_to = Vector3( 0, 0, -100 )
 [node name="ThirdPerson" type="Camera" parent="CameraPivot/MainCamera"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7773, 0.410057, 6.98966 )
 
-[node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -2.18557e-08, -1, 0, 0.5, -4.37114e-08, 0, 2.02255, 0 )
-shape = SubResource( 3 )
-
-[node name="MeshInstance" type="MeshInstance" parent="CollisionShape"]
-mesh = SubResource( 5 )
-material/0 = null
-
-[node name="MeshInstance2" type="MeshInstance" parent="CollisionShape/MeshInstance"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.857915, -1.04339 )
-mesh = SubResource( 7 )
-material/0 = null
+[node name="Character1" parent="." instance=ExtResource( 4 )]
+visible = false

@@ -1,18 +1,22 @@
 extends Weapon
+class_name FlameThrower
+
+func get_class(): return "FlameThrower"
 
 onready var emission_point:Position3D = $EmissionPoint
 onready var flames:Particles = $EmissionPoint/Flames
 onready var area_of_effect:Area = $Area
 
 func _ready():	
+	self.item_name = "Flame Thrower"
 	flames.emitting = false
 	flames.one_shot = true
+	
 	var primary_item_collector:AmmoCollector = AmmoCollector.new()
 	primary_item_collector.current_amount = -1
 	primary_item_collector.max_capacity = -1	
 	primary_item_collector.item_name = "Fuel"
 	
-	self.item_name = "Flame Thrower"
 	self.set_primary_item_collector(primary_item_collector)
 	
 func primary_action():

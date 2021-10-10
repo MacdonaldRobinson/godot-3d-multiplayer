@@ -9,7 +9,9 @@ var interacting_ray_cast:RayCast
 export(Texture) var item_icon_texture:Texture
 
 func _ready():
-	pass
+	self.contact_monitor = true
+	self.contacts_reported = 1
+	
 	
 func set_interacting_body(interacting_body:PhysicsBody):
 	self.interacting_body = interacting_body

@@ -16,6 +16,9 @@ func add_player_to_world(peer_id):
 	player.name = String(peer_id)			
 	player.disable_cameras()
 	
+	var character:Character = load(peer_data.selected_character_scene).instance()
+	player.add_child(character)
+	
 	player.set_network_master(peer_id, true)
 	get_players_node().add_child(player)
 	pass

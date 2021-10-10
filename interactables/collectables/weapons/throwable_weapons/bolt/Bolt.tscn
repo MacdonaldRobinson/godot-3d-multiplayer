@@ -1,11 +1,12 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://effects/Bolt/Bolt.tscn" type="PackedScene" id=1]
 [ext_resource path="res://interactables/collectables/weapons/throwable_weapons/bolt/Bolt.gd" type="Script" id=2]
 [ext_resource path="res://assets/ui-textures/particlePack_1.1/PNG (Transparent)/smoke_08.png" type="Texture" id=3]
+[ext_resource path="res://interactables/collectables/weapons/throwable_weapons/bolt/icon.png" type="Texture" id=4]
 
 [sub_resource type="SphereShape" id=1]
-radius = 5.0
+radius = 30.0
 
 [sub_resource type="SphereShape" id=2]
 radius = 0.5
@@ -29,7 +30,7 @@ colors = PoolColorArray( 1, 0, 0.945313, 0.983501, 0.55055, 0, 0.520442, 0.18442
 gradient = SubResource( 4 )
 
 [sub_resource type="Curve" id=6]
-_data = [ Vector2( 0.0909091, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.914438, 1 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0.0909091, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.50173, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="CurveTexture" id=7]
 curve = SubResource( 6 )
@@ -42,7 +43,7 @@ spread = 180.0
 gravity = Vector3( 0, 0, 0 )
 angular_velocity_random = 1.0
 radial_accel = 100.0
-scale = 50.0
+scale = 81.36
 scale_curve = SubResource( 7 )
 color_ramp = SubResource( 5 )
 
@@ -50,6 +51,7 @@ color_ramp = SubResource( 5 )
 
 [node name="Bolt" type="RigidBody"]
 script = ExtResource( 2 )
+item_icon_texture = ExtResource( 4 )
 
 [node name="Area" type="Area" parent="."]
 
@@ -63,8 +65,8 @@ shape = SubResource( 2 )
 
 [node name="Explosion" type="Particles" parent="."]
 material_override = SubResource( 3 )
-amount = 50
-speed_scale = 0.5
+amount = 100
+speed_scale = 1.5
 explosiveness = 1.0
 randomness = 1.0
 process_material = SubResource( 8 )

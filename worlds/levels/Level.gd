@@ -1,6 +1,12 @@
 extends Spatial
 class_name Level
 
+#func _ready():
+#	if Globals.is_network_server():
+#		set_process(true)
+#	else:
+#		set_process(false)
+
 remote func _rpc_node_removed(node_path:String):
 	if has_node(node_path):
 		var node = get_node(node_path)
@@ -23,7 +29,7 @@ remote func remove_node(node_path:String):
 
 var previous:Dictionary = {}
 func _process(event):
-	if !Globals.is_network_peer_connected():	if !Globals.is_network_master:
+	if !Globals.is_network_master():	
 		return
 
 	var nodes = get_tree().current_scene.get_children()
@@ -32,9 +38,9 @@ func _process(event):
 	for node in nodes:
 		if node is Interactable and node.is_inside_tree():
 			if "global_transform" in node:
-				if !Globals.is_network_server():
-					node.mode = RigidBody.MODE_KINEMATIC
-					continue;
+#				if !Globals.is_network_server():
+#					node.mode = RigidBody.MODE_KINEMATIC
+#					continue;
 					
 				var node_path:String = node.get_path()
 				var global_transform_string = var2str(node.global_transform)					

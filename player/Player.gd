@@ -45,6 +45,11 @@ onready var _over_head_name:Text3D = $Name
 onready var _health_bar:Progress3D = $HealthBar
 
 
+func hide_all_ui():
+	_screen_overlay.hide()
+	_over_head_name.hide()
+	_health_bar.hide()
+
 func _set_health(new_value):
 	if new_value < 0 or new_value > 100:
 		return
@@ -89,12 +94,12 @@ func _ready():
 	var peer_id = get_tree().get_network_unique_id()
 	var peer_data = GameState.get_peer_data(peer_id)
 		
-		
 	_set_player_name(peer_data.peer_name)
 	
 	if !is_network_master():		
 		_main_camera.current = false
 		_third_person_camera.current = false
+		current_camera = null
 		_screen_overlay.hide()
 		return
 	
@@ -102,7 +107,6 @@ func _ready():
 	
 	collected_items = []	
 		
-	
 	if camera_view_mode == CameraViewMode.FIRST_PERSON:
 		current_camera = _main_camera	
 	else:
@@ -159,7 +163,7 @@ func un_equip():
 func find_in_collected_items(find_item:Collectable)->ItemCollector:
 	for item_collector in collected_items:
 		if item_collector is ItemCollector:			
-			if item_collector.item_custom_class_name == find_item.get_class():	
+			if item_collector.item_class_name == find_item.get_class():	
 				return item_collector
 				
 	return null
@@ -169,7 +173,7 @@ func find_index_in_collected_items(find_item:Collectable)->int:
 	for item_collector in collected_items:
 		if item_collector is ItemCollector:		
 			index+=1
-			if item_collector.item_custom_class_name == find_item.get_class():	
+			if item_collector.item_class_name == find_item.get_class():	
 				return index
 				
 	return -1
@@ -177,7 +181,7 @@ func find_index_in_collected_items(find_item:Collectable)->int:
 func remove_from_collected_items(find_item:Collectable)->bool:
 	for item_collector in collected_items:
 		if item_collector is ItemCollector:			
-			if item_collector.item_custom_class_name == find_item.get_class():	
+			if item_collector.item_class_name == find_item.get_class():	
 				collected_items.erase(item_collector)
 				return true
 				
@@ -201,11 +205,11 @@ func collect_item(new_item:Collectable) -> bool:
 			was_collected = true
 	else:
 		var new_item_collector:ItemCollector = ItemCollector.new()		
-		new_item_collector.item_name = new_item.get_class()
-		new_item_collector.item_tscn_path = new_item.filename
+		new_item_collector.item_name = new_item.item_name
+		new_item_collector.item_class_name = new_item.get_class()
+		new_item_collector.current_amount = new_item.initial_collection_amount
 		new_item_collector.item_icon_texture = new_item.item_icon_texture
-		new_item_collector.item_custom_class_name = new_item.get_class()
-		new_item_collector.current_amount = 1
+		new_item_collector.item_tscn_path = new_item.filename
 		new_item_collector.call_back_method = funcref(self, "equip_item_index")		
 		
 		collected_items.append(new_item_collector)

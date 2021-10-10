@@ -1,6 +1,6 @@
 extends WeaponProjectile
-class_name Launcher
-func get_class(): return "Launcher"
+class_name Riffle
+func get_class(): return "Riffle"
 
 var ammo:Array = []
 
