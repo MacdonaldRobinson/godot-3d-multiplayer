@@ -36,14 +36,12 @@ func can_use_secondary_item() -> bool:
 	return can_use_item_collector(secondary_item_collector)
 
 func primary_action():	
-	print("Collectable primary_action")
-	pass
-		
-func secondary_action():
-	print("secondary_action primary_action")
-	pass
+	decrease_item_collector_amount(primary_item_collector)
 	
-func throw_self(force:int = 5):	
+func secondary_action():	
+	decrease_item_collector_amount(secondary_item_collector)
+	
+func throw_self(force:int = 50):	
 	if get_parent() and get_parent().owner:
 		var owner = get_parent().owner
 		var found = owner.find_in_collected_items(self)

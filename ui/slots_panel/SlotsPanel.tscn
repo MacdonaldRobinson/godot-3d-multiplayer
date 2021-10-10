@@ -12,7 +12,7 @@ __meta__ = {
 }
 
 [node name="Slots" type="HBoxContainer" parent="."]
-margin_right = 600.0
+margin_right = 1024.0
 margin_bottom = 85.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -21,20 +21,20 @@ __meta__ = {
 }
 
 [node name="Slot" parent="Slots" instance=ExtResource( 1 )]
-margin_right = 147.0
+margin_right = 253.0
 margin_bottom = 85.0
 
 [node name="Slot2" parent="Slots" instance=ExtResource( 1 )]
-margin_left = 151.0
-margin_right = 298.0
+margin_left = 257.0
+margin_right = 510.0
 margin_bottom = 85.0
 
 [node name="Slot3" parent="Slots" instance=ExtResource( 1 )]
-margin_left = 302.0
-margin_right = 449.0
+margin_left = 514.0
+margin_right = 767.0
 margin_bottom = 85.0
 
 [node name="Slot4" parent="Slots" instance=ExtResource( 1 )]
-margin_left = 453.0
-margin_right = 600.0
+margin_left = 771.0
+margin_right = 1024.0
 margin_bottom = 85.0

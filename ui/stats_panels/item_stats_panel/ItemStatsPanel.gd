@@ -8,7 +8,7 @@ func update_data(item:Interactable):
 	for child in self.get_children():
 		self.remove_child(child)
 		
-	if item is WeaponProjectile:
+	if item is Weapon:
 		add_ammo_collector_ui(item.primary_item_collector)
 		add_ammo_collector_ui(item.secondary_item_collector)
 

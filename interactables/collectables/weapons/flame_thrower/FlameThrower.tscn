@@ -1,0 +1,46 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://interactables/collectables/weapons/flame_thrower/FlameThrower.gd" type="Script" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://effects/flames/Flames.tscn" type="PackedScene" id=3]
+[ext_resource path="res://interactables/collectables/weapons/flame_thrower/icon.png" type="Texture" id=4]
+
+[sub_resource type="CylinderShape" id=1]
+radius = 0.5
+height = 3.0
+
+[sub_resource type="SpatialMaterial" id=2]
+albedo_color = Color( 1, 0, 0, 1 )
+albedo_texture = ExtResource( 2 )
+uv1_triplanar = true
+
+[sub_resource type="CylinderMesh" id=3]
+material = SubResource( 2 )
+top_radius = 0.5
+bottom_radius = 0.5
+height = 3.0
+
+[node name="FlameThrower" type="RigidBody"]
+input_ray_pickable = false
+script = ExtResource( 1 )
+item_icon_texture = ExtResource( 4 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="CollisionShape"]
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="EmissionPoint" type="Position3D" parent="."]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -2.028 )
+
+[node name="Flames" parent="EmissionPoint" instance=ExtResource( 3 )]
+
+[node name="Area" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0 )
+
+[node name="CollisionPolygon" type="CollisionPolygon" parent="Area"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+polygon = PoolVector2Array( 0, 0, 3, 5, -3, 5 )

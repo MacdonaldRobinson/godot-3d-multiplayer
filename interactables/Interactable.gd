@@ -1,4 +1,4 @@
-extends PhysicsBody
+extends RigidBody
 class_name Interactable
 func get_class(): return "Interactable"
 
@@ -6,6 +6,11 @@ var item_name:String = "Item Name"
 var interacting_body:PhysicsBody = null
 var interacting_ray_cast:RayCast
 
+export(Texture) var item_icon_texture:Texture
+
+func _ready():
+	pass
+	
 func set_interacting_body(interacting_body:PhysicsBody):
 	self.interacting_body = interacting_body
 	

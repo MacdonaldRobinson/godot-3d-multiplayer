@@ -5,7 +5,7 @@ func get_class(): return "Launcher"
 var ammo:Array = []
 
 func _ready():
-	self.can_stack = false
+	self.can_stack = false	
 	
 	var primary_ammo_collector:AmmoCollector = AmmoCollector.new()
 	primary_ammo_collector.item_name = "Bullet"

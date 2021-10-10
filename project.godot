@@ -49,30 +49,70 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/dialog_panel/DialogPanel.gd"
 }, {
+"base": "Control",
+"class": "DragHandleUI",
+"language": "GDScript",
+"path": "res://ui/drag_handle/DragHandleUI.gd"
+}, {
+"base": "Resource",
+"class": "DragHandleUIConfig",
+"language": "GDScript",
+"path": "res://ui/drag_handle/DragHandleUIConfig.gd"
+}, {
 "base": "Interactable",
 "class": "EnergyRefillStation",
 "language": "GDScript",
 "path": "res://interactables/energy_regfill_station/EnergyRefillStation.gd"
 }, {
-"base": "Weapon",
+"base": "Particles",
+"class": "Explosion",
+"language": "GDScript",
+"path": "res://effects/explosion/Explosion.gd"
+}, {
+"base": "Particles",
+"class": "Flames",
+"language": "GDScript",
+"path": "res://effects/flames/Flames.gd"
+}, {
+"base": "ThrowableWeapon",
 "class": "Grenade",
 "language": "GDScript",
-"path": "res://interactables/collectables/weapons/grenade/Grenade.gd"
+"path": "res://interactables/collectables/weapons/throwable_weapons/grenade/Grenade.gd"
 }, {
 "base": "Interactable",
 "class": "HealthRefillStation",
 "language": "GDScript",
 "path": "res://interactables/health_refill_station/HealthRefillStation.gd"
 }, {
-"base": "PhysicsBody",
+"base": "RigidBody",
 "class": "Interactable",
 "language": "GDScript",
 "path": "res://interactables/Interactable.gd"
+}, {
+"base": "Popup",
+"class": "InventoryUI",
+"language": "GDScript",
+"path": "res://ui/inventory_panel/InventoryUI.gd"
+}, {
+"base": "Resource",
+"class": "InventoryUIConfig",
+"language": "GDScript",
+"path": "res://ui/inventory_panel/InventoryUIConfig.gd"
 }, {
 "base": "Resource",
 "class": "ItemCollector",
 "language": "GDScript",
 "path": "res://interactables/collectables/ItemCollector.gd"
+}, {
+"base": "NinePatchRect",
+"class": "ItemSlotUI",
+"language": "GDScript",
+"path": "res://ui/item_slot/ItemSlotUI.gd"
+}, {
+"base": "Resource",
+"class": "ItemSlotUIConfig",
+"language": "GDScript",
+"path": "res://ui/item_slot/ItemSlotUIConfig.gd"
 }, {
 "base": "Node",
 "class": "ItemStatsPanel",
@@ -82,7 +122,7 @@ _global_script_classes=[ {
 "base": "WeaponProjectile",
 "class": "Launcher",
 "language": "GDScript",
-"path": "res://interactables/collectables/weapons/projectile/launcher/Launcher.gd"
+"path": "res://interactables/collectables/weapons/weapon_projectiles/launcher/Launcher.gd"
 }, {
 "base": "Spatial",
 "class": "Level",
@@ -127,7 +167,7 @@ _global_script_classes=[ {
 "base": "Control",
 "class": "ScreenOverlay",
 "language": "GDScript",
-"path": "res://ui/ScreenOverlays.gd"
+"path": "res://ui/screen_overlay/ScreenOverlays.gd"
 }, {
 "base": "Node",
 "class": "Slot",
@@ -139,7 +179,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/slots_panel/SlotsPanel.gd"
 }, {
-"base": "StaticBody",
+"base": "RigidBody",
 "class": "Sprayable",
 "language": "GDScript",
 "path": "res://interactables/collectables/mesh_spray/structures/sprayable/Wall.gd"
@@ -154,6 +194,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/text_3d/Text3D.gd"
 }, {
+"base": "Weapon",
+"class": "ThrowableWeapon",
+"language": "GDScript",
+"path": "res://interactables/collectables/weapons/throwable_weapons/ThrowableWeapon.gd"
+}, {
+"base": "Resource",
+"class": "ThrowableWeaponConfig",
+"language": "GDScript",
+"path": "res://interactables/collectables/weapons/throwable_weapons/ThrowableWeaponConfig.gd"
+}, {
 "base": "Collectable",
 "class": "Weapon",
 "language": "GDScript",
@@ -162,7 +212,7 @@ _global_script_classes=[ {
 "base": "Weapon",
 "class": "WeaponProjectile",
 "language": "GDScript",
-"path": "res://interactables/collectables/weapons/projectile/WeaponProjectile.gd"
+"path": "res://interactables/collectables/weapons/weapon_projectiles/WeaponProjectile.gd"
 }, {
 "base": "Resource",
 "class": "WorldData",
@@ -178,11 +228,19 @@ _global_script_class_icons={
 "ChatPanel": "",
 "Collectable": "",
 "DialogPanel": "",
+"DragHandleUI": "",
+"DragHandleUIConfig": "",
 "EnergyRefillStation": "",
+"Explosion": "",
+"Flames": "",
 "Grenade": "",
 "HealthRefillStation": "",
 "Interactable": "",
+"InventoryUI": "",
+"InventoryUIConfig": "",
 "ItemCollector": "",
+"ItemSlotUI": "",
+"ItemSlotUIConfig": "",
 "ItemStatsPanel": "",
 "Launcher": "",
 "Level": "",
@@ -199,6 +257,8 @@ _global_script_class_icons={
 "Sprayable": "",
 "Terrain": "",
 "Text3D": "",
+"ThrowableWeapon": "",
+"ThrowableWeaponConfig": "",
 "Weapon": "",
 "WeaponProjectile": "",
 "WorldData": ""
@@ -223,8 +283,6 @@ gdscript/warnings/standalone_ternary=false
 
 [display]
 
-window/size/width=600
-window/size/height=300
 window/size/always_on_top=true
 
 [input]
@@ -282,6 +340,11 @@ primary_action={
 secondary_action={
 "deadzone": 0.5,
 "events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":2,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+camera_view_toggle={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777244,"unicode":0,"echo":false,"script":null)
  ]
 }
 

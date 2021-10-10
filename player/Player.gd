@@ -12,6 +12,11 @@ var mouse_delta
 var current_camera:Camera
 var currently_equipped_item:Interactable = null
 var collected_items:Array
+
+enum CameraViewMode {
+	FIRST_PERSON = 0,
+	THIRD_PERSON = 1
+}
 	
 export var gravity = 9.8
 export var mouse_sencitivity = 10
@@ -25,8 +30,11 @@ export var health:int = 100 setget _set_health
 export var energy:int = 100 setget _set_energy
 export var player_name:String = "Player" setget _set_player_name
 
+export(CameraViewMode) var camera_view_mode = CameraViewMode.FIRST_PERSON
+
 onready var _camera_pivot = $CameraPivot
 onready var _main_camera:Camera = $CameraPivot/MainCamera
+onready var _third_person_camera:Camera = $CameraPivot/MainCamera/ThirdPerson
 
 onready var _cross_hair = $ScreenOverlays/CrossHair
 onready var _interact_raycast:RayCast = $CameraPivot/MainCamera/InteractRayCast
@@ -81,16 +89,24 @@ func _ready():
 	var peer_id = get_tree().get_network_unique_id()
 	var peer_data = GameState.get_peer_data(peer_id)
 		
+		
 	_set_player_name(peer_data.peer_name)
 	
 	if !is_network_master():		
 		_main_camera.current = false
+		_third_person_camera.current = false
 		_screen_overlay.hide()
 		return
 	
+	_equip_holder.rotation = Vector3.ZERO
 	
 	collected_items = []	
-	current_camera = _main_camera
+		
+	
+	if camera_view_mode == CameraViewMode.FIRST_PERSON:
+		current_camera = _main_camera	
+	else:
+		current_camera = _third_person_camera
 	
 	current_camera.make_current()	
 		
@@ -100,6 +116,9 @@ func _get_interact_raycast() -> RayCast:
 func disable_cameras():	
 	if _main_camera:
 		_main_camera.current = false
+		
+	if _third_person_camera:
+		_third_person_camera.current = false
 	
 	if current_camera and current_camera.current:
 		current_camera.current = false
@@ -118,6 +137,7 @@ func equip_item(item:Interactable):
 		
 	currently_equipped_item.disable_collisions()
 	
+	item.rotation = Vector3.ZERO
 	item.transform.origin = Vector3.ZERO	
 	
 	_equip_holder.add_child(currently_equipped_item)
@@ -183,6 +203,7 @@ func collect_item(new_item:Collectable) -> bool:
 		var new_item_collector:ItemCollector = ItemCollector.new()		
 		new_item_collector.item_name = new_item.get_class()
 		new_item_collector.item_tscn_path = new_item.filename
+		new_item_collector.item_icon_texture = new_item.item_icon_texture
 		new_item_collector.item_custom_class_name = new_item.get_class()
 		new_item_collector.current_amount = 1
 		new_item_collector.call_back_method = funcref(self, "equip_item_index")		
@@ -212,6 +233,15 @@ func _input(event):
 	if Input.is_action_just_pressed("toggle_mouse_capture"):
 		Globals.toggle_mouse_capture()		
 		
+	if Input.is_action_just_pressed("camera_view_toggle"):
+		if camera_view_mode == CameraViewMode.FIRST_PERSON:
+			camera_view_mode = CameraViewMode.THIRD_PERSON
+			current_camera = _third_person_camera
+		else:
+			camera_view_mode = CameraViewMode.FIRST_PERSON
+			current_camera = _main_camera
+		
+		current_camera.make_current()
 		
 var walk_blend_direction:Vector2 = Vector2.ZERO
 
@@ -278,11 +308,15 @@ remotesync func interact():
 func look_at_weapon_ray_cast():
 	if _weapon_raycast.is_colliding():
 		var collider = _weapon_raycast.get_collider()
-		
-		var new_transform = Globals.look_at(_equip_holder.global_transform, _weapon_raycast.get_collision_point())
+		var collision_point = _weapon_raycast.get_collision_point()
+				
+		var new_transform = Globals.look_at(_equip_holder.global_transform, collision_point)
 		_equip_holder.global_transform = new_transform
+		_third_person_camera.look_at(collision_point, Vector3.UP)
+		
 	else:
 		_equip_holder.rotation = _equip_holder.rotation.linear_interpolate(Vector3.ZERO, 0.1)		
+
 		
 	Globals.peer_data.equip_holder_transform = _equip_holder.global_transform
 
@@ -339,7 +373,7 @@ func _physics_process(delta):
 				rpc("equip_item_index", 1)
 			else:
 				equip_item_index(1)
-
+				
 #	if Input.is_action_just_pressed("ui_cancel"):
 #		get_tree().quit()	
 		
@@ -358,7 +392,7 @@ func _physics_process(delta):
 
 	new_velocity = lerp(velocity, new_velocity, 0.1)
 	
-	velocity = move_and_slide(new_velocity, Vector3.UP)	
+	velocity = move_and_slide(new_velocity, Vector3.UP)
 	
 	if mouse_delta:
 		self.rotate_y(deg2rad(-mouse_delta.x * mouse_sencitivity * delta))	

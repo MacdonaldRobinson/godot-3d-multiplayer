@@ -1,16 +1,15 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://player/Player.gd" type="Script" id=1]
-[ext_resource path="res://ui/ScreenOverlays.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ui/screen_overlay/ScreenOverlays.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ui/text_3d/Text3D.tscn" type="PackedScene" id=3]
-[ext_resource path="res://player/MainCamera.gd" type="Script" id=4]
 [ext_resource path="res://ui/progress_3d/Progress3D.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/ui-textures/300PlusRepeatBackgrounds/bg323.png" type="Texture" id=6]
 [ext_resource path="res://assets/ui-textures/300PlusRepeatBackgrounds/bg273.png" type="Texture" id=7]
 
-[sub_resource type="ViewportTexture" id=8]
+[sub_resource type="ViewportTexture" id=1]
 
-[sub_resource type="ViewportTexture" id=9]
+[sub_resource type="ViewportTexture" id=2]
 
 [sub_resource type="CapsuleShape" id=3]
 height = 2.0
@@ -33,14 +32,15 @@ mid_height = 0.25
 
 [node name="Player" type="KinematicBody"]
 script = ExtResource( 1 )
+camera_view_mode = 1
 
 [node name="Name" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.50563, 0 )
-texture = SubResource( 8 )
+texture = SubResource( 1 )
 
 [node name="HealthBar" parent="." instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.2089, 0 )
-texture = SubResource( 9 )
+texture = SubResource( 2 )
 
 [node name="ScreenOverlays" parent="." instance=ExtResource( 2 )]
 
@@ -48,8 +48,8 @@ texture = SubResource( 9 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.67238, -0.866926 )
 
 [node name="MainCamera" type="Camera" parent="CameraPivot"]
+current = true
 far = 8192.0
-script = ExtResource( 4 )
 
 [node name="EquipPosition" type="Position3D" parent="CameraPivot/MainCamera"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.08936, -0.672286, -0.449856 )
@@ -61,6 +61,9 @@ cast_to = Vector3( 0, 0, -5 )
 [node name="WeaponRayCast" type="RayCast" parent="CameraPivot/MainCamera"]
 enabled = true
 cast_to = Vector3( 0, 0, -100 )
+
+[node name="ThirdPerson" type="Camera" parent="CameraPivot/MainCamera"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7773, 0.410057, 6.98966 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -2.18557e-08, -1, 0, 0.5, -4.37114e-08, 0, 2.02255, 0 )

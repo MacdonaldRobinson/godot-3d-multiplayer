@@ -1,0 +1,54 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://effects/explosion/Explosion.gd" type="Script" id=1]
+[ext_resource path="res://assets/ui-textures/particlePack_1.1/PNG (Transparent)/fire_01.png" type="Texture" id=2]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0, 0.0169492, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 0.862305, 0.378475, 0.0168419, 1, 1, 0.0761719, 0, 1 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.186869, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.838384, 1 ), -0.257143, -0.257143, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=5]
+direction = Vector3( 0, 0, 0 )
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 20.0
+initial_velocity_random = 1.0
+linear_accel = 10.0
+angle = 360.0
+angle_random = 1.0
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 2 )
+
+[sub_resource type="SpatialMaterial" id=6]
+flags_transparent = true
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+params_blend_mode = 1
+params_cull_mode = 2
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+albedo_texture = ExtResource( 2 )
+
+[sub_resource type="SphereMesh" id=7]
+material = SubResource( 6 )
+
+[node name="Explosion" type="Particles"]
+amount = 200
+lifetime = 0.5
+explosiveness = 1.0
+randomness = 1.0
+local_coords = false
+process_material = SubResource( 5 )
+draw_pass_1 = SubResource( 7 )
+script = ExtResource( 1 )
