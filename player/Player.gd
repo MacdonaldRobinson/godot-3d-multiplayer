@@ -312,10 +312,13 @@ func look_at_weapon_ray_cast():
 				
 		var new_transform = Globals.look_at(_equip_holder.global_transform, collision_point)
 		_equip_holder.global_transform = new_transform
-		_third_person_camera.look_at(collision_point, Vector3.UP)
+		
+		var new_third_person_camera_transform = Globals.look_at(_third_person_camera.global_transform, collision_point)
+		_third_person_camera.global_transform = new_third_person_camera_transform
 		
 	else:
 		_equip_holder.rotation = _equip_holder.rotation.linear_interpolate(Vector3.ZERO, 0.1)		
+			
 
 		
 	Globals.peer_data.equip_holder_transform = _equip_holder.global_transform
