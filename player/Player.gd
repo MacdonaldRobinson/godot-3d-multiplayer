@@ -11,7 +11,7 @@ var velocity:Vector3 = Vector3.ZERO
 var mouse_delta
 var current_camera:Camera
 var currently_equipped_item:Interactable = null
-var collected_items:Array
+var collected_items:ItemCollectors
 
 enum CameraViewMode {
 	FIRST_PERSON = 0,
@@ -105,7 +105,7 @@ func _ready():
 	
 	_equip_holder.rotation = Vector3.ZERO
 	
-	collected_items = []	
+	collected_items = ItemCollectors.new()
 		
 	if camera_view_mode == CameraViewMode.FIRST_PERSON:
 		current_camera = _main_camera	
@@ -161,7 +161,7 @@ func un_equip():
 
 
 func find_in_collected_items(find_item:Collectable)->ItemCollector:
-	for item_collector in collected_items:
+	for item_collector in collected_items.get_all():
 		if item_collector is ItemCollector:			
 			if item_collector.item_class_name == find_item.get_class():	
 				return item_collector
@@ -179,10 +179,10 @@ func find_index_in_collected_items(find_item:Collectable)->int:
 	return -1
 	
 func remove_from_collected_items(find_item:Collectable)->bool:
-	for item_collector in collected_items:
+	for item_collector in collected_items.get_all():
 		if item_collector is ItemCollector:			
 			if item_collector.item_class_name == find_item.get_class():	
-				collected_items.erase(item_collector)
+				collected_items.get_all().erase(item_collector)
 				return true
 				
 	return false
@@ -211,8 +211,9 @@ func collect_item(new_item:Collectable) -> bool:
 		new_item_collector.item_icon_texture = new_item.item_icon_texture
 		new_item_collector.item_tscn_path = new_item.filename
 		new_item_collector.call_back_method = funcref(self, "equip_item_index")		
+		new_item_collector.is_skill = new_item.is_skill
 		
-		collected_items.append(new_item_collector)
+		collected_items.get_all().append(new_item_collector)
 		was_collected = true
 		
 	return was_collected 
@@ -274,8 +275,8 @@ func set_current_animation_state(state):
 	play_animation("parameters/state/current", state, false)
 
 remotesync func equip_item_index(index:int):
-	if collected_items.size() > index:
-		var item_collector:ItemCollector = collected_items[index]
+	if collected_items.get_all().size() > index:
+		var item_collector:ItemCollector = collected_items.get_by_index(index)
 		var item = load(item_collector.item_tscn_path).instance()
 		equip_item(item)	
 

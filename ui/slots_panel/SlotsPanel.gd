@@ -7,7 +7,9 @@ onready var slots = $Slots
 func _ready():
 	_remove_children()
 
-func update_data(new_items:Array):
+func update_data(item_collectors:ItemCollectors):
+	var new_items:Array = item_collectors.get_all()
+	
 	if new_items.size() == 0:
 		_remove_children()
 		

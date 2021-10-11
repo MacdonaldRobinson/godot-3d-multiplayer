@@ -8,10 +8,16 @@ func get_drag_data(position):
 		data.owner = owner
 	
 	var drag_texture = TextureRect.new()
+	drag_texture.expand = true
 	drag_texture.texture = self.texture_normal
 	drag_texture.rect_size = Vector2(100, 100)
 	
-	set_drag_preview(drag_texture)
+	var control:Control = Control.new()
+	control.add_child(drag_texture)
+	
+	drag_texture.rect_position = -0.5 * drag_texture.rect_size
+
+	set_drag_preview(control)
 	
 	return data
 	
@@ -37,8 +43,9 @@ func drop_data(position, data):
 			var self_owner = self.get_parent().owner as ItemSlotUI
 			var dropped_item_slot:ItemSlotUI = grid_container.get_child(self_owner.get_index())
 			
-			grid_container.move_child(dragged_item_slot, dropped_item_slot.get_index())
-			#grid_container.move_child(dropped_item_slot, dragged_item_slot.get_index())
+			if dropped_item_slot:
+				grid_container.move_child(dragged_item_slot, dropped_item_slot.get_index())
+				#grid_container.move_child(dropped_item_slot, dragged_item_slot.get_index())
 		
 		pass
 	

@@ -12,7 +12,7 @@
 [ext_resource path="res://worlds/levels/level1/GoalPost.tscn" type="PackedScene" id=10]
 [ext_resource path="res://interactables/collectables/weapons/throwable_weapons/grenade/Grenade.tscn" type="PackedScene" id=11]
 [ext_resource path="res://interactables/collectables/weapons/flame_thrower/FlameThrower.tscn" type="PackedScene" id=12]
-[ext_resource path="res://interactables/collectables/weapons/throwable_weapons/bolt/Bolt.tscn" type="PackedScene" id=13]
+[ext_resource path="res://interactables/collectables/weapons/throwable_weapons/arcane_bolt/ArcaneBolt.tscn" type="PackedScene" id=13]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 9 )

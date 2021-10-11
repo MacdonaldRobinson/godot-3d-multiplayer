@@ -1,27 +1,12 @@
-extends Popup
-class_name InventoryUI
+extends GridContainer
+class_name ItemSlotsUI
 
-var _config:InventoryUIConfig
+var _config:ItemSlotsUIConfig = ItemSlotsUIConfig.new()
+var _grid_container:GridContainer = self
 var _item_slot_ui_scene:PackedScene = preload("res://ui/item_slot/ItemSlotUI.tscn")
 
-onready var _grid_container:GridContainer = $VBoxContainer/Middle/GridContainer
-onready var _drag_handle_control:DragHandleUI = $VBoxContainer/Top
-
-func _ready():
-	self.show()
-	var _drag_handle_config:DragHandleUIConfig = DragHandleUIConfig.new()
-	_drag_handle_config.control_to_drag = self	
-	_drag_handle_control.setup(_drag_handle_config)
-	
-func _input(event):
-	if event is InputEventMouseButton:
-		if event.pressed:
-			if self is Control:
-				var parent = self.get_parent()
-				parent.move_child(self, parent.get_child_count())
-		
-func update_data(config:InventoryUIConfig):
-	_config = config	
+func update_data(config:ItemSlotsUIConfig):
+	_config = config
 	_populate()
 	
 func _clear_items():
@@ -33,20 +18,20 @@ func _create_empty_slots():
 		for index in _config.max_capacity:
 			var found_slot:ItemSlotUI = null
 			var config:ItemSlotUIConfig = ItemSlotUIConfig.new()
-			
+
 			if _grid_container.get_child_count() > index:
 				found_slot = _grid_container.get_child(index)
 			
 			if !found_slot:
 				var item_slot_ui:ItemSlotUI = _item_slot_ui_scene.instance()
-				item_slot_ui.name = String(index)
+				item_slot_ui.name = String(index)				
 				
 				item_slot_ui.update_data(config)
 				_grid_container.add_child(item_slot_ui , true)
 
 
 func _update_slots_from_items():
-	for item in _config.items:
+	for item in _config.item_collectors.get_all():
 		if item is ItemCollector:
 			var found_item_slot:ItemSlotUI = null
 			var config:ItemSlotUIConfig = ItemSlotUIConfig.new()
@@ -67,7 +52,7 @@ func _empty_slots_if_no_item_collector():
 	var slot_index = 0
 	for slot in _grid_container.get_children():
 		if slot is ItemSlotUI:
-			var found = _config.items.find(slot._config.item_collector)
+			var found = _config.item_collectors.get_all().find(slot._config.item_collector)
 			
 			if found == -1:
 				slot.name = String(slot_index)
@@ -87,6 +72,9 @@ func _populate():
 	_create_empty_slots()
 	_update_slots_from_items()	
 	_empty_slots_if_no_item_collector()
-
-func _on_CloseButton_pressed():
-	self.hide()
+	
+	for slot in _grid_container.get_children():
+		if slot is ItemSlotUI:
+			var config:ItemSlotUIConfig = slot._config
+			config.show_item_count = _config.show_item_count
+			slot.update_data(config)

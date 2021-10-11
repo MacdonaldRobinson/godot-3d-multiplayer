@@ -1,0 +1,71 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://ui/item_slots/ItemSlotsUI.tscn" type="PackedScene" id=1]
+[ext_resource path="res://ui/popup_window/PopupWindowUI.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ui/popup_window/inventory/InventoryUI.gd" type="Script" id=3]
+[ext_resource path="res://ui/item_slot/ItemSlotUI.tscn" type="PackedScene" id=4]
+
+[node name="InventoryUI" type="Popup"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -724.0
+margin_bottom = -200.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PopupWindowUI" parent="." instance=ExtResource( 2 )]
+
+[node name="Top" parent="PopupWindowUI/VBoxContainer" index="0"]
+margin_right = 300.0
+
+[node name="Title" parent="PopupWindowUI/VBoxContainer/Top" index="0"]
+margin_right = 276.0
+text = "Inventory"
+
+[node name="MarginContainer2" parent="PopupWindowUI/VBoxContainer/Top" index="1"]
+margin_left = 280.0
+margin_right = 300.0
+
+[node name="Middle" parent="PopupWindowUI/VBoxContainer" index="1"]
+margin_right = 300.0
+
+[node name="MarginContainer" type="MarginContainer" parent="PopupWindowUI/VBoxContainer/Middle" index="0"]
+margin_right = 282.0
+margin_bottom = 134.0
+custom_constants/margin_left = 10
+
+[node name="ItemSlotsUI" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer" instance=ExtResource( 1 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 10.0
+margin_right = 282.0
+margin_bottom = 134.0
+columns = 4
+
+[node name="Slot" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
+margin_right = 65.0
+margin_bottom = 65.0
+
+[node name="Slot2" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
+margin_left = 69.0
+margin_right = 134.0
+margin_bottom = 65.0
+
+[node name="Slot3" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
+margin_left = 138.0
+margin_right = 203.0
+margin_bottom = 65.0
+
+[node name="Slot4" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
+margin_left = 207.0
+margin_right = 272.0
+margin_bottom = 65.0
+
+[node name="Slot5" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
+margin_top = 69.0
+margin_right = 65.0
+margin_bottom = 134.0
+
+[editable path="PopupWindowUI"]

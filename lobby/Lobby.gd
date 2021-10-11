@@ -1,16 +1,16 @@
 extends Control
 
-onready var players_connected_list:ItemList = $CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PlayersConnectedList
+onready var players_connected_list:ItemList = $CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PlayersConnectedList
 
-onready var player_name_field:LineEdit = $CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer3/VBoxContainer/PlayerNameField
-onready var port_number_field:LineEdit = $CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer2/VBoxContainer2/PortNumberField
-onready var max_clients_field:LineEdit = $CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer2/VBoxContainer3/MaxClientsField
-onready var game_time_field:LineEdit = $CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer3/VBoxContainer2/GameTimeField
-onready var server_address_field:LineEdit  = $CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer2/VBoxContainer/ServerAddressField
+onready var player_name_field:LineEdit = $CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer3/VBoxContainer/PlayerNameField
+onready var port_number_field:LineEdit = $CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer2/VBoxContainer2/PortNumberField
+onready var max_clients_field:LineEdit = $CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer2/VBoxContainer3/MaxClientsField
+onready var game_time_field:LineEdit = $CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer3/VBoxContainer2/GameTimeField
+onready var server_address_field:LineEdit  = $CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer2/VBoxContainer/ServerAddressField
 
-onready var start_game_button:Button = $CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StartGameButton
-onready var join_button:Button = $CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/Join
-onready var host_button:Button = $CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/Host
+onready var start_game_button:Button = $CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StartGameButton
+onready var join_button:Button = $CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/Join
+onready var host_button:Button = $CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/Host
 
 func _ready():
 	players_connected_list.clear();
@@ -68,3 +68,7 @@ func enable_buttons():
 
 func _on_StartGameButton_pressed():	
 	GameState.start_game()
+
+
+func _on_CharacterSelectionScreen_pressed():
+	get_tree().change_scene("res://character_selector/CharacterSelector.tscn")

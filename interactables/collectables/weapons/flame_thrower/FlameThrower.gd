@@ -11,6 +11,7 @@ func _ready():
 	self.item_name = "Flame Thrower"
 	flames.emitting = false
 	flames.one_shot = true
+	self.can_stack = false
 	
 	var primary_item_collector:AmmoCollector = AmmoCollector.new()
 	primary_item_collector.current_amount = -1

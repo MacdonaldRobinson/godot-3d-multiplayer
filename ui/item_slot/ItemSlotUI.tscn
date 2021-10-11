@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://ui/item_slot/Item_drag_drop.gd" type="Script" id=1]
 [ext_resource path="res://ui/item_slot/ItemSlotUI.gd" type="Script" id=2]
+[ext_resource path="res://GlobalTheme.tres" type="Theme" id=3]
 [ext_resource path="res://assets/ui-textures/GUI Interface Kit Free/GUI Interface Kit Free/PNG/GUI-Kit-Pack-Free_61.png" type="Texture" id=4]
 
 [sub_resource type="CanvasItemMaterial" id=1]
@@ -12,6 +13,7 @@ material = SubResource( 1 )
 margin_right = 60.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 65, 65 )
+theme = ExtResource( 3 )
 texture = ExtResource( 4 )
 script = ExtResource( 2 )
 __meta__ = {
@@ -46,17 +48,11 @@ __meta__ = {
 }
 
 [node name="Count" type="Label" parent="ItemBackground"]
-anchor_left = 1.0
-anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -39.5
-margin_top = -14.0
-margin_right = 0.5
-size_flags_horizontal = 8
-size_flags_vertical = 8
 text = "0"
 align = 2
+valign = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -23,7 +23,6 @@ func start_explosion_sequence():
 	_config.explosion.emitting = true
 	_config.explosion.one_shot = true
 	
-	
 	if _config.mesh:
 		_config.mesh.visible = false	
 	

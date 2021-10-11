@@ -3,9 +3,10 @@ class_name ArcaneBolt
 func get_class(): return "ArcaneBolt"
 
 func _ready():
-	item_name = "Arcane Bolt"
-	initial_collection_amount = -1
-	is_sticky_on_throw = true
+	self.item_name = "Arcane Bolt"
+	self.initial_collection_amount = -1
+	self.is_sticky_on_throw = true
+	self.is_skill = true
 	
 	var config:ThrowableWeaponConfig = ThrowableWeaponConfig.new()
 	config.area_of_effect = $Area

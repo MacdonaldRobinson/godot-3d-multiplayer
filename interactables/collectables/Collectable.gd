@@ -2,12 +2,13 @@ extends Interactable
 class_name Collectable
 func get_class(): return "Collectable"
 
-var can_stack = true
+var can_stack = false
 var primary_item_collector:ItemCollector
 var secondary_item_collector:ItemCollector
 var weapon_ray_cast:RayCast
 var initial_collection_amount:int = 1
 var is_sticky_on_throw:bool = false
+var is_skill:bool = false
 
 signal was_throw_impact
 

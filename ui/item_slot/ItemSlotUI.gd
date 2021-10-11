@@ -24,3 +24,8 @@ func update_data(config:ItemSlotUIConfig):
 	else:
 		item_count.text = "0"
 		item.texture_normal = null
+		
+	if _config.show_item_count:
+		item_count.show()
+	else:
+		item_count.hide()
