@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://player/Player.gd" type="Script" id=1]
 [ext_resource path="res://ui/screen_overlay/ScreenOverlays.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ui/text_3d/Text3D.tscn" type="PackedScene" id=3]
 [ext_resource path="res://player/characters/character1/Character1.tscn" type="PackedScene" id=4]
 [ext_resource path="res://ui/progress_3d/Progress3D.tscn" type="PackedScene" id=5]
+[ext_resource path="res://icon.png" type="Texture" id=6]
 
 [sub_resource type="ViewportTexture" id=1]
 
@@ -12,6 +13,7 @@
 
 [node name="Player" type="KinematicBody"]
 script = ExtResource( 1 )
+player_icon = ExtResource( 6 )
 camera_view_mode = 1
 
 [node name="Name" parent="." instance=ExtResource( 3 )]
@@ -46,4 +48,6 @@ cast_to = Vector3( 0, 0, -100 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7773, 0.410057, 6.98966 )
 
 [node name="Character1" parent="." instance=ExtResource( 4 )]
-visible = false
+
+[connection signal="inventory_item_clicked" from="ScreenOverlays" to="." method="_on_ScreenOverlays_inventory_item_clicked"]
+[connection signal="skillbar_item_clicked" from="ScreenOverlays" to="." method="_on_ScreenOverlays_skillbar_item_clicked"]

@@ -65,6 +65,7 @@ shape = SubResource( 2 )
 
 [node name="Explosion" type="Particles" parent="."]
 material_override = SubResource( 3 )
+emitting = false
 amount = 100
 speed_scale = 1.5
 explosiveness = 1.0

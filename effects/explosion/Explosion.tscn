@@ -44,6 +44,7 @@ albedo_texture = ExtResource( 2 )
 material = SubResource( 6 )
 
 [node name="Explosion" type="Particles"]
+emitting = false
 amount = 200
 lifetime = 0.5
 explosiveness = 1.0

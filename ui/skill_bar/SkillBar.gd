@@ -6,6 +6,8 @@ var _config:SkillBarUIConfig = SkillBarUIConfig.new()
 onready var _grid_container:GridContainer = $CenterContainer/ItemSlotsUI
 onready var item_slots_ui:ItemSlotsUI = $CenterContainer/ItemSlotsUI
 
+signal item_clicked(item_collector)
+
 func update_data(config:SkillBarUIConfig):
 	_config = config
 	
@@ -20,3 +22,5 @@ func update_data(config:SkillBarUIConfig):
 	
 	item_slots_ui.update_data(item_slots_ui_config)
 		
+func _on_ItemSlotsUI_item_clicked(item_collector):
+	emit_signal("item_clicked", item_collector)

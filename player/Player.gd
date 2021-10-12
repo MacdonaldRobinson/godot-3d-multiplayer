@@ -11,7 +11,7 @@ var velocity:Vector3 = Vector3.ZERO
 var mouse_delta
 var current_camera:Camera
 var currently_equipped_item:Interactable = null
-var collected_items:ItemCollectors
+var collected_items:ItemCollectors = ItemCollectors.new()
 
 enum CameraViewMode {
 	FIRST_PERSON = 0,
@@ -29,7 +29,7 @@ export var camera_zoom_ticks:float = 1
 export var health:int = 100 setget _set_health
 export var energy:int = 100 setget _set_energy
 export var player_name:String = "Player" setget _set_player_name
-
+export(Texture) var player_icon:Texture
 export(CameraViewMode) var camera_view_mode = CameraViewMode.FIRST_PERSON
 
 onready var _camera_pivot = $CameraPivot
@@ -238,6 +238,12 @@ func _input(event):
 	if Input.is_action_just_pressed("toggle_mouse_capture"):
 		Globals.toggle_mouse_capture()		
 		
+	if Input.is_action_just_pressed("inventory"):
+		if !_screen_overlay.inventory.visible:
+			_screen_overlay.inventory.show()
+		else:
+			_screen_overlay.inventory.hide()
+		
 	if Input.is_action_just_pressed("camera_view_toggle"):
 		if camera_view_mode == CameraViewMode.FIRST_PERSON:
 			camera_view_mode = CameraViewMode.THIRD_PERSON
@@ -323,9 +329,8 @@ func look_at_weapon_ray_cast():
 		
 	else:
 		_equip_holder.rotation = _equip_holder.rotation.linear_interpolate(Vector3.ZERO, 0.1)		
-			
 
-		
+
 	Globals.peer_data.equip_holder_transform = _equip_holder.global_transform
 
 func sync_camera_pivot_property(property_name:String, new_property_value):
@@ -452,3 +457,18 @@ func _physics_process(delta):
 	if self.global_transform.origin.y < -50:
 		print("died")
 		#queue_free()
+
+
+func _on_ScreenOverlays_inventory_item_clicked(item_collector):
+	var find_index = collected_items._item_collectors.find(item_collector)
+	
+	if find_index >= 0:
+		equip_item_index(find_index)
+
+
+func _on_ScreenOverlays_skillbar_item_clicked(item_collector):
+	print("_on_ScreenOverlays_skillbar_item_clicked", item_collector)
+	var find_index = collected_items._item_collectors.find(item_collector)
+	
+	if find_index >= 0:
+		equip_item_index(find_index)

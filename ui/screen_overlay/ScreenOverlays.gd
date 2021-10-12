@@ -8,6 +8,9 @@ onready var skill_bar:SkillBarUI = $HBoxContainer/Bottom/SkillBar
 onready var chat_panel:ChatPanel = $HBoxContainer/VBoxContainer/ChatPanel
 onready var inventory:InventoryUI = $InventoryUI
 
+signal inventory_item_clicked(item_collector)
+signal skillbar_item_clicked(item_collector)
+
 func update_data(player_name:String, 
 			health:int, 
 			energy:int,
@@ -19,7 +22,6 @@ func update_data(player_name:String,
 	
 	var inventory_ui_config:InventoryUIConfig = InventoryUIConfig.new()
 	inventory_ui_config.item_collectors = collected_items	
-	
 	inventory.update_data(inventory_ui_config)
 	
 	var skill_bar_config:SkillBarUIConfig = SkillBarUIConfig.new()
@@ -33,3 +35,11 @@ func _input(event):
 		chat_panel.send_message.release_focus()
 	else:
 		chat_panel.modulate.a = 1
+
+
+func _on_InventoryUI_item_clicked(item_collector):
+	emit_signal("inventory_item_clicked", item_collector)
+
+
+func _on_SkillBar_item_clicked(item_collector):
+	emit_signal("skillbar_item_clicked", item_collector)

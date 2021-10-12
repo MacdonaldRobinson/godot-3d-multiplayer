@@ -3,6 +3,8 @@ class_name ItemSlotUI
 
 var _config:ItemSlotUIConfig = ItemSlotUIConfig.new()
 
+signal item_clicked(item_collector)
+
 func update_data(config:ItemSlotUIConfig):
 	var item_background:NinePatchRect = $ItemBackground
 	var item:TextureButton = $ItemBackground/Item
@@ -29,3 +31,7 @@ func update_data(config:ItemSlotUIConfig):
 		item_count.show()
 	else:
 		item_count.hide()
+
+
+func _on_Item_pressed():
+	emit_signal("item_clicked", _config.item_collector)

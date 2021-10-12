@@ -27,8 +27,8 @@ __meta__ = {
 [node name="ItemSlotsUI" parent="CenterContainer" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 376.0
-margin_right = 648.0
+margin_left = 264.0
+margin_right = 536.0
 margin_bottom = 65.0
 columns = 5
 
@@ -50,3 +50,5 @@ margin_bottom = 65.0
 margin_left = 207.0
 margin_right = 272.0
 margin_bottom = 65.0
+
+[connection signal="item_clicked" from="CenterContainer/ItemSlotsUI" to="." method="_on_ItemSlotsUI_item_clicked"]

@@ -6,10 +6,11 @@
 [ext_resource path="res://ui/item_slot/ItemSlotUI.tscn" type="PackedScene" id=4]
 
 [node name="InventoryUI" type="Popup"]
+visible = true
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -724.0
-margin_bottom = -200.0
+margin_right = -504.0
+margin_bottom = -17.0
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -17,23 +18,28 @@ __meta__ = {
 
 [node name="PopupWindowUI" parent="." instance=ExtResource( 2 )]
 
+[node name="ColorRect" parent="PopupWindowUI" index="0"]
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
 [node name="Top" parent="PopupWindowUI/VBoxContainer" index="0"]
-margin_right = 300.0
+margin_right = 296.0
 
 [node name="Title" parent="PopupWindowUI/VBoxContainer/Top" index="0"]
-margin_right = 276.0
+margin_right = 272.0
 text = "Inventory"
 
 [node name="MarginContainer2" parent="PopupWindowUI/VBoxContainer/Top" index="1"]
-margin_left = 280.0
-margin_right = 300.0
+margin_left = 276.0
+margin_right = 296.0
 
 [node name="Middle" parent="PopupWindowUI/VBoxContainer" index="1"]
-margin_right = 300.0
+margin_right = 296.0
+margin_bottom = 384.0
 
 [node name="MarginContainer" type="MarginContainer" parent="PopupWindowUI/VBoxContainer/Middle" index="0"]
 margin_right = 282.0
-margin_bottom = 134.0
+margin_bottom = 410.0
 custom_constants/margin_left = 10
 
 [node name="ItemSlotsUI" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer" instance=ExtResource( 1 )]
@@ -41,7 +47,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 10.0
 margin_right = 282.0
-margin_bottom = 134.0
+margin_bottom = 410.0
 columns = 4
 
 [node name="Slot" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
@@ -67,5 +73,115 @@ margin_bottom = 65.0
 margin_top = 69.0
 margin_right = 65.0
 margin_bottom = 134.0
+
+[node name="Slot6" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
+margin_left = 69.0
+margin_top = 69.0
+margin_right = 134.0
+margin_bottom = 134.0
+
+[node name="Slot7" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
+margin_left = 138.0
+margin_top = 69.0
+margin_right = 203.0
+margin_bottom = 134.0
+
+[node name="Slot8" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
+margin_left = 207.0
+margin_top = 69.0
+margin_right = 272.0
+margin_bottom = 134.0
+
+[node name="Slot9" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
+margin_top = 138.0
+margin_right = 65.0
+margin_bottom = 203.0
+
+[node name="Slot10" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
+margin_left = 69.0
+margin_top = 138.0
+margin_right = 134.0
+margin_bottom = 203.0
+
+[node name="Slot11" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
+margin_left = 138.0
+margin_top = 138.0
+margin_right = 203.0
+margin_bottom = 203.0
+
+[node name="Slot12" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
+margin_left = 207.0
+margin_top = 138.0
+margin_right = 272.0
+margin_bottom = 203.0
+
+[node name="Slot13" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
+margin_top = 207.0
+margin_right = 65.0
+margin_bottom = 272.0
+
+[node name="Slot14" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
+margin_left = 69.0
+margin_top = 207.0
+margin_right = 134.0
+margin_bottom = 272.0
+
+[node name="Slot15" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
+margin_left = 138.0
+margin_top = 207.0
+margin_right = 203.0
+margin_bottom = 272.0
+
+[node name="Slot16" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
+margin_left = 207.0
+margin_top = 207.0
+margin_right = 272.0
+margin_bottom = 272.0
+
+[node name="Slot17" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
+margin_top = 276.0
+margin_right = 65.0
+margin_bottom = 341.0
+
+[node name="Slot18" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
+margin_left = 69.0
+margin_top = 276.0
+margin_right = 134.0
+margin_bottom = 341.0
+
+[node name="Slot19" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
+margin_left = 138.0
+margin_top = 276.0
+margin_right = 203.0
+margin_bottom = 341.0
+
+[node name="Slot20" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
+margin_left = 207.0
+margin_top = 276.0
+margin_right = 272.0
+margin_bottom = 341.0
+
+[node name="Slot21" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
+margin_top = 345.0
+margin_right = 65.0
+margin_bottom = 410.0
+
+[node name="Slot22" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
+margin_left = 69.0
+margin_top = 345.0
+margin_right = 134.0
+margin_bottom = 410.0
+
+[node name="Slot23" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
+margin_left = 138.0
+margin_top = 345.0
+margin_right = 203.0
+margin_bottom = 410.0
+
+[node name="Slot24" parent="PopupWindowUI/VBoxContainer/Middle/MarginContainer/ItemSlotsUI" instance=ExtResource( 4 )]
+margin_left = 207.0
+margin_top = 345.0
+margin_right = 272.0
+margin_bottom = 410.0
 
 [editable path="PopupWindowUI"]

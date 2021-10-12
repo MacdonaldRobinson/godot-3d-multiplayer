@@ -47,8 +47,8 @@ __meta__ = {
 
 [node name="PlayersStatsPanel" parent="Top" instance=ExtResource( 6 )]
 anchor_right = 0.0
-margin_right = 994.0
-margin_bottom = 70.0
+margin_right = 770.0
+margin_bottom = 101.0
 size_flags_horizontal = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
@@ -59,9 +59,9 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
-margin_top = 420.0
+margin_top = 220.0
 margin_right = 234.0
-margin_bottom = 570.0
+margin_bottom = 370.0
 size_flags_vertical = 8
 __meta__ = {
 "_edit_use_anchors_": false
@@ -77,9 +77,9 @@ rect_min_size = Vector2( 200, 150 )
 
 [node name="Bottom" type="HBoxContainer" parent="HBoxContainer"]
 margin_left = 238.0
-margin_top = 500.0
-margin_right = 994.0
-margin_bottom = 570.0
+margin_top = 300.0
+margin_right = 770.0
+margin_bottom = 370.0
 size_flags_horizontal = 3
 size_flags_vertical = 8
 alignment = 2
@@ -90,7 +90,7 @@ __meta__ = {
 [node name="SkillBar" parent="HBoxContainer/Bottom" instance=ExtResource( 10 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 601.0
+margin_right = 377.0
 margin_bottom = 70.0
 
 [node name="CollectedItemsStatsPanel" parent="HBoxContainer/Bottom" instance=ExtResource( 2 )]
@@ -106,22 +106,24 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 605.0
+margin_left = 381.0
 margin_top = 0.0
-margin_right = 756.0
+margin_right = 532.0
 margin_bottom = 70.0
 size_flags_horizontal = 1
 
 [node name="DialogPanel" parent="." instance=ExtResource( 1 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -287.76
-margin_top = -49.8591
-margin_right = 282.24
-margin_bottom = -13.8591
+margin_left = -288.819
+margin_top = 14.7682
+margin_right = 281.181
+margin_bottom = 50.7682
 size_flags_horizontal = 3
 
 [node name="InventoryUI" parent="." instance=ExtResource( 3 )]
+
+[connection signal="item_clicked" from="HBoxContainer/Bottom/SkillBar" to="." method="_on_SkillBar_item_clicked"]
+[connection signal="item_clicked" from="InventoryUI" to="." method="_on_InventoryUI_item_clicked"]

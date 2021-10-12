@@ -5,6 +5,8 @@ var _config:ItemSlotsUIConfig = ItemSlotsUIConfig.new()
 var _grid_container:GridContainer = self
 var _item_slot_ui_scene:PackedScene = preload("res://ui/item_slot/ItemSlotUI.tscn")
 
+signal item_clicked(item_collector)
+
 func update_data(config:ItemSlotsUIConfig):
 	_config = config
 	_populate()
@@ -15,6 +17,8 @@ func _clear_items():
 
 func _create_empty_slots():
 	if _grid_container.get_child_count() != _config.max_capacity:		
+		_clear_items()
+		
 		for index in _config.max_capacity:
 			var found_slot:ItemSlotUI = null
 			var config:ItemSlotUIConfig = ItemSlotUIConfig.new()
@@ -77,4 +81,11 @@ func _populate():
 		if slot is ItemSlotUI:
 			var config:ItemSlotUIConfig = slot._config
 			config.show_item_count = _config.show_item_count
+			
+			if !slot.is_connected("item_clicked", self,  "_item_clicked"):
+				slot.connect("item_clicked", self, "_item_clicked")
+				
 			slot.update_data(config)
+
+func _item_clicked(item_collector:ItemCollector):
+	emit_signal("item_clicked", item_collector)

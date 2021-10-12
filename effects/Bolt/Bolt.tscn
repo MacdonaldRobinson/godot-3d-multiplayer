@@ -77,11 +77,13 @@ material = SubResource( 11 )
 [node name="Bolt" type="Spatial"]
 
 [node name="Bolt" type="Particles" parent="."]
+emitting = false
 amount = 90
 process_material = SubResource( 5 )
 draw_pass_1 = SubResource( 7 )
 
 [node name="Sparks" type="Particles" parent="."]
+emitting = false
 amount = 100
 lifetime = 2.0
 local_coords = false

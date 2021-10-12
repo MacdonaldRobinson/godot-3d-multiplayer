@@ -1,7 +1,7 @@
 extends Resource
 class_name ItemCollectors
 
-var _item_collectors:Array = []
+var _item_collectors:Array = [] 
 
 func get_skills() -> Array:
 	var skill_item_collectors:Array = []

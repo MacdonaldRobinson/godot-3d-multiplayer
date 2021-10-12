@@ -40,6 +40,7 @@ material = SubResource( 6 )
 
 [node name="Flames" type="Particles"]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.151719, 0, -6.63185e-09 )
+emitting = false
 amount = 100
 process_material = SubResource( 5 )
 draw_pass_1 = SubResource( 7 )

@@ -5,6 +5,7 @@ class_name PeerData
 var peer_name = "Name"
 var energy:int = 100
 var health:int = 100
+var player_icon:Texture
 var global_transform:Transform
 var equip_holder_transform:Transform
 var equip_holder_rotation:Vector3
