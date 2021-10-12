@@ -28,3 +28,7 @@ func update_data(config:InventoryUIConfig):
 
 func _item_clicked(item_collector:ItemCollector):
 	emit_signal("item_clicked", item_collector)
+
+
+func _on_PopupWindowUI_close_window():
+	self.hide()

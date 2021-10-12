@@ -2,6 +2,7 @@ extends Control
 class_name PopupWindowUI
 
 onready var _middle:ScrollContainer = $VBoxContainer/Middle
+signal close_window
 
 var _config:PopupWindowUIConfig = PopupWindowUIConfig.new()
 
@@ -21,4 +22,4 @@ func _input(event):
 				parent.move_child(self, parent.get_child_count())
 
 func _on_CloseButton_pressed():
-	self.hide()
+	emit_signal("close_window")

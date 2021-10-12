@@ -33,7 +33,7 @@ __meta__ = {
 }
 
 [node name="Top" type="HBoxContainer" parent="VBoxContainer"]
-margin_right = 800.0
+margin_right = 1024.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 0, 30 )
 size_flags_horizontal = 3
@@ -41,7 +41,7 @@ alignment = 1
 script = ExtResource( 2 )
 
 [node name="Title" type="Label" parent="VBoxContainer/Top"]
-margin_right = 776.0
+margin_right = 1000.0
 margin_bottom = 30.0
 size_flags_horizontal = 3
 size_flags_vertical = 5
@@ -50,8 +50,8 @@ align = 1
 valign = 1
 
 [node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/Top"]
-margin_left = 780.0
-margin_right = 800.0
+margin_left = 1004.0
+margin_right = 1024.0
 margin_bottom = 30.0
 size_flags_vertical = 3
 
@@ -69,8 +69,8 @@ stretch_mode = 4
 
 [node name="Middle" type="ScrollContainer" parent="VBoxContainer"]
 margin_top = 34.0
-margin_right = 800.0
-margin_bottom = 400.0
+margin_right = 1024.0
+margin_bottom = 600.0
 rect_min_size = Vector2( 285, 350 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
