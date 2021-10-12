@@ -59,11 +59,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://interactables/collectables/Collectable.gd"
 }, {
-"base": "Reference",
-"class": "DateTimeUtil",
-"language": "GDScript",
-"path": "res://addons/jc.godot.time-of-day/Code/TimeOfDay/DateTime/DateTimeUtil.gd"
-}, {
 "base": "VBoxContainer",
 "class": "DialogPanel",
 "language": "GDScript",
@@ -103,16 +98,6 @@ _global_script_classes=[ {
 "class": "Grenade",
 "language": "GDScript",
 "path": "res://interactables/collectables/weapons/throwable_weapons/grenade/Grenade.gd"
-}, {
-"base": "ResourceFormatLoader",
-"class": "HTerrainDataLoader",
-"language": "GDScript",
-"path": "res://addons/zylann.hterrain/hterrain_resource_loader.gd"
-}, {
-"base": "ResourceFormatSaver",
-"class": "HTerrainDataSaver",
-"language": "GDScript",
-"path": "res://addons/zylann.hterrain/hterrain_resource_saver.gd"
 }, {
 "base": "Interactable",
 "class": "HealthRefillStation",
@@ -189,11 +174,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://lobby/networking/NodeData.gd"
 }, {
-"base": "Reference",
-"class": "OrbitalElements",
-"language": "GDScript",
-"path": "res://addons/jc.godot.time-of-day/Code/TimeOfDay/OrbitalElements.gd"
-}, {
 "base": "Node",
 "class": "PeerData",
 "language": "GDScript",
@@ -229,11 +209,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://interactables/collectables/weapons/weapon_projectiles/riffle/Riffle.gd"
 }, {
-"base": "Reference",
-"class": "ScatterLib",
-"language": "GDScript",
-"path": "res://addons/jc.godot.time-of-day/Code/Sky/ScatterLib.gd"
-}, {
 "base": "Control",
 "class": "ScreenOverlay",
 "language": "GDScript",
@@ -249,21 +224,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/skill_bar/SkillBarUIConfig.gd"
 }, {
-"base": "Reference",
-"class": "SkyConst",
-"language": "GDScript",
-"path": "res://addons/jc.godot.time-of-day/Code/Sky/SkyConstants.gd"
-}, {
-"base": "Node",
-"class": "Skydome",
-"language": "GDScript",
-"path": "res://addons/jc.godot.time-of-day/Code/Sky/Skydome.gd"
-}, {
-"base": "Resource",
-"class": "SkydomeResources",
-"language": "GDScript",
-"path": "res://addons/jc.godot.time-of-day/Code/Sky/SkydomeResources.gd"
-}, {
 "base": "Node",
 "class": "Slot",
 "language": "GDScript",
@@ -278,11 +238,6 @@ _global_script_classes=[ {
 "class": "Sprayable",
 "language": "GDScript",
 "path": "res://interactables/collectables/mesh_spray/structures/sprayable/Wall.gd"
-}, {
-"base": "Reference",
-"class": "TOD_Math",
-"language": "GDScript",
-"path": "res://addons/jc.godot.time-of-day/Code/Util/TOD_Math.gd"
 }, {
 "base": "CSGBox",
 "class": "Terrain",
@@ -303,11 +258,6 @@ _global_script_classes=[ {
 "class": "ThrowableWeaponConfig",
 "language": "GDScript",
 "path": "res://interactables/collectables/weapons/throwable_weapons/ThrowableWeaponConfig.gd"
-}, {
-"base": "Node",
-"class": "TimeOfDay",
-"language": "GDScript",
-"path": "res://addons/jc.godot.time-of-day/Code/TimeOfDay/TimeOfDay.gd"
 }, {
 "base": "Control",
 "class": "UI",
@@ -340,7 +290,6 @@ _global_script_class_icons={
 "Characters": "",
 "ChatPanel": "",
 "Collectable": "",
-"DateTimeUtil": "",
 "DialogPanel": "",
 "DragHandleUI": "",
 "DragHandleUIConfig": "",
@@ -349,8 +298,6 @@ _global_script_class_icons={
 "FlameThrower": "",
 "Flames": "",
 "Grenade": "",
-"HTerrainDataLoader": "",
-"HTerrainDataSaver": "",
 "HealthRefillStation": "",
 "Interactable": "",
 "InventoryUI": "",
@@ -366,7 +313,6 @@ _global_script_class_icons={
 "MeshSpray": "",
 "Message": "",
 "NodeData": "",
-"OrbitalElements": "",
 "PeerData": "",
 "Player": "",
 "PlayerStatsPanel": "",
@@ -374,22 +320,16 @@ _global_script_class_icons={
 "PopupWindowUIConfig": "",
 "Progress3D": "",
 "Riffle": "",
-"ScatterLib": "",
 "ScreenOverlay": "",
 "SkillBarUI": "",
 "SkillBarUIConfig": "",
-"SkyConst": "",
-"Skydome": "",
-"SkydomeResources": "",
 "Slot": "",
 "SlotsPanel": "",
 "Sprayable": "",
-"TOD_Math": "",
 "Terrain": "",
 "Text3D": "",
 "ThrowableWeapon": "",
 "ThrowableWeaponConfig": "",
-"TimeOfDay": "",
 "UI": "",
 "Weapon": "",
 "WeaponProjectile": "",
@@ -419,7 +359,7 @@ window/size/always_on_top=true
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/SIsilicon.vfx.godrays/plugin.cfg", "res://addons/jc.godot.time-of-day/plugin.cfg", "res://addons/waterways/plugin.cfg", "res://addons/zylann.hterrain/plugin.cfg", "res://addons/zylann.scatter/plugin.cfg" )
+enabled=PoolStringArray(  )
 
 [input]
 
