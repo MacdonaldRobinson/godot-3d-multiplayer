@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://interactables/collectables/mesh_spray/MeshSpray.tscn" type="PackedScene" id=1]
 [ext_resource path="res://worlds/levels/Level.gd" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://interactables/collectables/weapons/throwable_weapons/grenade/Grenade.tscn" type="PackedScene" id=11]
 [ext_resource path="res://interactables/collectables/weapons/flame_thrower/FlameThrower.tscn" type="PackedScene" id=12]
 [ext_resource path="res://interactables/collectables/weapons/throwable_weapons/arcane_bolt/ArcaneBolt.tscn" type="PackedScene" id=13]
+[ext_resource path="res://player/Player.tscn" type="PackedScene" id=14]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 9 )
@@ -28,10 +29,10 @@ environment = ExtResource( 3 )
 [node name="Interactables" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12.8166, 0 )
 
-[node name="Launcher" parent="Interactables" instance=ExtResource( 8 )]
+[node name="Riffle" parent="Interactables" instance=ExtResource( 8 )]
 transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0.8578, 0 )
 
-[node name="Launcher2" parent="Interactables" instance=ExtResource( 8 )]
+[node name="Riffle2" parent="Interactables" instance=ExtResource( 8 )]
 transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -8.56971, 0.8578, 0 )
 
 [node name="HealthRefillStation" parent="Interactables" instance=ExtResource( 6 )]
@@ -65,6 +66,8 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.980178, 9.42885 )
 
 [node name="Players" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.9559, 9.25914 )
+
+[node name="Player" parent="Players" instance=ExtResource( 14 )]
 
 [node name="Terrain" type="CSGBox" parent="."]
 material_override = SubResource( 1 )

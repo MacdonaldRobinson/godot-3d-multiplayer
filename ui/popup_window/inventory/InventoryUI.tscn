@@ -6,11 +6,14 @@
 [ext_resource path="res://ui/item_slot/ItemSlotUI.tscn" type="PackedScene" id=4]
 
 [node name="InventoryUI" type="Popup"]
-visible = true
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -727.0
-margin_bottom = -218.0
+margin_left = 26.4866
+margin_top = 19.0703
+margin_right = -700.513
+margin_bottom = -198.93
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false

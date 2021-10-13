@@ -125,10 +125,10 @@ margin_bottom = 50.7682
 size_flags_horizontal = 3
 
 [node name="InventoryUI" parent="." instance=ExtResource( 3 )]
-margin_left = 276.52
-margin_top = 104.887
-margin_right = -450.48
-margin_bottom = -113.113
+margin_left = 127.136
+margin_top = 83.6976
+margin_right = -599.864
+margin_bottom = -134.302
 
 [connection signal="item_clicked" from="HBoxContainer/Bottom/SkillBar" to="." method="_on_SkillBar_item_clicked"]
 [connection signal="item_clicked" from="InventoryUI" to="." method="_on_InventoryUI_item_clicked"]

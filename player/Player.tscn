@@ -46,9 +46,9 @@ cast_to = Vector3( 0, 0, -100 )
 
 [node name="ThirdPerson" type="Camera" parent="CameraPivot/MainCamera"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7773, 0.410057, 6.98966 )
+far = 8192.0
 
 [node name="Character1" parent="." instance=ExtResource( 4 )]
-visible = false
 
 [connection signal="inventory_item_clicked" from="ScreenOverlays" to="." method="_on_ScreenOverlays_inventory_item_clicked"]
 [connection signal="skillbar_item_clicked" from="ScreenOverlays" to="." method="_on_ScreenOverlays_skillbar_item_clicked"]

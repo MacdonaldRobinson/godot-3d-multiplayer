@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://interactables/collectables/weapons/weapon_projectiles/riffle/Riffle.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://interactables/collectables/weapons/weapon_projectiles/riffle/icon.png" type="Texture" id=3]
 
 [sub_resource type="CylinderShape" id=1]
 radius = 0.5
@@ -17,8 +18,9 @@ top_radius = 0.5
 bottom_radius = 0.5
 height = 3.0
 
-[node name="Launcher" type="RigidBody"]
+[node name="Riffle" type="RigidBody"]
 script = ExtResource( 1 )
+item_icon_texture = ExtResource( 3 )
 
 [node name="AmmoSpawnPosition" type="Position3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.48767 )
@@ -30,3 +32,8 @@ shape = SubResource( 1 )
 [node name="MeshInstance" type="MeshInstance" parent="CollisionShape"]
 mesh = SubResource( 3 )
 material/0 = null
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

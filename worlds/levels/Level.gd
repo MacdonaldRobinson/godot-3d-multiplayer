@@ -6,6 +6,7 @@ class_name Level
 #		set_process(true)
 #	else:
 #		set_process(false)
+var previous:Dictionary = {}
 
 remote func _rpc_node_removed(node_path:String):
 	if has_node(node_path):
@@ -27,8 +28,10 @@ remote func remove_node(node_path:String):
 		var node = get_node(node_path)
 		node.get_parent().remove_child(node)
 
-var previous:Dictionary = {}
 func _process(event):
+	if !Globals.is_network_peer_connected():
+		return
+	
 	if !Globals.is_network_master():	
 		return
 

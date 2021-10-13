@@ -421,7 +421,7 @@ func _physics_process(delta):
 				rpc("equipped_item_primary_action")
 			else:
 				equipped_item_primary_action()
-		elif currently_equipped_item is Collectable and Input.is_action_pressed("secondary_action"):			
+		if currently_equipped_item is Collectable and Input.is_action_pressed("secondary_action"):			
 			if Globals.is_network_peer_connected():
 				rpc("equipped_item_secondary_action")
 			else:
@@ -460,6 +460,7 @@ func _physics_process(delta):
 
 
 func _on_ScreenOverlays_inventory_item_clicked(item_collector):
+	print("_on_ScreenOverlays_inventory_item_clicked", item_collector)
 	var find_index = collected_items._item_collectors.find(item_collector)
 	
 	if find_index >= 0:
