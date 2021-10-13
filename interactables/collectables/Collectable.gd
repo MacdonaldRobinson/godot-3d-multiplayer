@@ -22,10 +22,15 @@ func set_secondary_item_collector(secondary_item_collector:ItemCollector):
 	self.secondary_item_collector = secondary_item_collector
 
 func decrease_item_collector_amount(item_collector:ItemCollector) ->ItemCollector:
-	if item_collector.current_amount > 0:
-		item_collector.current_amount -=1
+	if item_collector:
+		if item_collector.current_amount > 0:
+			item_collector.current_amount -=1
+			
+		return item_collector
+	else:
+		print("item_collector is null")
 		
-	return item_collector
+	return null
 	
 func can_use_item_collector(item_collector:ItemCollector) -> bool:
 	if item_collector.current_amount != 0:
