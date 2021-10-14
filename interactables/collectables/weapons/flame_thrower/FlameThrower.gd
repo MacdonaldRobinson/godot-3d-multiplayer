@@ -7,6 +7,8 @@ onready var emission_point:Position3D = $EmissionPoint
 onready var flames:Particles = $EmissionPoint/Flames
 onready var area_of_effect:Area = $Area
 
+var timer:Timer = Timer.new()
+
 func _ready():	
 	self.item_name = "Flame Thrower"
 	flames.emitting = false
@@ -20,21 +22,29 @@ func _ready():
 	
 	self.set_primary_item_collector(primary_item_collector)
 	
+	add_child(timer)
+	
+	timer.one_shot = true
+	timer.autostart = true
+	timer.connect("timeout", self, "_on_Timer_timeout")
+	
+	
 func primary_action():
 	if self.can_use_primary_item():
 		.primary_action()
 		flames.emitting = true
-		
-		yield(get_tree().create_timer(0.5), "timeout")
 		
 		var bodies = area_of_effect.get_overlapping_bodies()
 		
 		for body in bodies:
 			if body is Player:
 				body.health -= 1
-		
-		
-	else:
-		flames.emitting = false
+				
+		timer.start(0.1)
+
+
+func _on_Timer_timeout():
+	print("ran")
+	flames.emitting = false
 		
 	

@@ -26,7 +26,7 @@ func _ready():
 	self.item_name = "Riffle"
 	self.set_ammo_spawn_position($AmmoSpawnPosition)
 	self.set_primary_item_collector(primary_ammo_collector)
-	#self.set_secondary_item_collector(secondary_ammo_collector)
+	self.set_secondary_item_collector(secondary_ammo_collector)
 	
 	add_child(timer)
 	
@@ -58,7 +58,7 @@ func _process(delta):
 	if can_zoom_out:
 		var owner = get_parent().owner
 		if owner is Player and owner.current_camera:		
-			if owner.current_camera.fov < initial_camera_fov-1:
+			if owner.current_camera.fov < initial_camera_fov-0.1:
 				owner.current_camera.fov = lerp(owner.current_camera.fov, initial_camera_fov, 0.1)
 				#print("ran _process", owner.current_camera.fov, initial_camera_fov)
 			else:

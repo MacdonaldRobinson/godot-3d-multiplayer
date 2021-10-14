@@ -1,0 +1,78 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://ui/stats_panels/item_stats_panel/ItemStatsPanelUI.gd" type="Script" id=1]
+[ext_resource path="res://ui/stats_panels/item_stats_panel/ammo_collector_ui/AmmoCollectorUI.tscn" type="PackedScene" id=2]
+
+[node name="ItemStatsPanelUI" type="MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+size_flags_vertical = 9
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemStatsPanel" type="HBoxContainer" parent="."]
+margin_right = 190.0
+margin_bottom = 63.0
+size_flags_horizontal = 9
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Primary" type="VBoxContainer" parent="ItemStatsPanel"]
+margin_right = 86.0
+margin_bottom = 63.0
+
+[node name="Label" type="Label" parent="ItemStatsPanel/Primary"]
+margin_right = 86.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+size_flags_vertical = 5
+text = "Primary"
+align = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="ItemStatsPanel/Primary"]
+margin_top = 18.0
+margin_right = 86.0
+margin_bottom = 18.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AmmoCollectorUI" parent="ItemStatsPanel/Primary" instance=ExtResource( 2 )]
+margin_top = 22.0
+margin_bottom = 63.0
+
+[node name="MarginContainer" type="MarginContainer" parent="ItemStatsPanel"]
+margin_left = 90.0
+margin_right = 100.0
+margin_bottom = 63.0
+rect_min_size = Vector2( 10, 0 )
+
+[node name="Secondary" type="VBoxContainer" parent="ItemStatsPanel"]
+margin_left = 104.0
+margin_right = 190.0
+margin_bottom = 63.0
+
+[node name="Label2" type="Label" parent="ItemStatsPanel/Secondary"]
+margin_right = 86.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+size_flags_vertical = 5
+text = "Secondary"
+align = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="ItemStatsPanel/Secondary"]
+margin_top = 18.0
+margin_right = 86.0
+margin_bottom = 18.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AmmoCollectorUI3" parent="ItemStatsPanel/Secondary" instance=ExtResource( 2 )]
+margin_top = 22.0
+margin_bottom = 63.0

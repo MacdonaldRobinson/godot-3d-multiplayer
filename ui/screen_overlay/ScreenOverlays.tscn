@@ -3,7 +3,7 @@
 [ext_resource path="res://ui/dialog_panel/DialogPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://ui/slots_panel/SlotsPanel.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ui/popup_window/inventory/InventoryUI.tscn" type="PackedScene" id=3]
-[ext_resource path="res://ui/stats_panels/item_stats_panel/ItemStatsPanel.tscn" type="PackedScene" id=4]
+[ext_resource path="res://ui/stats_panels/item_stats_panel/ItemStatsPanelUI.tscn" type="PackedScene" id=4]
 [ext_resource path="res://ui/chat_panel/ChatPanel.tscn" type="PackedScene" id=5]
 [ext_resource path="res://ui/stats_panels/player_stats_panel/PlayerStatsPanel.tscn" type="PackedScene" id=6]
 [ext_resource path="res://ui/screen_overlay/ScreenOverlays.gd" type="Script" id=7]
@@ -77,11 +77,12 @@ rect_min_size = Vector2( 200, 150 )
 
 [node name="Bottom" type="HBoxContainer" parent="HBoxContainer"]
 margin_left = 206.0
-margin_top = 512.0
+margin_top = 468.0
 margin_right = 994.0
 margin_bottom = 570.0
+rect_min_size = Vector2( 0, 75 )
 size_flags_horizontal = 3
-size_flags_vertical = 8
+size_flags_vertical = 10
 alignment = 2
 __meta__ = {
 "_edit_use_anchors_": false
@@ -90,27 +91,24 @@ __meta__ = {
 [node name="SkillBar" parent="HBoxContainer/Bottom" instance=ExtResource( 10 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 655.0
-margin_bottom = 58.0
+margin_right = 508.0
+margin_bottom = 102.0
 
 [node name="CollectedItemsStatsPanel" parent="HBoxContainer/Bottom" instance=ExtResource( 2 )]
 visible = false
 anchor_right = 0.0
-margin_right = 597.0
+margin_left = 264.0
+margin_right = 524.0
 rect_min_size = Vector2( 0, 85 )
 size_flags_horizontal = 3
 size_flags_vertical = 8
 
 [node name="CurrentlyEquippedItemStatsPanel" parent="HBoxContainer/Bottom" instance=ExtResource( 4 )]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 659.0
+margin_left = 512.0
 margin_top = 0.0
 margin_right = 788.0
-margin_bottom = 58.0
-size_flags_horizontal = 1
+margin_bottom = 102.0
+size_flags_vertical = 1
 
 [node name="DialogPanel" parent="." instance=ExtResource( 1 )]
 visible = false
@@ -125,10 +123,6 @@ margin_bottom = 50.7682
 size_flags_horizontal = 3
 
 [node name="InventoryUI" parent="." instance=ExtResource( 3 )]
-margin_left = 127.136
-margin_top = 83.6976
-margin_right = -599.864
-margin_bottom = -134.302
 
 [connection signal="item_clicked" from="HBoxContainer/Bottom/SkillBar" to="." method="_on_SkillBar_item_clicked"]
 [connection signal="item_clicked" from="InventoryUI" to="." method="_on_InventoryUI_item_clicked"]

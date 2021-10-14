@@ -1,4 +1,5 @@
 extends VBoxContainer
+class_name AmmoCollectorUI
 
 onready var _item_name:Label = $ItemName
 onready var _current_amount:Label = $CurrentOfMax/Current
