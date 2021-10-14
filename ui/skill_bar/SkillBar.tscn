@@ -27,9 +27,11 @@ __meta__ = {
 [node name="ItemSlotsUI" parent="CenterContainer" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 264.0
-margin_right = 536.0
+margin_left = 376.0
+margin_right = 648.0
 margin_bottom = 65.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
 columns = 5
 
 [node name="Slot" parent="CenterContainer/ItemSlotsUI" instance=ExtResource( 1 )]

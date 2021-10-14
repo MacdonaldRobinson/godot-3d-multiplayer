@@ -36,7 +36,6 @@ margin_bottom = 547.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 bbcode_enabled = true
-scroll_following = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 margin_top = 576.0

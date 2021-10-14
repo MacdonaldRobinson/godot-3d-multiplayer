@@ -1,78 +1,109 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://ui/stats_panels/item_stats_panel/ItemStatsPanelUI.gd" type="Script" id=1]
-[ext_resource path="res://ui/stats_panels/item_stats_panel/ammo_collector_ui/AmmoCollectorUI.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ui/stats_panels/item_stats_panel/item_collector_ui/ItemCollectorUI.tscn" type="PackedScene" id=2]
 
-[node name="ItemStatsPanelUI" type="MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = -10.0
-margin_bottom = -10.0
-size_flags_vertical = 9
+[node name="ItemStatsPanelUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 8
+size_flags_vertical = 8
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ItemStatsPanel" type="HBoxContainer" parent="."]
-margin_right = 190.0
-margin_bottom = 63.0
-size_flags_horizontal = 9
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.321569 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Primary" type="VBoxContainer" parent="ItemStatsPanel"]
-margin_right = 86.0
-margin_bottom = 63.0
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Label" type="Label" parent="ItemStatsPanel/Primary"]
-margin_right = 86.0
-margin_bottom = 14.0
+[node name="ItemStatsPanel" type="HBoxContainer" parent="MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 1014.0
+margin_bottom = 600.0
+size_flags_vertical = 9
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Primary" type="VBoxContainer" parent="MarginContainer/ItemStatsPanel"]
+margin_right = 493.0
+margin_bottom = 590.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/ItemStatsPanel/Primary"]
+margin_top = 263.0
+margin_right = 493.0
+margin_bottom = 277.0
 size_flags_horizontal = 3
 size_flags_vertical = 5
 text = "Primary"
 align = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="ItemStatsPanel/Primary"]
-margin_top = 18.0
-margin_right = 86.0
-margin_bottom = 18.0
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/ItemStatsPanel/Primary"]
+margin_top = 281.0
+margin_right = 493.0
+margin_bottom = 281.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AmmoCollectorUI" parent="ItemStatsPanel/Primary" instance=ExtResource( 2 )]
-margin_top = 22.0
-margin_bottom = 63.0
+[node name="AmmoCollectorUI" parent="MarginContainer/ItemStatsPanel/Primary" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 285.0
+margin_right = 493.0
+margin_bottom = 326.0
 
-[node name="MarginContainer" type="MarginContainer" parent="ItemStatsPanel"]
-margin_left = 90.0
-margin_right = 100.0
-margin_bottom = 63.0
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/ItemStatsPanel"]
+margin_left = 497.0
+margin_right = 507.0
+margin_bottom = 590.0
 rect_min_size = Vector2( 10, 0 )
 
-[node name="Secondary" type="VBoxContainer" parent="ItemStatsPanel"]
-margin_left = 104.0
-margin_right = 190.0
-margin_bottom = 63.0
+[node name="Secondary" type="VBoxContainer" parent="MarginContainer/ItemStatsPanel"]
+margin_left = 511.0
+margin_right = 1004.0
+margin_bottom = 590.0
+size_flags_horizontal = 3
+alignment = 1
 
-[node name="Label2" type="Label" parent="ItemStatsPanel/Secondary"]
-margin_right = 86.0
-margin_bottom = 14.0
+[node name="Label2" type="Label" parent="MarginContainer/ItemStatsPanel/Secondary"]
+margin_top = 263.0
+margin_right = 493.0
+margin_bottom = 277.0
 size_flags_horizontal = 3
 size_flags_vertical = 5
 text = "Secondary"
 align = 1
 
-[node name="MarginContainer2" type="MarginContainer" parent="ItemStatsPanel/Secondary"]
-margin_top = 18.0
-margin_right = 86.0
-margin_bottom = 18.0
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/ItemStatsPanel/Secondary"]
+margin_top = 281.0
+margin_right = 493.0
+margin_bottom = 281.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AmmoCollectorUI3" parent="ItemStatsPanel/Secondary" instance=ExtResource( 2 )]
-margin_top = 22.0
-margin_bottom = 63.0
+[node name="AmmoCollectorUI3" parent="MarginContainer/ItemStatsPanel/Secondary" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 285.0
+margin_right = 493.0
+margin_bottom = 326.0

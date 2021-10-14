@@ -1,48 +1,50 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://ui/stats_panels/item_stats_panel/ammo_collector_ui/AmmoCollectorUI.gd" type="Script" id=1]
+[ext_resource path="res://ui/stats_panels/item_stats_panel/item_collector_ui/ItemCollectorUI.gd" type="Script" id=1]
 
-[node name="AmmoCollectorUI" type="VBoxContainer"]
-margin_right = 86.0
-margin_bottom = 56.0
+[node name="ItemCollectorUI" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ItemName" type="Label" parent="."]
-margin_right = 86.0
+margin_right = 1024.0
 margin_bottom = 14.0
 text = "ItemName"
 align = 1
 
 [node name="CurrentOfMax" type="HBoxContainer" parent="."]
 margin_top = 18.0
-margin_right = 86.0
+margin_right = 1024.0
 margin_bottom = 32.0
+alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Current" type="Label" parent="CurrentOfMax"]
-margin_right = 47.0
+margin_left = 469.0
+margin_right = 516.0
 margin_bottom = 14.0
 text = "Current"
 
 [node name="Seperater" type="Label" parent="CurrentOfMax"]
-margin_left = 51.0
-margin_right = 56.0
+margin_left = 520.0
+margin_right = 525.0
 margin_bottom = 14.0
 text = "/"
 
 [node name="Max" type="Label" parent="CurrentOfMax"]
-margin_left = 60.0
-margin_right = 86.0
+margin_left = 529.0
+margin_right = 555.0
 margin_bottom = 14.0
 text = "Max"
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 margin_top = 36.0
-margin_right = 86.0
+margin_right = 1024.0
 margin_bottom = 41.0
 rect_min_size = Vector2( 0, 5 )

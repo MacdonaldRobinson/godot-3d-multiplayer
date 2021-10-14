@@ -5,7 +5,7 @@ onready var player_stats_panel:PlayerStatsPanel = $Top/PlayersStatsPanel
 onready var collected_items_panel:SlotsPanel = $HBoxContainer/Bottom/CollectedItemsStatsPanel
 onready var currently_equipped_item_stats_panel:ItemStatsPanelUI = $HBoxContainer/Bottom/CurrentlyEquippedItemStatsPanel
 onready var skill_bar:SkillBarUI = $HBoxContainer/Bottom/SkillBar
-onready var chat_panel:ChatPanel = $HBoxContainer/VBoxContainer/ChatPanel
+onready var chat_panel:ChatPanel = $HBoxContainer/Bottom/ChatPanel
 onready var inventory:InventoryUI = $InventoryUI
 
 signal inventory_item_clicked(item_collector)

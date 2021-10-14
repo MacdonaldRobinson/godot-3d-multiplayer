@@ -15,7 +15,7 @@ func _ready():
 	flames.one_shot = true
 	self.can_stack = false
 	
-	var primary_item_collector:AmmoCollector = AmmoCollector.new()
+	var primary_item_collector:ItemCollector = ItemCollector.new()
 	primary_item_collector.current_amount = -1
 	primary_item_collector.max_capacity = -1	
 	primary_item_collector.item_name = "Fuel"

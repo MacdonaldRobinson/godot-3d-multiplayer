@@ -6,10 +6,9 @@
 [ext_resource path="res://ui/item_slot/ItemSlotUI.tscn" type="PackedScene" id=4]
 
 [node name="InventoryUI" type="Popup"]
-visible = true
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -724.0
+margin_right = -725.0
 margin_bottom = -200.0
 script = ExtResource( 3 )
 __meta__ = {
@@ -17,27 +16,9 @@ __meta__ = {
 }
 
 [node name="PopupWindowUI" parent="." instance=ExtResource( 2 )]
-size_flags_horizontal = 1
-size_flags_vertical = 1
-
-[node name="ColorRect" parent="PopupWindowUI" index="0"]
-size_flags_horizontal = 1
-size_flags_vertical = 1
-
-[node name="Top" parent="PopupWindowUI/VBoxContainer" index="0"]
-margin_right = 300.0
 
 [node name="Title" parent="PopupWindowUI/VBoxContainer/Top" index="0"]
-margin_right = 276.0
 text = "Inventory"
-
-[node name="MarginContainer2" parent="PopupWindowUI/VBoxContainer/Top" index="1"]
-margin_left = 280.0
-margin_right = 300.0
-
-[node name="Middle" parent="PopupWindowUI/VBoxContainer" index="1"]
-margin_right = 300.0
-margin_bottom = 400.0
 
 [node name="MarginContainer" type="MarginContainer" parent="PopupWindowUI/VBoxContainer/Middle" index="0"]
 margin_right = 282.0
