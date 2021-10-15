@@ -15,6 +15,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -68.0
+color = Color( 0, 0, 0, 0.45098 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchor_top = 1.0
 anchor_right = 1.0
@@ -27,8 +37,8 @@ __meta__ = {
 [node name="ItemSlotsUI" parent="CenterContainer" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 376.0
-margin_right = 648.0
+margin_left = 264.0
+margin_right = 536.0
 margin_bottom = 65.0
 size_flags_horizontal = 0
 size_flags_vertical = 0

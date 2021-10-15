@@ -8,6 +8,9 @@ func _ready():
 	load_character_at_index(0)
 
 func load_character(character:Character):
+	if character == null:
+		return
+		
 	for child in selected_character_holder.get_children():
 		selected_character_holder.remove_child(child)		
 	
@@ -22,8 +25,10 @@ func load_character_at_index(index:int):
 
 func get_current_index() -> int:
 	if selected_character_holder.get_child_count() > 0:
-		return characters.find_node(selected_character_holder.get_child(0).name).get_index()
-		
+		var found_node = characters.find_node(selected_character_holder.get_child(0).name)
+		if found_node:
+			return found_node.get_index()
+			
 	return -1
 
 func _on_Previous_pressed():	

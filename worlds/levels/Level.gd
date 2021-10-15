@@ -6,7 +6,7 @@ class_name Level
 #		set_process(true)
 #	else:
 #		set_process(false)
-var previous:Dictionary = {}
+#var previous:Dictionary = {}
 
 remote func _rpc_node_removed(node_path:String):
 	if has_node(node_path):
@@ -32,7 +32,7 @@ func _process(event):
 	if !Globals.is_network_peer_connected():
 		return
 	
-	if !Globals.is_network_master():	
+	if !Globals.is_network_server():	
 		return
 
 	var nodes = get_tree().current_scene.get_children()
@@ -48,14 +48,14 @@ func _process(event):
 				var node_path:String = node.get_path()
 				var global_transform_string = var2str(node.global_transform)					
 
-				if !previous.has(node_path) or previous[node_path] != global_transform_string:						
-					rpc("update_node", node_path, global_transform_string)
-					previous[node_path] = global_transform_string
+				#if !previous.has(node_path) or previous[node_path] != global_transform_string:			
+				rpc("update_node", node_path, global_transform_string)
+					#previous[node_path] = global_transform_string
 
 				if node.global_transform.origin.y < -50:
 
 					remove_node(node_path)
 					rpc("_rpc_node_removed", node_path)
 
-					if previous.has(node_path):
-						previous.erase(node_path)
+#					if previous.has(node_path):
+#						previous.erase(node_path)

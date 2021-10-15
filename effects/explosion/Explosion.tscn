@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://effects/explosion/Explosion.gd" type="Script" id=1]
-[ext_resource path="res://assets/ui-textures/particlePack_1.1/PNG (Transparent)/fire_01.png" type="Texture" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=2]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.0169492, 1 )

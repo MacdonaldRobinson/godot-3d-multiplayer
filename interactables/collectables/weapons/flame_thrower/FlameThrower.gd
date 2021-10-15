@@ -37,8 +37,8 @@ func primary_action():
 		var bodies = area_of_effect.get_overlapping_bodies()
 		
 		for body in bodies:
-			if body is Player:
-				body.health -= 1
+			if body is Interactable:
+				body.take_damage(1)
 				
 		timer.start(0.1)
 

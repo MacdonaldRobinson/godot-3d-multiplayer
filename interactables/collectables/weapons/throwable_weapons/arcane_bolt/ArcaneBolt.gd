@@ -15,5 +15,6 @@ func _ready():
 	config.explode_delay = 0
 	config.explosion_force = 100
 	config.explosion_lifetime = 0.5
+	config.damage_given = 50
 	
 	self.setup(config)

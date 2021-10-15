@@ -1,8 +1,7 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://interactables/collectables/weapons/throwable_weapons/arcane_bolt/ArcaneBolt.gd" type="Script" id=1]
 [ext_resource path="res://effects/Bolt/Bolt.tscn" type="PackedScene" id=2]
-[ext_resource path="res://assets/ui-textures/particlePack_1.1/PNG (Transparent)/smoke_08.png" type="Texture" id=3]
 [ext_resource path="res://interactables/collectables/weapons/throwable_weapons/arcane_bolt/icon.png" type="Texture" id=4]
 
 [sub_resource type="SphereShape" id=1]
@@ -20,7 +19,6 @@ params_billboard_mode = 3
 particles_anim_h_frames = 1
 particles_anim_v_frames = 1
 particles_anim_loop = false
-albedo_texture = ExtResource( 3 )
 
 [sub_resource type="Gradient" id=4]
 offsets = PoolRealArray( 0, 0.993902, 1 )

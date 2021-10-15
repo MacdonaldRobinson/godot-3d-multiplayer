@@ -3,20 +3,21 @@
 [ext_resource path="res://interactables/collectables/mesh_spray/MeshSpray.tscn" type="PackedScene" id=1]
 [ext_resource path="res://worlds/levels/Level.gd" type="Script" id=2]
 [ext_resource path="res://default_env.tres" type="Environment" id=3]
-[ext_resource path="res://worlds/levels/level1/Terrain.gd" type="Script" id=4]
+[ext_resource path="res://interactables/collectables/weapons/melee_weapons/pick_axe/pick_axe.tscn" type="PackedScene" id=4]
 [ext_resource path="res://interactables/energy_regfill_station/EnergyRefillStation.tscn" type="PackedScene" id=5]
 [ext_resource path="res://interactables/health_refill_station/HealthRefillStation.tscn" type="PackedScene" id=6]
 [ext_resource path="res://interactables/ball/Ball.tscn" type="PackedScene" id=7]
 [ext_resource path="res://interactables/collectables/weapons/weapon_projectiles/riffle/Riffle.tscn" type="PackedScene" id=8]
-[ext_resource path="res://assets/ui-textures/300PlusRepeatBackgrounds/bg308.png" type="Texture" id=9]
-[ext_resource path="res://worlds/levels/level1/GoalPost.tscn" type="PackedScene" id=10]
+[ext_resource path="res://icon.png" type="Texture" id=9]
 [ext_resource path="res://interactables/collectables/weapons/throwable_weapons/grenade/Grenade.tscn" type="PackedScene" id=11]
 [ext_resource path="res://interactables/collectables/weapons/flame_thrower/FlameThrower.tscn" type="PackedScene" id=12]
 [ext_resource path="res://interactables/collectables/weapons/throwable_weapons/arcane_bolt/ArcaneBolt.tscn" type="PackedScene" id=13]
 
-[sub_resource type="SpatialMaterial" id=1]
+[sub_resource type="SpatialMaterial" id=3]
 albedo_texture = ExtResource( 9 )
-uv1_triplanar = true
+
+[sub_resource type="SpatialMaterial" id=4]
+albedo_texture = ExtResource( 9 )
 
 [node name="Level1" type="Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.959, 0 )
@@ -41,6 +42,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7.09862 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.5228 )
 
 [node name="Ball" parent="Interactables" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.109074, 2.30354, -6.85809 )
 
 [node name="MeshSpray" parent="Interactables" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.43414 )
@@ -63,43 +65,32 @@ transform = Transform( 0.0548282, 0, -0.998496, 0, 1, 0, 0.998496, 0, 0.0548282,
 [node name="Bolt" parent="Interactables" instance=ExtResource( 13 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.980178, 9.42885 )
 
+[node name="Axe" parent="Interactables" instance=ExtResource( 4 )]
+transform = Transform( 0.219761, 0.802104, -0.555279, -0.975554, 0.180688, -0.125087, 0, 0.569193, 0.822204, 3.53603, 2.64755, 3.96751 )
+
 [node name="Players" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.9559, 9.25914 )
-
-[node name="Terrain" type="CSGBox" parent="."]
-material_override = SubResource( 1 )
-use_collision = true
-width = 100.0
-height = 50.0
-depth = 100.0
-script = ExtResource( 4 )
-
-[node name="Ground2" type="CSGBox" parent="Terrain"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.18335, 0 )
-operation = 2
-width = 75.0
-height = 40.0
-depth = 75.0
-
-[node name="CSGCylinder" type="CSGCylinder" parent="Terrain"]
-transform = Transform( -4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 85.5302, 0, 0 )
-radius = 10.0
-height = 100.0
-
-[node name="CSGCylinder2" type="CSGCylinder" parent="Terrain"]
-transform = Transform( -4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 85.5302, 0, 0 )
-operation = 2
-radius = 8.0
-height = 100.0
-
-[node name="CSGBox" type="CSGBox" parent="Terrain"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 188.311, 0, 0 )
-
-[node name="Goal" parent="." instance=ExtResource( 10 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.95455, 36.0798 )
 
 [node name="Omni" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.0659778, 0.997821, 0, -0.997821, 0.0659778, 0, -1.2078, 0 )
 visible = false
 light_indirect_energy = 16.0
 omni_range = 80.0
+
+[node name="CSGCombiner" type="CSGCombiner" parent="."]
+use_collision = true
+
+[node name="CSGBox" type="CSGBox" parent="CSGCombiner"]
+operation = 1
+invert_faces = true
+width = 200.0
+height = 100.0
+depth = 200.0
+material = SubResource( 3 )
+
+[node name="CSGBox2" type="CSGBox" parent="CSGCombiner"]
+invert_faces = true
+width = 210.0
+height = 110.0
+depth = 210.0
+material = SubResource( 4 )

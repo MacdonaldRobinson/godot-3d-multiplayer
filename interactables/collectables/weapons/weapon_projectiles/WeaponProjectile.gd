@@ -19,7 +19,7 @@ func shoot(weapon_ray_cast:RayCast, item_collector:ItemCollector):
 	if !can_use_item_collector(item_collector):
 		return
 
-	var ammo:Ammo = load(item_collector.item_tscn_path).instance()
+	var ammo:Ammo = item_collector.item.duplicate()
 	ammo.weapon_ray_cast = weapon_ray_cast
 	ammo.rotation = Vector3.ZERO
 	ammo.transform.origin = Vector3.ZERO

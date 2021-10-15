@@ -60,10 +60,10 @@ func throw_self(force:int = 50):
 		var found = owner.find_in_collected_items(self)
 		if found:
 			self.set_primary_item_collector(found)			
-			var item:Collectable = self
+			var item:Collectable = self.duplicate()
 			var self_transform = self.global_transform
 			
-			item.get_parent().remove_child(item)
+			#item.get_parent().remove_child(item)
 			
 			Globals.get_current_scene().add_child(item, true)						
 			
@@ -71,18 +71,15 @@ func throw_self(force:int = 50):
 			
 			if !item.is_connected("body_entered", item, "_body_entered"):
 				item.connect("body_entered", item, "_body_entered")
-			#item.was_thrown = true
-			
-			var collision_exceptions:Array = []
-#			collision_exceptions.append(get_parent())
-#			collision_exceptions.append(owner)
 
+			var collision_exceptions:Array = []
 			
 			item.enable_collisions(collision_exceptions)
 			
 			item.apply_central_impulse(-owner._equip_holder.global_transform.basis.z * force)
 			
-			owner.currently_equipped_item = null
+			owner.un_equip()
+			#owner.currently_equipped_item = null
 			
 			self.decrease_item_collector_amount(primary_item_collector)
 			

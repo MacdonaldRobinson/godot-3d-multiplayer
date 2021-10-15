@@ -5,12 +5,26 @@ func get_class(): return "Interactable"
 var item_name:String = "Item Name"
 var interacting_body:PhysicsBody = null
 var interacting_ray_cast:RayCast
+var _overhead_bars:OverHeadBars
+var _overhead_bars_initial_transform:Transform
 
 export(Texture) var item_icon_texture:Texture
 
 func _ready():
 	self.contact_monitor = true
-	self.contacts_reported = 1
+	self.contacts_reported = 1	
+
+func set_overhead_bars(overhead_bars:OverHeadBars):
+	if overhead_bars:
+		_overhead_bars = overhead_bars
+		
+func take_damage(damage_amount):
+	if _overhead_bars:
+		_overhead_bars.get_health_bar().reduce_by(damage_amount)
+		
+func recover_health(recovery_amount):
+	if _overhead_bars:
+		_overhead_bars.get_health_bar().increase_by(recovery_amount)
 	
 func set_interacting_body(interacting_body:PhysicsBody):
 	self.interacting_body = interacting_body

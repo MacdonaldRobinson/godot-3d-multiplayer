@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://ui/overhead_bars/over_head_health_bar/OverHeadHealthBar.tscn" type="PackedScene" id=1]
+[ext_resource path="res://ui/text_3d/Text3D.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ui/overhead_bars/OverHeadBars.gd" type="Script" id=3]
+
+[sub_resource type="ViewportTexture" id=1]
+
+[node name="OverHeadBars" type="Spatial"]
+script = ExtResource( 3 )
+
+[node name="NameBar" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.341076, 0 )
+texture = SubResource( 1 )
+
+[node name="HealthBar" parent="." instance=ExtResource( 1 )]

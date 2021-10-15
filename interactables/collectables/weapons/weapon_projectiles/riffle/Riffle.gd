@@ -9,17 +9,17 @@ var can_zoom_out:bool = false
 var timer:Timer = Timer.new()
 
 func _ready():
-	self.can_stack = false	
+	self.can_stack = false
 	
 	var primary_item_collector:ItemCollector = ItemCollector.new()
 	primary_item_collector.item_name = "Bullet"
-	primary_item_collector.item_tscn_path = "res://interactables/collectables/weapons/ammos/bullet/Bullet.tscn"
+	primary_item_collector.item = preload("res://interactables/collectables/weapons/ammos/bullet/Bullet.tscn").instance()
 	primary_item_collector.current_amount = -1
-	primary_item_collector.max_capacity = -1	
+	primary_item_collector.max_capacity = -1
 	
 	var secondary_item_collector:ItemCollector = ItemCollector.new()
-	secondary_item_collector.item_name = "Grenade"
-	secondary_item_collector.item_tscn_path = "res://interactables/collectables/weapons/grenade/Grenade.tscn"
+	secondary_item_collector.item_name = "Zoom"
+	#secondary_item_collector.item = preload("res://interactables/collectables/weapons/throwable_weapons/grenade/Grenade.tscn").instance()
 	secondary_item_collector.current_amount = -1
 	secondary_item_collector.max_capacity = -1
 	

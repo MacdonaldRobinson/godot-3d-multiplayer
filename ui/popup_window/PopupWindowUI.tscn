@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://assets/ui-textures/GUI Interface Kit Free/GUI Interface Kit Free/PNG/GUI-Kit-Pack-Free_36.png" type="Texture" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://ui/drag_handle/DragHandleUI.gd" type="Script" id=2]
 [ext_resource path="res://ui/popup_window/PopupWindowUI.gd" type="Script" id=3]
 

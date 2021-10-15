@@ -3,7 +3,7 @@
 [ext_resource path="res://effects/flames/Flames.tscn" type="PackedScene" id=1]
 [ext_resource path="res://effects/explosion/Explosion.tscn" type="PackedScene" id=2]
 [ext_resource path="res://effects/Bolt/Bolt.tscn" type="PackedScene" id=3]
-[ext_resource path="res://assets/ui-textures/particlePack_1.1/PNG (Transparent)/spark_04.png" type="Texture" id=4]
+[ext_resource path="res://icon.png" type="Texture" id=4]
 [ext_resource path="res://player/characters/character1/Character1.tscn" type="PackedScene" id=5]
 
 [sub_resource type="SpatialMaterial" id=1]

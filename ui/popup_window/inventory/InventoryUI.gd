@@ -8,7 +8,8 @@ var _config:InventoryUIConfig
 signal item_clicked(item_collector)
 
 func _ready():
-	show()
+	#show()
+	pass
 
 func update_data(config:InventoryUIConfig):	
 	_config = config

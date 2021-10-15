@@ -29,14 +29,14 @@ func start_explosion_sequence():
 	var bodies = _config.area_of_effect.get_overlapping_bodies()
 
 	for body in bodies:
-		if body is RigidBody:
+		if body is Interactable:
 			var direction = (self.global_transform.origin - body.global_transform.origin).normalized()
 			
 			if body != self:
 				body.apply_central_impulse(-direction * _config.explosion_force)		
-		
-		if body is Player:
-			body.health -= _config.damage_given
+							
+		if body.has_method("take_damage"):
+			body.take_damage(_config.damage_given)
 				
 	yield(get_tree().create_timer(_config.explosion_lifetime), "timeout")
 	queue_free()
@@ -47,9 +47,9 @@ func _was_throw_impact(body:Node):
 	disconnect("was_throw_impact", self, "_was_throw_impact")
 
 func primary_action():
-	print("ran granade primary_action")	
+	print("ran primary_action")	
 	self.throw_self(50)
 	
 func secondary_action():
-	print("ran granade secondary_action")	
+	print("ran secondary_action")	
 	self.throw_self(1)
