@@ -6,8 +6,4 @@
 background_mode = 2
 background_sky = SubResource( 1 )
 fog_transmit_enabled = true
-auto_exposure_enabled = true
-ss_reflections_enabled = true
-ssao_enabled = true
 glow_enabled = true
-adjustment_enabled = true

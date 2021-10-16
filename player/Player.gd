@@ -277,6 +277,10 @@ var walk_blend_direction:Vector2 = Vector2.ZERO
 var current_state  = 0
 
 func handle_walk_animations():	
+	
+	if !Globals.is_mouse_captured():
+		return
+		
 	var new_blend_amount = Vector2.ZERO
 	
 	if Input.is_action_just_pressed("crouch"):
