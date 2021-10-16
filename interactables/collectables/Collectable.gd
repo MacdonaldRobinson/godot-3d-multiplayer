@@ -79,7 +79,6 @@ func throw_self(force:int = 50):
 			item.apply_central_impulse(-owner._equip_holder.global_transform.basis.z * force)
 			
 			owner.un_equip()
-			#owner.currently_equipped_item = null
 			
 			self.decrease_item_collector_amount(primary_item_collector)
 			

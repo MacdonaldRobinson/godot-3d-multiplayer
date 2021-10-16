@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://player/Player.gd" type="Script" id=1]
+[ext_resource path="res://ui/screen_overlay/ScreenOverlays.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ui/overhead_bars/OverHeadBars.tscn" type="PackedScene" id=3]
+[ext_resource path="res://icon.png" type="Texture" id=6]
+
+[node name="Player" type="KinematicBody"]
+script = ExtResource( 1 )
+player_icon = ExtResource( 6 )
+camera_view_mode = 1
+
+[node name="OverHeadBars" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.4018, 0 )
+
+[node name="ScreenOverlays" parent="." instance=ExtResource( 2 )]
+
+[node name="CameraPivot" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.67238, -0.866926 )
+
+[node name="MainCamera" type="Camera" parent="CameraPivot"]
+current = true
+far = 8192.0
+
+[node name="EquipPosition" type="Position3D" parent="CameraPivot/MainCamera"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.08936, -0.672286, -0.449856 )
+
+[node name="InteractRayCast" type="RayCast" parent="CameraPivot/MainCamera"]
+enabled = true
+cast_to = Vector3( 0, 0, -5 )
+
+[node name="WeaponRayCast" type="RayCast" parent="CameraPivot/MainCamera"]
+enabled = true
+cast_to = Vector3( 0, 0, -100 )
+
+[node name="ThirdPerson" type="Camera" parent="CameraPivot/MainCamera"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7773, 0.410057, 6.98966 )
+far = 8192.0
+
+[connection signal="inventory_item_clicked" from="ScreenOverlays" to="." method="_on_ScreenOverlays_inventory_item_clicked"]
+[connection signal="skillbar_item_clicked" from="ScreenOverlays" to="." method="_on_ScreenOverlays_skillbar_item_clicked"]
