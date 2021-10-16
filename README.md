@@ -4,7 +4,7 @@ This is a sample project to get started with 3D multiplayer game programming usi
 
 Instructions:
   - 'ESC' to toggle mouse capture
-  - 'CTRL' to toggle crouch
+  - 'ALT' to toggle crouch
   - AWSD keys for movement
   - Space bar to jump / fly
   - 'E' to interact with item
