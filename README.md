@@ -1,8 +1,18 @@
 # Godot 3d multiplayer
 
-This is a sample project to get started with 3D multiplayer game programming using the Godot Game Engine.
+This is a sample project to get started with 3D multiplayer game programming using the Godot Game Engine. https://macdonaldrobinson.github.io/godot-3d-multiplayer/exports/html/3d-multiplayer.html
 
-It has the following features
+Instructions:
+  - 'ESC' to toggle mouse capture
+  - 'CTRL' to toggle crouch
+  - AWSD keys for movement
+  - Space bar to jump / fly
+  - 'E' to interact with item
+  - Left mouse click for primary action of equipped item
+  - Right mouse click  for secondary action  of equipped item
+  - 'F1' to swap between third person and first person views
+
+Feature:
   - Character selection screen
   - Character motion animations ( Mixamo model ( ybot ),  Animation Tree Player ( Mixamo Pro Riffle pack ) )
   - Lobby management
@@ -24,16 +34,3 @@ It has the following features
     - Melee Weapon:
       - Pick Axe   
   - Bullet Hole
-
-
-https://macdonaldrobinson.github.io/godot-3d-multiplayer/exports/html/3d-multiplayer.html
-
-Instructions:
-  - 'ESC' to toggle mouse capture
-  - 'CTRL' to toggle crouch
-  - AWSD keys for movement
-  - Space bar to jump / fly
-  - 'E' to interact with item
-  - Left mouse click for primary action of equipped item
-  - Right mouse click  for secondary action  of equipped item
-  - 'F1' to swap between third person and first person views
