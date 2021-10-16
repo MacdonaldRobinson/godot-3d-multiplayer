@@ -13,10 +13,10 @@
 [ext_resource path="res://interactables/collectables/weapons/flame_thrower/FlameThrower.tscn" type="PackedScene" id=12]
 [ext_resource path="res://interactables/collectables/weapons/throwable_weapons/arcane_bolt/ArcaneBolt.tscn" type="PackedScene" id=13]
 
-[sub_resource type="SpatialMaterial" id=3]
+[sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 9 )
 
-[sub_resource type="SpatialMaterial" id=4]
+[sub_resource type="SpatialMaterial" id=2]
 albedo_texture = ExtResource( 9 )
 
 [node name="Level1" type="Spatial"]
@@ -27,7 +27,7 @@ script = ExtResource( 2 )
 environment = ExtResource( 3 )
 
 [node name="Interactables" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12.8166, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -51.0371, 0 )
 
 [node name="Riffle" parent="Interactables" instance=ExtResource( 8 )]
 transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0.8578, 0 )
@@ -69,7 +69,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.980178, 9.42885 )
 transform = Transform( 0.219761, 0.802104, -0.555279, -0.975554, 0.180688, -0.125087, 0, 0.569193, 0.822204, 3.53603, 2.64755, 3.96751 )
 
 [node name="Players" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.9559, 9.25914 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.4724, -31.9982, 9.25914 )
 
 [node name="Omni" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.0659778, 0.997821, 0, -0.997821, 0.0659778, 0, -1.2078, 0 )
@@ -86,11 +86,11 @@ invert_faces = true
 width = 200.0
 height = 100.0
 depth = 200.0
-material = SubResource( 3 )
+material = SubResource( 1 )
 
 [node name="CSGBox2" type="CSGBox" parent="CSGCombiner"]
 invert_faces = true
 width = 210.0
 height = 110.0
 depth = 210.0
-material = SubResource( 4 )
+material = SubResource( 2 )

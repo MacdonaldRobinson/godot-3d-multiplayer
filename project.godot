@@ -34,7 +34,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://interactables/collectables/weapons/ammos/bullet/bullet_hole/BulletHole.gd"
 }, {
-"base": "Spatial",
+"base": "Node",
 "class": "Character",
 "language": "GDScript",
 "path": "res://player/characters/Character.gd"
@@ -43,11 +43,6 @@ _global_script_classes=[ {
 "class": "Characters",
 "language": "GDScript",
 "path": "res://player/characters/Characters.gd"
-}, {
-"base": "Character",
-"class": "Charactor1",
-"language": "GDScript",
-"path": "res://player/characters/character1/Character1.gd"
 }, {
 "base": "VBoxContainer",
 "class": "ChatPanel",
@@ -298,11 +293,6 @@ _global_script_classes=[ {
 "class": "WorldData",
 "language": "GDScript",
 "path": "res://lobby/networking/WorldData.gd"
-}, {
-"base": "Character",
-"class": "Ybot",
-"language": "GDScript",
-"path": "res://player/characters/character1/ybot.gd"
 } ]
 _global_script_class_icons={
 "Ammo": "",
@@ -312,7 +302,6 @@ _global_script_class_icons={
 "BulletHole": "",
 "Character": "",
 "Characters": "",
-"Charactor1": "",
 "ChatPanel": "",
 "Collectable": "",
 "DialogPanel": "",
@@ -362,8 +351,7 @@ _global_script_class_icons={
 "UI": "",
 "Weapon": "",
 "WeaponProjectile": "",
-"WorldData": "",
-"Ybot": ""
+"WorldData": ""
 }
 
 [application]
