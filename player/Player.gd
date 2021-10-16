@@ -148,10 +148,7 @@ func disable_cameras():
 func equip_item(item:Interactable):
 	if item == null:
 		return
-		
-	if currently_equipped_item:
-		return
-		
+				
 	un_equip()
 	
 	currently_equipped_item = item
