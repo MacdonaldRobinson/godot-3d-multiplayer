@@ -5,12 +5,13 @@ This is a sample project to get started with 3D multiplayer game programming usi
 Instructions:
   - 'ESC' to toggle mouse capture
   - 'ALT' to toggle crouch
-  - AWSD keys for movement
-  - Space bar to jump / fly
-  - 'E' to interact with item
-  - Left mouse click for primary action of equipped item
-  - Right mouse click  for secondary action  of equipped item
   - 'F1' to swap between third person and first person views
+  - 'AWSD' keys for movement
+  - 'E' to interact with item
+  - 'SPACE BAR' to jump / fly  
+  - 'LEFT MOUSE CLICK' for primary action of equipped item
+  - 'RIGHT MOUSE CLICK' for secondary action  of equipped item
+  
 
 Feature:
   - Character selection screen
