@@ -4,6 +4,7 @@ This is a sample project to get started with 3D multiplayer game programming usi
 
 It has the following features
   - Character selection screen
+  - Character motion animations ( Mixamo model ( ybot ),  Animation Tree Player ( Mixamo Pro Riffle pack ) )
   - Lobby management
   - Chat System
   - Game World Sync  
@@ -22,13 +23,14 @@ It has the following features
       - Bolt ( Particle system )
     - Melee Weapon:
       - Pick Axe   
-  - Bullet Hole  
+  - Bullet Hole
 
 
 https://macdonaldrobinson.github.io/godot-3d-multiplayer/exports/html/3d-multiplayer.html
 
 Instructions:
-  - CTRL to toggle mouse capture
+  - 'ESC' to toggle mouse capture
+  - 'CTRL' to toggle crouch
   - AWSD keys for movement
   - Space bar to jump / fly
   - 'E' to interact with item
