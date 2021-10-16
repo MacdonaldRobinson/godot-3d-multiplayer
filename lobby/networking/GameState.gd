@@ -21,7 +21,6 @@ func add_player_to_world(peer_id):
 	
 	player.set_network_master(peer_id, true)
 	get_players_node().add_child(player)
-	pass
 
 func get_world_data() -> WorldData:
 	return _world_data

@@ -132,6 +132,10 @@ func get_current_scene() -> Node:
 		
 	return null
 	
+func reparent_node(node:Node, new_parent:Node):
+		var previous_parent = node.get_parent()
+		previous_parent.remove_child(node)
+		new_parent.call_deferred("add_child", node)
 
 func throw_exception(message:String):
 	push_error(message)

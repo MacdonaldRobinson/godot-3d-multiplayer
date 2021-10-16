@@ -42,16 +42,20 @@ onready var _interact_raycast:RayCast = $CameraPivot/MainCamera/InteractRayCast
 onready var _weapon_raycast:RayCast = $CameraPivot/MainCamera/WeaponRayCast
 onready var _screen_overlay:ScreenOverlay = $ScreenOverlays
 onready var _equip_holder:Position3D = $CameraPivot/MainCamera/EquipPosition
-onready var _overhead_bars:OverHeadBars = $OverHeadBars
-
+var _overhead_bars:OverHeadBars
 
 func hide_all_ui():
 	_screen_overlay.hide()
 	_overhead_bars.hide()
 	
 func set_character(character:Character):
+	character.connect("ready", self, "on_character_ready")
+
 	self.character = character	
 	self.add_child(character)
+
+func on_character_ready():
+	_overhead_bars = character.get_overhead_bars()	
 
 func take_damage(damage_amount):
 	if _overhead_bars:
@@ -93,7 +97,6 @@ func _set_energy(new_value):
 	
 func _set_player_name(new_name):
 	player_name = new_name
-	_overhead_bars.get_name_bar().set_text(new_name)
 	
 	if is_network_master():
 		sync_self_property("player_name", new_name)
@@ -129,7 +132,8 @@ func _ready():
 	else:
 		current_camera = _third_person_camera
 	
-	current_camera.make_current()	
+	current_camera.make_current()
+	Globals.toggle_mouse_capture()
 		
 func _get_interact_raycast() -> RayCast:
 	return current_camera.get_node("RayCast") as RayCast
@@ -270,20 +274,38 @@ func _input(event):
 		current_camera.make_current()
 		
 var walk_blend_direction:Vector2 = Vector2.ZERO
+var current_state  = 0
 
-func handle_walk_animations():
-	var new_direction = Vector2.ZERO
+func handle_walk_animations():	
+	var new_blend_amount = Vector2.ZERO
+	
+	if Input.is_action_just_pressed("crouch"):
+		if character.is_crouching():
+			current_state = character.CROUCH_WALK_RUN.WALK
+		else:
+			current_state = character.CROUCH_WALK_RUN.CROUCH			
+	
+#	var old_state = character.get_crouch_walk_run_blend_amount()
+#	var lerp_new_state = lerp(old_state, current_state, 0.1)
+#
+	character.set_crouch_walk_run_blend_amount(current_state)
+				
 	
 	if Input.is_action_pressed("backward"):
-		new_direction = Vector2(-1,0)		
-	elif Input.is_action_pressed("forward"):		
-		new_direction = Vector2(1,0)
+		new_blend_amount = character.MOVEMENT_DIRECTIONS.Backward
+	elif Input.is_action_pressed("forward"):
+		new_blend_amount = character.MOVEMENT_DIRECTIONS.Forward
 	if Input.is_action_pressed("left"):
-		new_direction = Vector2(0,1)
+		new_blend_amount = character.MOVEMENT_DIRECTIONS.Left
 	elif Input.is_action_pressed("right"):
-		new_direction = Vector2(0,-1)
-		
-	walk_blend_direction = lerp(walk_blend_direction, new_direction, 0.1)	
+		new_blend_amount = character.MOVEMENT_DIRECTIONS.Right
+
+	var current_blend_amount = character.get_blend_amount()
+	var lerp_blend_amount = lerp(current_blend_amount, new_blend_amount, 0.1)	
+	
+	character.set_blend_amount(lerp_blend_amount)
+
+	
 	play_animation("parameters/walk_direction/blend_position", walk_blend_direction)
 	
 func play_animation(animation_path:String, animation_value, set_in_peer_data:bool = true):
