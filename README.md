@@ -34,3 +34,4 @@ Instructions:
   - 'E' to interact with item
   - Left mouse click for primary action of equipped item
   - Right mouse click  for secondary action  of equipped item
+  - 'F1' to swap between third person and first person views
