@@ -277,32 +277,25 @@ var walk_blend_direction:Vector2 = Vector2.ZERO
 var current_state  = 0
 
 func handle_walk_animations():	
-	
-	if !Globals.is_mouse_captured():
-		return
-		
 	var new_blend_amount = Vector2.ZERO
 	
-	if Input.is_action_just_pressed("crouch"):
-		if character.is_crouching():
-			current_state = character.CROUCH_WALK_RUN.WALK
-		else:
-			current_state = character.CROUCH_WALK_RUN.CROUCH			
-	
-#	var old_state = character.get_crouch_walk_run_blend_amount()
-#	var lerp_new_state = lerp(old_state, current_state, 0.1)
-#
+	if Globals.is_mouse_captured():
+		if Input.is_action_just_pressed("crouch"):
+			if character.is_crouching():
+				current_state = character.CROUCH_WALK_RUN.WALK
+			else:
+				current_state = character.CROUCH_WALK_RUN.CROUCH			
+
+		if Input.is_action_pressed("backward"):
+			new_blend_amount = character.MOVEMENT_DIRECTIONS.Backward
+		elif Input.is_action_pressed("forward"):
+			new_blend_amount = character.MOVEMENT_DIRECTIONS.Forward
+		if Input.is_action_pressed("left"):
+			new_blend_amount = character.MOVEMENT_DIRECTIONS.Left
+		elif Input.is_action_pressed("right"):
+			new_blend_amount = character.MOVEMENT_DIRECTIONS.Right
+
 	character.set_crouch_walk_run_blend_amount(current_state)
-				
-	
-	if Input.is_action_pressed("backward"):
-		new_blend_amount = character.MOVEMENT_DIRECTIONS.Backward
-	elif Input.is_action_pressed("forward"):
-		new_blend_amount = character.MOVEMENT_DIRECTIONS.Forward
-	if Input.is_action_pressed("left"):
-		new_blend_amount = character.MOVEMENT_DIRECTIONS.Left
-	elif Input.is_action_pressed("right"):
-		new_blend_amount = character.MOVEMENT_DIRECTIONS.Right
 
 	var current_blend_amount = character.get_blend_amount()
 	var lerp_blend_amount = lerp(current_blend_amount, new_blend_amount, 0.1)	
