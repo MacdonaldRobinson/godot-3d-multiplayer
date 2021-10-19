@@ -1,80 +1,90 @@
-[gd_resource type="AnimationNodeBlendTree" load_steps=32 format=2]
+[gd_resource type="AnimationNodeBlendTree" load_steps=34 format=2]
 
-[sub_resource type="AnimationNodeAnimation" id=1]
-animation = "idle crouching-loop"
+[sub_resource type="AnimationNodeTransition" id=1]
+input_count = 4
+xfade_time = 0.2
+input_0/name = "unequip_crouch"
+input_0/auto_advance = false
+input_1/name = "unequip_stand"
+input_1/auto_advance = false
+input_2/name = "equip_crouch"
+input_2/auto_advance = false
+input_3/name = "equip_stand"
+input_3/auto_advance = false
 
 [sub_resource type="AnimationNodeAnimation" id=2]
-animation = "walk crouching forward-loop"
+animation = "idle crouching-loop"
 
 [sub_resource type="AnimationNodeAnimation" id=3]
-animation = "walk crouching backward-loop"
+animation = "walk crouching forward-loop"
 
 [sub_resource type="AnimationNodeAnimation" id=4]
-animation = "walk crouching left-loop"
+animation = "walk crouching backward-loop"
 
 [sub_resource type="AnimationNodeAnimation" id=5]
-animation = "walk crouching right-loop"
+animation = "walk crouching left-loop"
 
 [sub_resource type="AnimationNodeAnimation" id=6]
-animation = "walk crouching forward right-loop"
+animation = "walk crouching right-loop"
 
 [sub_resource type="AnimationNodeAnimation" id=7]
-animation = "walk crouching forward left-loop"
+animation = "walk crouching forward right-loop"
 
 [sub_resource type="AnimationNodeAnimation" id=8]
-animation = "walk crouching backward left-loop"
+animation = "walk crouching forward left-loop"
 
 [sub_resource type="AnimationNodeAnimation" id=9]
+animation = "walk crouching backward left-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=10]
 animation = "walk crouching backward right-loop"
 
-[sub_resource type="AnimationNodeBlendSpace2D" id=10]
-blend_point_0/node = SubResource( 1 )
+[sub_resource type="AnimationNodeBlendSpace2D" id=11]
+blend_point_0/node = SubResource( 2 )
 blend_point_0/pos = Vector2( 0, 0 )
-blend_point_1/node = SubResource( 2 )
+blend_point_1/node = SubResource( 3 )
 blend_point_1/pos = Vector2( 0, 1 )
-blend_point_2/node = SubResource( 3 )
+blend_point_2/node = SubResource( 4 )
 blend_point_2/pos = Vector2( 0, -1 )
-blend_point_3/node = SubResource( 4 )
+blend_point_3/node = SubResource( 5 )
 blend_point_3/pos = Vector2( -1, 0 )
-blend_point_4/node = SubResource( 5 )
+blend_point_4/node = SubResource( 6 )
 blend_point_4/pos = Vector2( 1, 0 )
-blend_point_5/node = SubResource( 6 )
+blend_point_5/node = SubResource( 7 )
 blend_point_5/pos = Vector2( 1, 1 )
-blend_point_6/node = SubResource( 7 )
+blend_point_6/node = SubResource( 8 )
 blend_point_6/pos = Vector2( -1, 1 )
-blend_point_7/node = SubResource( 8 )
+blend_point_7/node = SubResource( 9 )
 blend_point_7/pos = Vector2( -1, -1 )
-blend_point_8/node = SubResource( 9 )
+blend_point_8/node = SubResource( 10 )
 blend_point_8/pos = Vector2( 1, -1 )
-
-[sub_resource type="AnimationNodeBlend3" id=11]
 
 [sub_resource type="AnimationNodeAnimation" id=12]
 animation = "idle-loop"
 
 [sub_resource type="AnimationNodeAnimation" id=13]
-animation = "run right-loop"
+animation = "walk right-loop"
 
 [sub_resource type="AnimationNodeAnimation" id=14]
-animation = "run left-loop"
+animation = "walk left-loop"
 
 [sub_resource type="AnimationNodeAnimation" id=15]
-animation = "run forward-loop"
+animation = "walk forward-loop"
 
 [sub_resource type="AnimationNodeAnimation" id=16]
-animation = "run backward-loop"
+animation = "walk backward-loop"
 
 [sub_resource type="AnimationNodeAnimation" id=17]
-animation = "run forward left-loop"
+animation = "walk forward right-loop"
 
 [sub_resource type="AnimationNodeAnimation" id=18]
-animation = "run forward right-loop"
+animation = "walk forward left-loop"
 
 [sub_resource type="AnimationNodeAnimation" id=19]
-animation = "sprint backward right-loop"
+animation = "walk backward left-loop"
 
 [sub_resource type="AnimationNodeAnimation" id=20]
-animation = "run backward left-loop"
+animation = "walk backward right-loop"
 
 [sub_resource type="AnimationNodeBlendSpace2D" id=21]
 blend_point_0/node = SubResource( 12 )
@@ -88,70 +98,79 @@ blend_point_3/pos = Vector2( 0, 1 )
 blend_point_4/node = SubResource( 16 )
 blend_point_4/pos = Vector2( 0, -1 )
 blend_point_5/node = SubResource( 17 )
-blend_point_5/pos = Vector2( -1, 1 )
+blend_point_5/pos = Vector2( 1, 1 )
 blend_point_6/node = SubResource( 18 )
-blend_point_6/pos = Vector2( 1, 1 )
+blend_point_6/pos = Vector2( -1, 1 )
 blend_point_7/node = SubResource( 19 )
-blend_point_7/pos = Vector2( 1, -1 )
+blend_point_7/pos = Vector2( -1, -1 )
 blend_point_8/node = SubResource( 20 )
-blend_point_8/pos = Vector2( -1, -1 )
+blend_point_8/pos = Vector2( 1, -1 )
 
 [sub_resource type="AnimationNodeAnimation" id=22]
-animation = "idle-loop"
+animation = "unequipped-crouch Idle-loop"
 
 [sub_resource type="AnimationNodeAnimation" id=23]
-animation = "walk right-loop"
+animation = "uneqipped-crouch walk forward-loop"
 
 [sub_resource type="AnimationNodeAnimation" id=24]
-animation = "walk left-loop"
+animation = "unequipped-crouch walk back-loop"
 
 [sub_resource type="AnimationNodeAnimation" id=25]
-animation = "walk forward-loop"
+animation = "uneqipped-crouch walk left-loop"
 
 [sub_resource type="AnimationNodeAnimation" id=26]
-animation = "walk backward-loop"
+animation = "unequipped-crouch walk right-loop"
 
-[sub_resource type="AnimationNodeAnimation" id=27]
-animation = "walk forward right-loop"
-
-[sub_resource type="AnimationNodeAnimation" id=28]
-animation = "walk forward left-loop"
-
-[sub_resource type="AnimationNodeAnimation" id=29]
-animation = "walk backward left-loop"
-
-[sub_resource type="AnimationNodeAnimation" id=30]
-animation = "walk backward right-loop"
-
-[sub_resource type="AnimationNodeBlendSpace2D" id=31]
+[sub_resource type="AnimationNodeBlendSpace2D" id=27]
 blend_point_0/node = SubResource( 22 )
 blend_point_0/pos = Vector2( 0, 0 )
 blend_point_1/node = SubResource( 23 )
-blend_point_1/pos = Vector2( 1, 0 )
+blend_point_1/pos = Vector2( 0, 1 )
 blend_point_2/node = SubResource( 24 )
-blend_point_2/pos = Vector2( -1, 0 )
+blend_point_2/pos = Vector2( 0, -1 )
 blend_point_3/node = SubResource( 25 )
-blend_point_3/pos = Vector2( 0, 1 )
+blend_point_3/pos = Vector2( -1, 0 )
 blend_point_4/node = SubResource( 26 )
-blend_point_4/pos = Vector2( 0, -1 )
-blend_point_5/node = SubResource( 27 )
-blend_point_5/pos = Vector2( 1, 1 )
-blend_point_6/node = SubResource( 28 )
-blend_point_6/pos = Vector2( -1, 1 )
-blend_point_7/node = SubResource( 29 )
-blend_point_7/pos = Vector2( -1, -1 )
-blend_point_8/node = SubResource( 30 )
-blend_point_8/pos = Vector2( 1, -1 )
+blend_point_4/pos = Vector2( 1, 0 )
+
+[sub_resource type="AnimationNodeAnimation" id=28]
+animation = "unequipped-idle-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=29]
+animation = "unequipped-walking-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=30]
+animation = "unequipped-walking backwards-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=31]
+animation = "unequipped-left strafe-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=32]
+animation = "unequipped-right strafe-loop"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=33]
+blend_point_0/node = SubResource( 28 )
+blend_point_0/pos = Vector2( 0, 0 )
+blend_point_1/node = SubResource( 29 )
+blend_point_1/pos = Vector2( 0, 1 )
+blend_point_2/node = SubResource( 30 )
+blend_point_2/pos = Vector2( 0, -1 )
+blend_point_3/node = SubResource( 31 )
+blend_point_3/pos = Vector2( -1, 0 )
+blend_point_4/node = SubResource( 32 )
+blend_point_4/pos = Vector2( 1, 0 )
 
 [resource]
-graph_offset = Vector2( -415.76, -928.228 )
-nodes/crouch/node = SubResource( 10 )
-nodes/crouch/position = Vector2( -320, -920 )
-nodes/crouch_walk_run/node = SubResource( 11 )
-nodes/crouch_walk_run/position = Vector2( -20, -820 )
-nodes/output/position = Vector2( 220, -820 )
-nodes/run/node = SubResource( 21 )
-nodes/run/position = Vector2( -320, -600 )
-nodes/walk/node = SubResource( 31 )
-nodes/walk/position = Vector2( -320, -760 )
-node_connections = [ "output", 0, "crouch_walk_run", "crouch_walk_run", 0, "crouch", "crouch_walk_run", 1, "walk", "crouch_walk_run", 2, "run" ]
+graph_offset = Vector2( -414.087, -1111.83 )
+nodes/animation_states/node = SubResource( 1 )
+nodes/animation_states/position = Vector2( -60, -980 )
+nodes/equip_crouch/node = SubResource( 11 )
+nodes/equip_crouch/position = Vector2( -340, -760 )
+nodes/equip_stand/node = SubResource( 21 )
+nodes/equip_stand/position = Vector2( -340, -600 )
+nodes/output/position = Vector2( 220, -920 )
+nodes/unequip_crouch/node = SubResource( 27 )
+nodes/unequip_crouch/position = Vector2( -340, -1080 )
+nodes/unequip_stand/node = SubResource( 33 )
+nodes/unequip_stand/position = Vector2( -340, -920 )
+node_connections = [ "output", 0, "animation_states", "animation_states", 0, "unequip_crouch", "animation_states", 1, "unequip_stand", "animation_states", 2, "equip_crouch", "animation_states", 3, "equip_stand" ]

@@ -134,7 +134,7 @@ func _ready():
 	
 	current_camera.make_current()
 	Globals.toggle_mouse_capture()
-		
+	
 func _get_interact_raycast() -> RayCast:
 	return current_camera.get_node("RayCast") as RayCast
 
@@ -164,6 +164,16 @@ func equip_item(item:Interactable):
 	
 	_equip_holder.add_child(currently_equipped_item)
 	
+	var animation_state:int = character.get_current_animation_state()
+	
+	if !character.is_equipped():
+		if character.is_crouching():
+			animation_state = character.animation_states.equip_crouch
+		else:
+			animation_state = character.animation_states.equip_stand
+			
+		character.set_animation_state(animation_state) 
+	
 	if is_network_master():
 		Globals.peer_data.currently_equipped_item_tscn = currently_equipped_item.filename		
 
@@ -177,8 +187,19 @@ func un_equip():
 		var spray = get_node("spray")
 		remove_child(spray)
 		
+	
+	var animation_state = ""
+	
+	if character.is_equipped():
+		if character.is_crouching():
+			animation_state = character.animation_states.unequip_crouch
+		else:
+			animation_state = character.animation_states.unequip_stand
+		
+		character.set_animation_state(animation_state)
+	
 	currently_equipped_item = null
-
+	
 
 func find_in_collected_items(find_item:Collectable)->ItemCollector:
 	for item_collector in collected_items.get_all():
@@ -274,32 +295,42 @@ func _input(event):
 		current_camera.make_current()
 		
 var walk_blend_direction:Vector2 = Vector2.ZERO
-var current_state  = 0
 
 func handle_walk_animations():	
 	var new_blend_amount = Vector2.ZERO
-	
+	var current_state = character.get_current_animation_state()
+		
 	if Globals.is_mouse_captured():
+		
+		var camera_pivot_origin = _camera_pivot.global_transform.origin
+				
 		if Input.is_action_just_pressed("crouch"):
-			if character.is_crouching():
-				current_state = character.CROUCH_WALK_RUN.WALK
-			else:
-				current_state = character.CROUCH_WALK_RUN.CROUCH			
+			if character.get_current_animation_state() == character.animation_states.unequip_crouch:
+				current_state = character.animation_states.unequip_stand
+			elif character.get_current_animation_state() == character.animation_states.unequip_stand:
+				current_state = character.animation_states.unequip_crouch
+			elif character.get_current_animation_state() == character.animation_states.equip_crouch:
+				current_state = character.animation_states.equip_stand
+			elif character.get_current_animation_state() == character.animation_states.equip_stand:
+				current_state = character.animation_states.equip_crouch
 
 		if Input.is_action_pressed("backward"):
-			new_blend_amount = character.MOVEMENT_DIRECTIONS.Backward
+			new_blend_amount = character.movement_directions.backward
 		elif Input.is_action_pressed("forward"):
-			new_blend_amount = character.MOVEMENT_DIRECTIONS.Forward
+			new_blend_amount = character.movement_directions.forward
 		if Input.is_action_pressed("left"):
-			new_blend_amount = character.MOVEMENT_DIRECTIONS.Left
+			new_blend_amount = character.movement_directions.left
 		elif Input.is_action_pressed("right"):
-			new_blend_amount = character.MOVEMENT_DIRECTIONS.Right
+			new_blend_amount = character.movement_directions.right
 
-	character.set_crouch_walk_run_blend_amount(current_state)
+	character.set_animation_state(current_state)
 
 	var current_blend_amount = character.get_blend_amount()
-	var lerp_blend_amount = lerp(current_blend_amount, new_blend_amount, 0.1)	
 	
+	if current_blend_amount.is_equal_approx(new_blend_amount):
+		return
+		
+	var lerp_blend_amount = lerp(current_blend_amount, new_blend_amount, 0.1)		
 	character.set_blend_amount(lerp_blend_amount)
 
 	
@@ -358,11 +389,11 @@ func look_at_weapon_ray_cast():
 		_equip_holder.global_transform = new_transform
 		
 		var new_third_person_camera_transform = Globals.look_at(_third_person_camera.global_transform, collision_point)
-		_third_person_camera.global_transform = new_third_person_camera_transform
+		#_third_person_camera.global_transform = new_third_person_camera_transform
 		
 	else:
 		_equip_holder.rotation = _equip_holder.rotation.linear_interpolate(Vector3.ZERO, 0.1)		
-		_third_person_camera.rotation = _equip_holder.rotation
+		#_third_person_camera.rotation = _equip_holder.rotation
 		
 
 
@@ -442,6 +473,10 @@ func _physics_process(delta):
 	
 	velocity = move_and_slide(new_velocity, Vector3.UP)
 	
+	#var root_motion_transform = character.get_animation_tree().get_root_motion_transform()
+	
+	#velocity = move_and_slide(root_motion_transform.origin, Vector3.UP)
+	
 	if mouse_delta:
 		self.rotate_y(deg2rad(-mouse_delta.x * mouse_sencitivity * delta))	
 		_camera_pivot.rotate_x(deg2rad(-mouse_delta.y * mouse_sencitivity * delta))	
@@ -484,6 +519,9 @@ func _physics_process(delta):
 			energy,
 			currently_equipped_item, 
 			collected_items)
+			
+	_equip_holder.global_transform.origin = character.get_equipment_bone_attachment().global_transform.origin	
+	_equip_holder.rotation = character.get_equipment_bone_attachment().rotation
 			
 	sync_self_property("global_transform", self.global_transform)
 	sync_camera_pivot_property("global_transform", _camera_pivot.global_transform)	
