@@ -24,6 +24,8 @@ func _ready():
 	secondary_item_collector.max_capacity = -1
 	
 	self.item_name = "Riffle"
+	animation_state = animation_states.riffle
+	
 	self.set_ammo_spawn_position($AmmoSpawnPosition)
 	self.set_primary_item_collector(primary_item_collector)
 	self.set_secondary_item_collector(secondary_item_collector)

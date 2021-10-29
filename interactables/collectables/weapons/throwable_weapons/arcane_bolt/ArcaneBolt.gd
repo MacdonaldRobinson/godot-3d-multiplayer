@@ -4,6 +4,8 @@ func get_class(): return "ArcaneBolt"
 
 func _ready():
 	self.item_name = "Arcane Bolt"
+	animation_state = animation_states.magic
+	
 	self.initial_collection_amount = -1
 	self.is_sticky_on_throw = true
 	self.is_skill = true

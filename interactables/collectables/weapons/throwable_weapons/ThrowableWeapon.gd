@@ -5,7 +5,7 @@ func get_class(): return "ThrowableWeapon"
 var _config:ThrowableWeaponConfig = ThrowableWeaponConfig.new()
 
 func _ready():
-	item_name = "Throwable Weapon"		
+	item_name = "Throwable Weapon"	
 
 func setup(config:ThrowableWeaponConfig):
 	_config = config

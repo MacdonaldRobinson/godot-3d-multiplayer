@@ -11,6 +11,8 @@ var timer:Timer = Timer.new()
 
 func _ready():	
 	self.item_name = "Flame Thrower"
+	animation_state = animation_states.riffle
+	
 	flames.emitting = false
 	flames.one_shot = true
 	self.can_stack = false

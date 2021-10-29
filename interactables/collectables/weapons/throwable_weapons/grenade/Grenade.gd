@@ -4,6 +4,8 @@ func get_class(): return "Grenade"
 
 func _ready():
 	self.item_name = "Grenade"	
+	animation_state = animation_states.magic
+	
 	initial_collection_amount = -1
 	is_sticky_on_throw = false
 	

@@ -1,10 +1,14 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://player/Player.gd" type="Script" id=1]
 [ext_resource path="res://ui/screen_overlay/ScreenOverlays.tscn" type="PackedScene" id=2]
+[ext_resource path="res://player/characters/ybot/ybot-all.tscn" type="PackedScene" id=3]
 [ext_resource path="res://icon.png" type="Texture" id=6]
 
+[sub_resource type="AnimationNodeStateMachinePlayback" id=1]
+
 [node name="Player" type="KinematicBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.634242 )
 script = ExtResource( 1 )
 player_icon = ExtResource( 6 )
 camera_view_mode = 1
@@ -12,7 +16,7 @@ camera_view_mode = 1
 [node name="ScreenOverlays" parent="." instance=ExtResource( 2 )]
 
 [node name="CameraPivot" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.330788, 4.66751, -1.07085 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.67823, -1.21044 )
 
 [node name="MainCamera" type="Camera" parent="CameraPivot"]
 current = true
@@ -33,5 +37,21 @@ cast_to = Vector3( 0, 0, -100 )
 transform = Transform( 1, 0, 0, 0, 0.961348, 0.275335, 0, -0.275335, 0.961348, 2.24545, 2.33642, 6.98966 )
 far = 8192.0
 
+[node name="ybot" parent="." instance=ExtResource( 3 )]
+visible = false
+
+[node name="Skeleton" parent="ybot/ybot/Armature" index="0"]
+bones/37/bound_children = [  ]
+
+[node name="EquipmentBoneAttachment" parent="ybot/ybot/Armature/Skeleton" index="1"]
+transform = Transform( -0.0296426, -0.918372, 0.394606, 0.997992, -0.00508415, 0.0631363, -0.0559767, 0.395685, 0.916679, -0.23975, 0.846845, -0.00136671 )
+
+[node name="AnimationTree" parent="ybot" index="1"]
+parameters/StateMachine/playback = SubResource( 1 )
+parameters/StateMachine/equip_malee/blend_position = Vector2( 0, 0 )
+
 [connection signal="inventory_item_clicked" from="ScreenOverlays" to="." method="_on_ScreenOverlays_inventory_item_clicked"]
 [connection signal="skillbar_item_clicked" from="ScreenOverlays" to="." method="_on_ScreenOverlays_skillbar_item_clicked"]
+
+[editable path="ybot"]
+[editable path="ybot/ybot"]

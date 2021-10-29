@@ -300,7 +300,7 @@ func handle_walk_animations():
 			new_blend_amount = character.movement_directions.right	
 	
 	if currently_equipped_item != null:
-		character.set_animation_state(character.animation_states.magic)
+		character.set_animation_state(currently_equipped_item.animation_state)
 	else:
 		character.set_animation_state(character.animation_states.stand)
 

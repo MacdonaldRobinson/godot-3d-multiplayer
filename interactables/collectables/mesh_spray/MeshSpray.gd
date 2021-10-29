@@ -7,6 +7,7 @@ var spray:Sprayable = item.instance()
 
 func _ready():
 	self.item_name = "MeshSpray"
+	animation_state = animation_states.magic
 	spray.name = "spray"
 	can_stack = false	
 	

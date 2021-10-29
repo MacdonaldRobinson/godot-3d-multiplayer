@@ -3,6 +3,8 @@ class_name Interactable
 func get_class(): return "Interactable"
 
 var item_name:String = "Item Name"
+var animation_states:AnimationStates = AnimationStates.new()
+var animation_state:String = animation_states.stand
 var interacting_body:PhysicsBody = null
 var interacting_ray_cast:RayCast
 var _overhead_bars:OverHeadBars

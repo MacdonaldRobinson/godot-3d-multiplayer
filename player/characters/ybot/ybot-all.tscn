@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=52 format=2]
 
 [ext_resource path="res://player/characters/ybot/ybot-all.gltf" type="PackedScene" id=1]
 [ext_resource path="res://player/characters/Character.gd" type="Script" id=2]
@@ -57,6 +57,23 @@ blend_point_3/node = SubResource( 7 )
 blend_point_3/pos = Vector2( -1, 0 )
 blend_point_4/node = SubResource( 44 )
 blend_point_4/pos = Vector2( 1, 0 )
+
+[sub_resource type="AnimationNodeAnimation" id=51]
+animation = "pro-melee-axe-pack-standing-idle-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=52]
+animation = "pro-melee-axe-pack-standing-run-forward-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=53]
+animation = "pro-melee-axe-pack-standing-run-back-loop"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=50]
+blend_point_0/node = SubResource( 51 )
+blend_point_0/pos = Vector2( 0, 0 )
+blend_point_1/node = SubResource( 52 )
+blend_point_1/pos = Vector2( 0, 1 )
+blend_point_2/node = SubResource( 53 )
+blend_point_2/pos = Vector2( 0, -1 )
 
 [sub_resource type="AnimationNodeAnimation" id=10]
 animation = "pistol_handgun-locomotion-pack-pistol-idle-loop"
@@ -140,12 +157,16 @@ blend_point_4/node = SubResource( 26 )
 blend_point_4/pos = Vector2( 1, 0 )
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=28]
+xfade_time = 0.2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=29]
+xfade_time = 0.2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=30]
+xfade_time = 0.2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=31]
+xfade_time = 0.2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=32]
 xfade_time = 0.2
@@ -154,26 +175,36 @@ xfade_time = 0.2
 xfade_time = 0.2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=42]
+xfade_time = 0.2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=43]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=54]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=55]
+xfade_time = 0.2
 
 [sub_resource type="AnimationNodeStateMachine" id=34]
 states/crouch/node = SubResource( 41 )
 states/crouch/position = Vector2( -5, 122 )
 states/equip_magic/node = SubResource( 9 )
 states/equip_magic/position = Vector2( 417, 122 )
+states/equip_malee/node = SubResource( 50 )
+states/equip_malee/position = Vector2( 401, -23.9934 )
 states/equip_pistol/node = SubResource( 15 )
-states/equip_pistol/position = Vector2( 203, -16 )
+states/equip_pistol/position = Vector2( 82, -56 )
 states/equip_riffle/node = SubResource( 21 )
 states/equip_riffle/position = Vector2( 203, 265 )
 states/stand/node = SubResource( 27 )
 states/stand/position = Vector2( 203, 122 )
-transitions = [ "stand", "equip_pistol", SubResource( 28 ), "equip_pistol", "stand", SubResource( 29 ), "stand", "equip_riffle", SubResource( 30 ), "equip_riffle", "stand", SubResource( 31 ), "stand", "equip_magic", SubResource( 32 ), "equip_magic", "stand", SubResource( 33 ), "stand", "crouch", SubResource( 42 ), "crouch", "stand", SubResource( 43 ) ]
+transitions = [ "stand", "equip_pistol", SubResource( 28 ), "equip_pistol", "stand", SubResource( 29 ), "stand", "equip_riffle", SubResource( 30 ), "equip_riffle", "stand", SubResource( 31 ), "stand", "equip_magic", SubResource( 32 ), "equip_magic", "stand", SubResource( 33 ), "stand", "crouch", SubResource( 42 ), "crouch", "stand", SubResource( 43 ), "stand", "equip_malee", SubResource( 54 ), "equip_malee", "stand", SubResource( 55 ) ]
 start_node = "stand"
-graph_offset = Vector2( -208, -36.9934 )
+graph_offset = Vector2( -136, -122.993 )
 
 [sub_resource type="AnimationNodeBlendTree" id=2]
-graph_offset = Vector2( -183.104, 276.961 )
+graph_offset = Vector2( -183.104, 270 )
 nodes/StateMachine/node = SubResource( 34 )
 nodes/StateMachine/position = Vector2( 4, 304.5 )
 nodes/output/position = Vector2( 340, 380 )
@@ -191,7 +222,7 @@ script = ExtResource( 2 )
 transform = Transform( -3, 0, -2.62268e-07, 0, 3, 0, 2.62268e-07, 0, -3, 0, -0.265547, 0 )
 
 [node name="EquipmentBoneAttachment" type="BoneAttachment" parent="ybot/Armature/Skeleton" index="1"]
-transform = Transform( -0.0308625, -0.912413, 0.408107, 0.998027, -0.00579345, 0.0625217, -0.0546813, 0.409231, 0.910791, -0.237727, 0.842478, -0.000610454 )
+transform = Transform( 0.707825, -0.703957, -0.058553, 0.506606, 0.448124, 0.73657, -0.492275, -0.551027, 0.673822, -0.457186, 1.09323, -0.246473 )
 bone_name = "RightHand"
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
@@ -202,6 +233,7 @@ root_motion_track = NodePath("Armature/Skeleton:RootMotion")
 parameters/StateMachine/playback = SubResource( 35 )
 parameters/StateMachine/crouch/blend_position = Vector2( 0.0030303, 0.031359 )
 parameters/StateMachine/equip_magic/blend_position = Vector2( 0.00873363, -0.034188 )
+parameters/StateMachine/equip_malee/blend_position = Vector2( -0.00929612, 0.964736 )
 parameters/StateMachine/equip_pistol/blend_position = Vector2( 0, 0 )
 parameters/StateMachine/equip_riffle/blend_position = Vector2( 0, 0 )
 parameters/StateMachine/stand/blend_position = Vector2( 0, 0 )
