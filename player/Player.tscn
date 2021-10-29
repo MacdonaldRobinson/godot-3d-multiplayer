@@ -12,7 +12,7 @@ camera_view_mode = 1
 [node name="ScreenOverlays" parent="." instance=ExtResource( 2 )]
 
 [node name="CameraPivot" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.330788, 2.94382, -1.07085 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.330788, 4.66751, -1.07085 )
 
 [node name="MainCamera" type="Camera" parent="CameraPivot"]
 current = true
@@ -30,7 +30,7 @@ enabled = true
 cast_to = Vector3( 0, 0, -100 )
 
 [node name="ThirdPerson" type="Camera" parent="CameraPivot/MainCamera"]
-transform = Transform( 1, 0, 0, 0, 0.961348, 0.275335, 0, -0.275335, 0.961348, 1.7773, 1.7603, 6.98966 )
+transform = Transform( 1, 0, 0, 0, 0.961348, 0.275335, 0, -0.275335, 0.961348, 2.24545, 2.33642, 6.98966 )
 far = 8192.0
 
 [connection signal="inventory_item_clicked" from="ScreenOverlays" to="." method="_on_ScreenOverlays_inventory_item_clicked"]

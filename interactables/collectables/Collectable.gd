@@ -73,6 +73,7 @@ func throw_self(force:int = 50):
 				item.connect("body_entered", item, "_body_entered")
 
 			var collision_exceptions:Array = []
+			collision_exceptions.append(owner)
 			
 			item.enable_collisions(collision_exceptions)
 			

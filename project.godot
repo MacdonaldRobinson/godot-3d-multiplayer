@@ -303,11 +303,6 @@ _global_script_classes=[ {
 "class": "WorldData",
 "language": "GDScript",
 "path": "res://lobby/networking/WorldData.gd"
-}, {
-"base": "Character",
-"class": "YBot",
-"language": "GDScript",
-"path": "res://player/characters/ybot/YBot.gd"
 } ]
 _global_script_class_icons={
 "Ammo": "",
@@ -368,8 +363,7 @@ _global_script_class_icons={
 "UI": "",
 "Weapon": "",
 "WeaponProjectile": "",
-"WorldData": "",
-"YBot": ""
+"WorldData": ""
 }
 
 [application]

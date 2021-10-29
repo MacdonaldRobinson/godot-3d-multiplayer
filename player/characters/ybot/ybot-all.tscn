@@ -1,0 +1,216 @@
+[gd_scene load_steps=46 format=2]
+
+[ext_resource path="res://player/characters/ybot/ybot-all.gltf" type="PackedScene" id=1]
+[ext_resource path="res://player/characters/Character.gd" type="Script" id=2]
+[ext_resource path="res://ui/overhead_bars/OverHeadBars.tscn" type="PackedScene" id=3]
+
+[sub_resource type="AnimationNodeAnimation" id=36]
+animation = "crouch-idle-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=37]
+animation = "crouch-walking-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=38]
+animation = "crouch-walk-back-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=39]
+animation = "crouch-sneaking-left-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=40]
+animation = "crouch-sneaking-right-loop"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=41]
+blend_point_0/node = SubResource( 36 )
+blend_point_0/pos = Vector2( 0, 0 )
+blend_point_1/node = SubResource( 37 )
+blend_point_1/pos = Vector2( 0, 1 )
+blend_point_2/node = SubResource( 38 )
+blend_point_2/pos = Vector2( 0, -0.9 )
+blend_point_3/node = SubResource( 39 )
+blend_point_3/pos = Vector2( -1, 0 )
+blend_point_4/node = SubResource( 40 )
+blend_point_4/pos = Vector2( 1, 0 )
+
+[sub_resource type="AnimationNodeAnimation" id=4]
+animation = "pro-magic-pack-standing-idle-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=5]
+animation = "pro-magic-pack-standing-run-forward-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=6]
+animation = "pro-magic-pack-standing-run-back-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=7]
+animation = "pro-magic-pack-standing-run-left-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=44]
+animation = "pro-magic-pack-standing-run-right-loop"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=9]
+blend_point_0/node = SubResource( 4 )
+blend_point_0/pos = Vector2( 0, 0 )
+blend_point_1/node = SubResource( 5 )
+blend_point_1/pos = Vector2( 0, 1 )
+blend_point_2/node = SubResource( 6 )
+blend_point_2/pos = Vector2( 0, -1 )
+blend_point_3/node = SubResource( 7 )
+blend_point_3/pos = Vector2( -1, 0 )
+blend_point_4/node = SubResource( 44 )
+blend_point_4/pos = Vector2( 1, 0 )
+
+[sub_resource type="AnimationNodeAnimation" id=10]
+animation = "pistol_handgun-locomotion-pack-pistol-idle-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=11]
+animation = "pistol_handgun-locomotion-pack-pistol-run-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=12]
+animation = "pistol_handgun-locomotion-pack-pistol-run-backward-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=13]
+animation = "pistol_handgun-locomotion-pack-pistol-strafe-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=14]
+animation = "pistol_handgun-locomotion-pack-pistol-strafe-(2)-loop"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=15]
+blend_point_0/node = SubResource( 10 )
+blend_point_0/pos = Vector2( 0, 0 )
+blend_point_1/node = SubResource( 11 )
+blend_point_1/pos = Vector2( 0, 1 )
+blend_point_2/node = SubResource( 12 )
+blend_point_2/pos = Vector2( 0, -1 )
+blend_point_3/node = SubResource( 13 )
+blend_point_3/pos = Vector2( -1, 0 )
+blend_point_4/node = SubResource( 14 )
+blend_point_4/pos = Vector2( 1, 0 )
+
+[sub_resource type="AnimationNodeAnimation" id=16]
+animation = "pro-rifle-pack-idle-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=17]
+animation = "pro-rifle-pack-run-forward-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=18]
+animation = "pro-rifle-pack-run-backward-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=19]
+animation = "pro-rifle-pack-run-left-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=20]
+animation = "pro-rifle-pack-run-right-loop"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=21]
+blend_point_0/node = SubResource( 16 )
+blend_point_0/pos = Vector2( 0, 0 )
+blend_point_1/node = SubResource( 17 )
+blend_point_1/pos = Vector2( 0, 1 )
+blend_point_2/node = SubResource( 18 )
+blend_point_2/pos = Vector2( 0, -1 )
+blend_point_3/node = SubResource( 19 )
+blend_point_3/pos = Vector2( -1, 0 )
+blend_point_4/node = SubResource( 20 )
+blend_point_4/pos = Vector2( 1, 0 )
+
+[sub_resource type="AnimationNodeAnimation" id=22]
+animation = "locomotion-pack-idle-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=23]
+animation = "locomotion-pack-running-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=24]
+animation = "locomotion-pack-running-backward-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=25]
+animation = "locomotion-pack-left-strafe-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=26]
+animation = "locomotion-pack-right-strafe-loop"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=27]
+blend_point_0/node = SubResource( 22 )
+blend_point_0/pos = Vector2( 0, 0 )
+blend_point_1/node = SubResource( 23 )
+blend_point_1/pos = Vector2( 0, 1 )
+blend_point_2/node = SubResource( 24 )
+blend_point_2/pos = Vector2( 0, -1 )
+blend_point_3/node = SubResource( 25 )
+blend_point_3/pos = Vector2( -1, 0 )
+blend_point_4/node = SubResource( 26 )
+blend_point_4/pos = Vector2( 1, 0 )
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=28]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=29]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=30]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=31]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=32]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=33]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=42]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=43]
+
+[sub_resource type="AnimationNodeStateMachine" id=34]
+states/crouch/node = SubResource( 41 )
+states/crouch/position = Vector2( -5, 122 )
+states/equip_magic/node = SubResource( 9 )
+states/equip_magic/position = Vector2( 417, 122 )
+states/equip_pistol/node = SubResource( 15 )
+states/equip_pistol/position = Vector2( 203, -16 )
+states/equip_riffle/node = SubResource( 21 )
+states/equip_riffle/position = Vector2( 203, 265 )
+states/stand/node = SubResource( 27 )
+states/stand/position = Vector2( 203, 122 )
+transitions = [ "stand", "equip_pistol", SubResource( 28 ), "equip_pistol", "stand", SubResource( 29 ), "stand", "equip_riffle", SubResource( 30 ), "equip_riffle", "stand", SubResource( 31 ), "stand", "equip_magic", SubResource( 32 ), "equip_magic", "stand", SubResource( 33 ), "stand", "crouch", SubResource( 42 ), "crouch", "stand", SubResource( 43 ) ]
+start_node = "stand"
+graph_offset = Vector2( -208, -36.9934 )
+
+[sub_resource type="AnimationNodeBlendTree" id=2]
+graph_offset = Vector2( -183.104, 276.961 )
+nodes/StateMachine/node = SubResource( 34 )
+nodes/StateMachine/position = Vector2( 4, 304.5 )
+nodes/output/position = Vector2( 340, 380 )
+node_connections = [ "output", 0, "StateMachine" ]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=35]
+
+[sub_resource type="CapsuleShape" id=3]
+height = 4.0
+
+[node name="ybot" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="ybot" parent="." instance=ExtResource( 1 )]
+transform = Transform( -3, 0, -2.62268e-07, 0, 3, 0, 2.62268e-07, 0, -3, 0, -0.265547, 0 )
+
+[node name="EquipmentBoneAttachment" type="BoneAttachment" parent="ybot/Armature/Skeleton" index="1"]
+transform = Transform( -0.0308625, -0.912413, 0.408107, 0.998027, -0.00579345, 0.0625217, -0.0546813, 0.409231, 0.910791, -0.237727, 0.842478, -0.000610454 )
+bone_name = "RightHand"
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 2 )
+anim_player = NodePath("../ybot/AnimationPlayer")
+active = true
+root_motion_track = NodePath("Armature/Skeleton:RootMotion")
+parameters/StateMachine/playback = SubResource( 35 )
+parameters/StateMachine/crouch/blend_position = Vector2( 0.0030303, 0.031359 )
+parameters/StateMachine/equip_magic/blend_position = Vector2( 0.00873363, -0.034188 )
+parameters/StateMachine/equip_pistol/blend_position = Vector2( 0, 0 )
+parameters/StateMachine/equip_riffle/blend_position = Vector2( 0, 0 )
+parameters/StateMachine/stand/blend_position = Vector2( 0, 0 )
+
+[node name="OverHeadBars" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.6883, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2.70247, 0 )
+shape = SubResource( 3 )
+
+[editable path="ybot"]

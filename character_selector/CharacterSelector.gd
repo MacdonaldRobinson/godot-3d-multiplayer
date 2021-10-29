@@ -54,3 +54,4 @@ func _on_Select_pressed():
 		
 		Globals.peer_data.selected_character_scene = file_name
 		get_tree().change_scene("res://lobby/Lobby.tscn")
+ 

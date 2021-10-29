@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://player/characters/Characters.gd" type="Script" id=1]
-[ext_resource path="res://player/characters/ybot/YBot.tscn" type="PackedScene" id=4]
+[ext_resource path="res://player/characters/ybot/ybot-all.tscn" type="PackedScene" id=4]
 
 [node name="Charactors" type="Spatial"]
 script = ExtResource( 1 )

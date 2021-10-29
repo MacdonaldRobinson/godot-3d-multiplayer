@@ -6,15 +6,10 @@ onready var _overhead_bars:OverHeadBars = $OverHeadBars
 onready var _equipment_bone_attachment:BoneAttachment = $ybot/Armature/Skeleton/EquipmentBoneAttachment
 onready var _collision_shape:CollisionShape = $CollisionShape
 
-#var animation_states:AnimationStates = AnimationStates.new()
+var animation_states:AnimationStates = AnimationStates.new()
 var movement_directions:MovementDirections = MovementDirections.new()
 
-enum animation_states {
-	unequip_crouch = 0,
-	unequip_stand = 1
-	equip_crouch = 2,
-	equip_stand = 3
-}
+var current_animation_state:String = animation_states.stand
 
 func _ready():
 	var parent = get_parent()
@@ -29,55 +24,39 @@ func get_overhead_bars()->OverHeadBars:
 func get_animation_tree()->AnimationTree:
 	return _animation_tree
 
-func get_current_animation_state()->int:
-	var current_animation_state = _animation_tree.get(get_animation_state_path())	
+func get_current_animation_state()->String:
 	return current_animation_state
 	
-func get_animation_state_path():
-	return "parameters/animation_states/current"
+func set_animation_state(new_state):
+	current_animation_state = new_state	
+	get_animation_state_playback().travel(new_state)	
 
-func get_animation_state_name_by_index():
-	
-	var current_animation_state = get_current_animation_state()
-	var current_animation_state_name:String = ""
-	
-	for entry in animation_states:
-		var entry_value = animation_states[entry]
-		
-		if entry_value == current_animation_state:
-			current_animation_state_name = entry
-			break
-			
-	return current_animation_state_name
+func set_current_animation_blend_position(blend_position:Vector2):
+	_animation_tree.set(get_animation_state_path(), blend_position)
 
-func get_current_animation_state_blend_path() -> String:
-	var current_animation_state_name:String = get_animation_state_name_by_index()
-	var path = "parameters/"+current_animation_state_name+"/blend_position"
+func get_current_animation_blend_position():
+	return _animation_tree.get(get_animation_state_path())
 
-	return path
-	
 func is_equipped()->bool:
-	if "unequip" in get_current_animation_state_blend_path():
+	var found = current_animation_state.find("equip")
+	if found == -1:
 		return false
-	elif "equip" in get_current_animation_state_blend_path():
-		return true
+	
+	return true
+	
+func is_crouching()->bool:
+	var found = current_animation_state.find("crouch")
+	if found == -1:
+		return false
 		
-	return false
-
-func is_crouching():
-	get_current_animation_state_blend_path().find("crouch")
-
-func get_current_animation_state_blend_amount():
-	return _animation_tree.get(get_current_animation_state_blend_path())
-
-func set_current_animation_state_blend_amount(blend_amount:Vector2):
-	return _animation_tree.set(get_current_animation_state_blend_path(), blend_amount)
-
-func set_animation_state(new_state:int):
-	_animation_tree.set(get_animation_state_path(), new_state)
+	return true
 	
-func set_blend_amount(blend_amount:Vector2):
-	set_current_animation_state_blend_amount(blend_amount)
+func get_animation_state_playback()->AnimationNodeStateMachinePlayback:
+	return _animation_tree.get(get_animation_state_playback_path())
 	
-func get_blend_amount() -> Vector2:
-	return get_current_animation_state_blend_amount()
+func get_animation_state_playback_path()->String:
+	return "parameters/StateMachine/playback"
+
+func get_animation_state_path()->String:
+	var path = "parameters/StateMachine/"+current_animation_state+"/blend_position"
+	return path

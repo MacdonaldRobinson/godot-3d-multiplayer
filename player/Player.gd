@@ -162,17 +162,9 @@ func equip_item(item:Interactable):
 	item.rotation = Vector3.ZERO
 	item.transform.origin = Vector3.ZERO	
 	
+	item.look_at(Vector3.FORWARD,Vector3.UP)
+	
 	_equip_holder.add_child(currently_equipped_item)
-	
-	var animation_state:int = character.get_current_animation_state()
-	
-	if !character.is_equipped():
-		if character.is_crouching():
-			animation_state = character.animation_states.equip_crouch
-		else:
-			animation_state = character.animation_states.equip_stand
-			
-		character.set_animation_state(animation_state) 
 	
 	if is_network_master():
 		Globals.peer_data.currently_equipped_item_tscn = currently_equipped_item.filename		
@@ -187,19 +179,7 @@ func un_equip():
 		var spray = get_node("spray")
 		remove_child(spray)
 		
-	
-	var animation_state = ""
-	
-	if character.is_equipped():
-		if character.is_crouching():
-			animation_state = character.animation_states.unequip_crouch
-		else:
-			animation_state = character.animation_states.unequip_stand
-		
-		character.set_animation_state(animation_state)
-	
-	currently_equipped_item = null
-	
+	currently_equipped_item = null	
 
 func find_in_collected_items(find_item:Collectable)->ItemCollector:
 	for item_collector in collected_items.get_all():
@@ -305,14 +285,10 @@ func handle_walk_animations():
 		var camera_pivot_origin = _camera_pivot.global_transform.origin
 				
 		if Input.is_action_just_pressed("crouch"):
-			if character.get_current_animation_state() == character.animation_states.unequip_crouch:
-				current_state = character.animation_states.unequip_stand
-			elif character.get_current_animation_state() == character.animation_states.unequip_stand:
-				current_state = character.animation_states.unequip_crouch
-			elif character.get_current_animation_state() == character.animation_states.equip_crouch:
-				current_state = character.animation_states.equip_stand
-			elif character.get_current_animation_state() == character.animation_states.equip_stand:
-				current_state = character.animation_states.equip_crouch
+			if !character.is_crouching():
+				current_state = character.animation_states.crouch
+			else:
+				current_state = character.animation_states.stand
 
 		if Input.is_action_pressed("backward"):
 			new_blend_amount = character.movement_directions.backward
@@ -321,18 +297,20 @@ func handle_walk_animations():
 		if Input.is_action_pressed("left"):
 			new_blend_amount = character.movement_directions.left
 		elif Input.is_action_pressed("right"):
-			new_blend_amount = character.movement_directions.right
+			new_blend_amount = character.movement_directions.right	
+	
+	if currently_equipped_item != null:
+		character.set_animation_state(character.animation_states.magic)
+	else:
+		character.set_animation_state(character.animation_states.stand)
 
-	character.set_animation_state(current_state)
-
-	var current_blend_amount = character.get_blend_amount()
+	var current_blend_amount = character.get_current_animation_blend_position()
 	
 	if current_blend_amount.is_equal_approx(new_blend_amount):
 		return
 		
 	var lerp_blend_amount = lerp(current_blend_amount, new_blend_amount, 0.1)		
-	character.set_blend_amount(lerp_blend_amount)
-
+	character.set_current_animation_blend_position(lerp_blend_amount)
 	
 	play_animation("parameters/walk_direction/blend_position", walk_blend_direction)
 	
@@ -389,13 +367,11 @@ func look_at_weapon_ray_cast():
 		_equip_holder.global_transform = new_transform
 		
 		var new_third_person_camera_transform = Globals.look_at(_third_person_camera.global_transform, collision_point)
-		#_third_person_camera.global_transform = new_third_person_camera_transform
+		_third_person_camera.global_transform = new_third_person_camera_transform
 		
 	else:
 		_equip_holder.rotation = _equip_holder.rotation.linear_interpolate(Vector3.ZERO, 0.1)		
-		#_third_person_camera.rotation = _equip_holder.rotation
-		
-
+		_third_person_camera.rotation = _equip_holder.rotation
 
 	Globals.peer_data.equip_holder_transform = _equip_holder.global_transform
 
@@ -521,7 +497,7 @@ func _physics_process(delta):
 			collected_items)
 			
 	_equip_holder.global_transform.origin = character.get_equipment_bone_attachment().global_transform.origin	
-	_equip_holder.rotation = character.get_equipment_bone_attachment().rotation
+	#_equip_holder.rotation = character.get_equipment_bone_attachment().rotation
 			
 	sync_self_property("global_transform", self.global_transform)
 	sync_camera_pivot_property("global_transform", _camera_pivot.global_transform)	
