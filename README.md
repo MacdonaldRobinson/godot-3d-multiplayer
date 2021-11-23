@@ -3,8 +3,7 @@
 This is a sample project to get started with 3D multiplayer game programming using the Godot Game Engine. https://macdonaldrobinson.github.io/godot-3d-multiplayer/exports/html/3d-multiplayer.html
 
 Instructions:
-  - 'ESC' to toggle mouse capture
-  - 'ALT' to toggle crouch
+  - 'ALT' to toggle mouse capture
   - 'F1' to swap between third person and first person views
   - 'AWSD' keys for movement
   - 'E' to interact with item
